@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<gz:world xmlns:gz="http://playerstage.sourceforge.net/gazebo/xmlschema/#gz" xmlns:model="http://playerstage.sourceforge.net/gazebo/xmlschema/#model" xmlns:window="http://playerstage.sourceforge.net/gazebo/xmlschema/#window" xmlns:params="http://playerstage.sourceforge.net/gazebo/xmlschema/#params">
+
+  <model:ObserverCam>
+    <id>usercam1</id>
+    <xyz>-1.5 0.5 3</xyz>
+    <rpy>0 60 0</rpy>
+    <imageSize>800 600</imageSize>
+    <renderMethod>auto</renderMethod>
+    <updateRate>10</updateRate>
+    <saveFrames>false</saveFrames>
+    <shadeSmooth>true</shadeSmooth>
+    <savePath>/dev/shm</savePath>
+    <displayRays>true</displayRays>
+    <polygonFill>true</polygonFill>
+    <displayMaterials>true</displayMaterials>
+    <displayTextures>true</displayTextures>
+  </model:ObserverCam>
+
+  <model:LightSource>
+    <id>light1</id>
+    <xyz>-1.000 -1.000 10.000</xyz>
+  </model:LightSource>
+
+  <model:GroundPlane>
+    <id>ground1</id>
+  </model:GroundPlane>
+
+  <model:HMT_RED>
+    <plugin>HMT_red.so</plugin>
+    <id>hmt_red0</id>
+    <xyz>0.5 0.5 0.05</xyz>
+    <rpy>0 0 0</rpy>
+  </model:HMT_RED>
+
+  <model:HMT_RED>
+    <plugin>HMT_red.so</plugin>
+    <id>hmt_red1</id>
+    <xyz>0.2 0.5 0.05</xyz>
+    <rpy>0 0 0</rpy>
+  </model:HMT_RED>
+
+  <model:HMT_RED>
+    <plugin>HMT_red.so</plugin>
+    <id>hmt_red2</id>
+    <xyz>0.5 0.2 0.05</xyz>
+    <rpy>0 0 0</rpy>
+  </model:HMT_RED>
+
+  <model:HMT_BLUE>
+    <plugin>HMT_blue.so</plugin>
+    <id>hmt_blue0</id>
+    <xyz>1.4 0.7 0.05</xyz>
+    <rpy>0 0 0</rpy>
+  </model:HMT_BLUE>
+
+  <model:HMT_BLUE>
+    <plugin>HMT_blue.so</plugin>
+    <id>hmt_blue1</id>
+    <xyz>1.3 0.6 0.05</xyz>
+    <rpy>0 0 0</rpy>
+  </model:HMT_BLUE>
+
+  <model:HMT_BLUE>
+    <plugin>HMT_blue.so</plugin>
+    <id>hmt_blue2</id>
+    <xyz>1.1 0.9 0.05</xyz>
+    <rpy>0 0 0</rpy>
+  </model:HMT_BLUE>
+
+  <model:Ball>
+    <plugin>ball.so</plugin>
+    <id>ball0</id>
+    <xyz>0.2 0.8 0.05</xyz>
+    <rpy>0 0 0</rpy>
+  </model:Ball>
+
+  <model:Field>
+    <plugin>field.so</plugin>
+    <id>field0</id>
+    <xyz>0 0 0</xyz>
+    <rpy>0 0 0</rpy>
+  </model:Field>
+
+  <!--<model:Terrain>
+    <terrainFile>banda.gzb</terrainFile>
+    <xyz> 0 0 -0.01 </xyz>
+    <color>0.6 0.4 0.3 </color>
+  </model:Terrain>-->
+  
+</gz:world>
