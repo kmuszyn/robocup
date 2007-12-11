@@ -1,0 +1,9 @@
+plugins.cc:94 PLAYERPATH: /usr/local/lib
+
+plugins.cc:114 trying to load /usr/local/lib/libgazeboplugin...
+plugins.cc:118 success
+plugins.cc:190 invoking player_driver_init()...
+plugins.cc:208 success
+playertcp.cc:249 accepted client 0 on port 6665, fd 6
+playertcp.cc:389 warning : other error on client 0
+playertcp.cc:319 closing connection to client 0 on port 6665
