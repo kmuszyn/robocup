@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<config>
+	<team1>omni_red</team1>
+	<team2>omni_blue</team2>
+	<teamCount>1</teamCount>
+	<ball>ball</ball>
+</config>
