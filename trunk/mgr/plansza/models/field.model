@@ -32,11 +32,11 @@
 			<xyz>2.7 3.7 0.025</xyz>
 			<rpy>0 0 0 </rpy>
 			<size>5.4 7.4 0.05</size>
-			<kp>1e20</kp>
-			<kd>1.0</kd>
-			<mu1>5.0</mu1>
-			<mu2>5.0</mu2>
-			<mass>100.0</mass>
+			<kp>1e7</kp>
+			<!--<kd>0.1</kd>-->
+			<mu1>0.5</mu1>
+			<mu2>0.5</mu2>
+			<mass>0.0</mass>
 			<visual>	
 				<scale>5.4 7.4 0.05</scale>
 				<mesh>unit_box</mesh>
