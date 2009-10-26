@@ -30,12 +30,11 @@
 	
 		<!-- góra robota, 18 cm średnicy -->
 		<geom:cylinder name="top">
-			<kd>1e4</kd>
-			<kp>1e3</kp>
+			<!--<kd>1</kd>
+			<kp>1e3</kp>-->
 			<xyz>0 0 0.08</xyz>
 			<size>0.09 0.1</size>
-			<mass>10</mass>
-
+			<mass>0</mass>
 			<visual>
 				<scale>0.18 0.18 0.1</scale>
 				<mesh>unit_cylinder</mesh>
@@ -50,7 +49,7 @@
 			<kp>1e3</kp>
 			<xyz>0.035 0.05 0.015</xyz>
 			<size>0.01 0.02 0.01</size>
-			<mass>0.01</mass>
+			<mass>0.05</mass>
 			<visual>
 				<scale>0.01 0.02 0.01</scale>
 				<mesh>unit_box</mesh>
@@ -63,7 +62,7 @@
 			<kp>1e3</kp>
 			<xyz>-0.035 0.05 0.015</xyz>
 			<size>0.01 0.02 0.01</size>
-			<mass>0.01</mass>
+			<mass>0.05</mass>
 			<visual>
 				<scale>0.01 0.02 0.01</scale>
 				<mesh>unit_box</mesh>
@@ -75,11 +74,11 @@
 		
 		<geom:trimesh name="podstawa">			
 			<scale>0.07 0.07 0.04</scale>	<!-- można opisać cylindrem o promieniu 0.07 -->			
-			<xyz>0 0 0.01</xyz>
+			<xyz>0 0 0.02</xyz>
 			<mesh>omniBase.mesh</mesh>
-			<kp>10</kp>
-			<kd>10</kd>
-			<mass>0.1</mass>
+			<!--<kp>1000</kp>
+			<kd>1</kd>-->
+			<mass>1.0</mass>
 			<mu1>0.1</mu1>
 			<mu2>0.1</mu2>
 			<visual>		
@@ -100,10 +99,11 @@
 		<xyz>0 -0.08 0</xyz>
 		<rpy>90 0 0</rpy>		
 		<geom:cylinder name="wheel0_geom">
-			<kd>1e4</kd>
-			<kp>1e3</kp>
+			<!--<kd>1</kd>
+			<kp>1e3</kp>-->
+			<kp>1e6</kp>
 			<size>0.02 0.02</size>
-			<mass>0.01</mass>
+			<mass>0.1</mass>
 
 			<visual>				
 				<scale>0.04 0.04 0.02</scale>
@@ -144,10 +144,11 @@
 		<xyz>0.06928 0.04 0</xyz>
 		<rpy>90 0 120</rpy>		
 		<geom:cylinder name="wheel1_geom">
-			<kd>1e4</kd>
-			<kp>1e3</kp>
+			<!--<kd>1</kd>
+			<kp>1e3</kp>-->
+			<kp>1e6</kp>
 			<size>0.02 0.02</size>
-			<mass>0.01</mass>
+			<mass>0.1</mass>
 			
 			<visual>				
 				<scale>0.04 0.04 0.02</scale>
@@ -187,10 +188,11 @@
 		<xyz>-0.06928 0.04 0</xyz>
 		<rpy>90 0 60</rpy>		
 		<geom:cylinder name="wheel2_geom">
-			<kd>1e4</kd>
-			<kp>1e3</kp>
+			<!--<kd>1</kd>
+			<kp>1e3</kp>-->
+			<kp>1e6</kp>
 			<size>0.02 0.02</size>
-			<mass>0.01</mass>
+			<mass>0.1</mass>
 
 			<visual>				
 				<scale>0.04 0.04 0.02</scale>				
@@ -236,7 +238,7 @@
 			<kd>1e4</kd>
 			<kp>1e3</kp>
 			<size>0.01 0.06</size>
-			<mass>0.01</mass>
+			<mass>0.05</mass>
 			<visual>				
 				<scale>0.02 0.02 0.06</scale>
 				<mesh>unit_cylinder</mesh>
@@ -278,20 +280,20 @@
 		<body1>wheel0</body1>
 		<body2>podwozie</body2>
 		<anchor>wheel0</anchor>
+		<erp>0.9</erp>
+		<cfm>0.001</cfm>
 		<anchorOffset>0 0.01 0</anchorOffset>
 		<axis>0 -1 0</axis>
-		<erp>0.8</erp>
-		<cfm>10e-5</cfm>
 	</joint:hinge>
 	
 	<joint:hinge name="wheel1_hinge">
 		<body1>wheel1</body1>
 		<body2>podwozie</body2>
 		<anchor>wheel1</anchor>
+		<erp>0.9</erp>
+		<cfm>0.001</cfm>
 		<anchorOffset>-0.00866 -0.005 0</anchorOffset>
 		<axis>0.866 0.5 0</axis>
-		<erp>0.8</erp>
-		<cfm>10e-5</cfm>
 	</joint:hinge>
 		
 		
@@ -299,10 +301,10 @@
 		<body1>wheel2</body1>
 		<body2>podwozie</body2>
 		<anchor>wheel2</anchor>
+		<erp>0.9</erp>
+		<cfm>0.001</cfm>
 		<anchorOffset>0.00866 -0.005 0</anchorOffset>
 		<axis>-0.866 0.5 0</axis>
-		<erp>0.8</erp>
-		<cfm>10e-5</cfm>
 	</joint:hinge>
 						
 <!--
