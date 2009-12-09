@@ -22,7 +22,7 @@
 		<stepTime>0.001</stepTime>
 		<gravity>0 0 -9.8</gravity>		
     	<erp>0.8</erp>
-		<cfm>0.8</cfm>
+		<cfm>0.4</cfm>
 		<updateRate>-1</updateRate>
 	 </physics:ode>
 
@@ -64,7 +64,13 @@
 		<body:plane name="plane1_body">
 			<geom:plane name="plane1_geom">
 				
-				<surface><mu1>10.0</mu1></surface>
+				<surface>
+					<mu1>10.0</mu1>
+					<bounce>1</bounce>
+					<bounceVel>0</bounceVel>
+					<kp>0</kp>
+					<kd>100</kd>
+				</surface>
 				
 				
 				<normal>0 0 1</normal>
