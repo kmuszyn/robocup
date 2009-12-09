@@ -1,0 +1,290 @@
+<?xml version="1.0"?>
+
+<model:physical name="mgr1"
+	xmlns:model="http://playerstage.sourceforge.net/gazebo/xmlschema/#model" 	
+	xmlns:body="http://playerstage.sourceforge.net/gazebo/xmlschema/#body" 
+	xmlns:geom="http://playerstage.sourceforge.net/gazebo/xmlschema/#geom" 
+	xmlns:joint="http://playerstage.sourceforge.net/gazebo/xmlschema/#joint" 
+	xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" 	
+	xmlns:visual="http://playerstage.sourceforge.net/gazebo/xmlschema/#visual" 
+	>	
+	
+
+	<!-- model designed according to mgr1.dxf file -->
+	<!-- dribbler supporters points towards Y-axis -->
+
+
+
+	<xyz>0 0 0</xyz>
+	<rpy>0 0 0</rpy>
+	<canonicalBody>chassis</canonicalBody>
+	<static>false</static>
+	
+	<!-- main chassis cylinder-->
+	<body:cylinder name="chassis">
+	
+		<geom:cylinder name="main_cylinder">
+			<xyz>0 0 0.04</xyz>
+			<size>0.06 0.08</size>	<!--r: 6 cm, h: 4 cm -->
+			<mass>2</mass>
+			<visual>
+				<scale>0.12 0.12 0.08</scale>
+				<mesh>unit_cylinder</mesh>
+				<material>Gazebo/Robocup_red</material>
+			</visual>
+		</geom:cylinder>
+		
+		<!--dribbler supporters -->
+		<geom:box name="dribbler_sup_L"> <!-- left one -->
+			<xyz>-0.035 0.060 0.030</xyz>
+			<size>0.01 0.04 0.04</size>
+			<mass>0.01</mass>
+			<visual>
+				<scale>0.01 0.04 0.04</scale>
+				<mesh>unit_box</mesh>
+				<material>Gazebo/Robocup_red</material>
+			</visual>
+		</geom:box>
+		
+		<geom:box name="dribbler_sup_R"> <!-- right one -->
+			<xyz>0.035 0.060 0.030</xyz>
+			<size>0.01 0.04 0.04</size>
+			<mass>0.01</mass>
+			<visual>
+				<scale>0.01 0.04 0.04</scale>
+				<mesh>unit_box</mesh>
+				<material>Gazebo/Robocup_red</material>
+			</visual>
+		</geom:box>		
+	</body:cylinder>
+	
+	<!-- omni - wheels -->
+	<!--
+	
+	front left wheel
+	   |
+	   x x - front right wheel
+		O
+		x
+		|
+		rear wheel
+	-->
+	
+	
+	
+	<body:cylinder name="rear_wheel">
+		<xyz>0 -0.075 0</xyz>
+		<rpy>90 0 0</rpy>		
+		<geom:cylinder name="rear_wheel_geom">		
+			<size>0.02 0.030</size>
+			<mass>0.1</mass>
+			
+			<visual>				
+				<scale>0.04 0.04 0.030</scale>
+				<mesh>unit_cylinder</mesh>
+				<material>Gazebo/Black</material>
+			</visual>
+
+			<surface>
+			<type>0</type>
+			<mu1>1.7</mu1>
+			<bounce>0.1</bounce>
+			<bounceVel>0.04</bounceVel>
+			</surface>
+
+			<surface>
+			<type>1</type>
+			<mu1>1.7</mu1>
+			<bounce>0.1</bounce>
+			<bounceVel>0.04</bounceVel>
+			</surface>
+
+			<surface>
+			<type>2</type>
+			<mu1>0.01</mu1>
+			<mu2>1.7</mu2>
+			<mu1Dir>0 0 1</mu1Dir>
+			<bounce>0.1</bounce>
+			<bounceVel>0.04</bounceVel>
+			</surface>
+
+		</geom:cylinder>
+	</body:cylinder> 
+	
+	<body:cylinder name="front_right_wheel">
+		<xyz>0.0649519 0.0375  0</xyz>
+		<rpy>90 0 -60</rpy>		
+		<geom:cylinder name="front_right_wheel_geom">		
+			<size>0.02 0.030</size>
+			<mass>0.1</mass>
+			
+			<visual>				
+				<scale>0.04 0.04 0.030</scale>
+				<mesh>unit_cylinder</mesh>
+				<material>Gazebo/Black</material>
+			</visual>
+
+			<surface>
+			<type>0</type>
+			<mu1>1.7</mu1>
+			<bounce>0.1</bounce>
+			<bounceVel>0.04</bounceVel>
+			</surface>
+
+			<surface>
+			<type>1</type>
+			<mu1>1.7</mu1>
+			<bounce>0.1</bounce>
+			<bounceVel>0.04</bounceVel>
+			</surface>
+
+			<surface>
+			<type>2</type>
+			<mu1>0.01</mu1>
+			<mu2>1.7</mu2>
+			<mu1Dir>0 0 1</mu1Dir>
+			<bounce>0.1</bounce>
+			<bounceVel>0.04</bounceVel>
+			</surface>
+
+		</geom:cylinder>
+	</body:cylinder> 
+	
+	<body:cylinder name="front_left_wheel">
+		<xyz>-0.0649519 0.0375  0</xyz>
+		<rpy>90 0 60</rpy>		
+		<geom:cylinder name="front_left_wheel_geom">		
+			<size>0.02 0.030</size>
+			<mass>0.1</mass>
+			
+			<visual>				
+				<scale>0.04 0.04 0.030</scale>
+				<mesh>unit_cylinder</mesh>
+				<material>Gazebo/Black</material>
+			</visual>
+
+			<surface>
+			<type>0</type>
+			<mu1>1.7</mu1>
+			<bounce>0.1</bounce>
+			<bounceVel>0.04</bounceVel>
+			</surface>
+
+			<surface>
+			<type>1</type>
+			<mu1>1.7</mu1>
+			<bounce>0.1</bounce>
+			<bounceVel>0.04</bounceVel>
+			</surface>
+
+			<surface>
+			<type>2</type>
+			<mu1>0.01</mu1>
+			<mu2>1.7</mu2>
+			<mu1Dir>0 0 1</mu1Dir>
+			<bounce>0.1</bounce>
+			<bounceVel>0.04</bounceVel>
+			</surface>
+
+		</geom:cylinder>
+	</body:cylinder> 
+	
+		
+	<!-- dribbler bar -->
+	<body:cylinder name="dribbler">
+		<xyz>0 0.070 0.015</xyz>
+		<rpy>90 0 90</rpy>		
+		<geom:cylinder name="dribbler_geom">		
+			<size>0.005 0.060</size>
+			<mass>0.5</mass>
+			
+			<surface>
+			<mu1>1e5</mu1>
+			<mu2>0</mu2>
+			</surface>			
+			<visual>				
+				<scale>0.01 0.01 0.060</scale>
+				<mesh>unit_cylinder</mesh>
+				<material>Gazebo/Chrome</material>
+			</visual>
+
+		</geom:cylinder>
+	</body:cylinder> 	
+	
+	
+	<!-- kicker -->
+	<body:box name="kicker">
+		<xyz>0 0.063 0.022</xyz>
+		<kd>1e6</kd>
+		<kp>1e6</kp>
+		<geom:box name="kicker_geom"> 			
+			<size>0.060 0.006 0.020</size>
+			<mass>0.01</mass>
+			<visual>
+				<scale>0.060 0.006 0.020</scale>
+				<mesh>unit_box</mesh>
+				<material>Gazebo/Chrome</material>
+			</visual>
+		</geom:box>		
+	</body:box>
+
+	
+	<!-- joints -->
+	
+	
+	<!-- wheel joints -->
+	<joint:hinge name="rear_wheel_hinge">
+		<body1>rear_wheel</body1>
+		<body2>chassis</body2>
+		<anchor>rear_wheel</anchor>
+		<anchorOffset>0 0.015 0</anchorOffset>
+		<axis>0 -1 0</axis>
+	</joint:hinge>
+	
+	<joint:hinge name="front_right_wheel_hinge">
+		<body1>front_right_wheel</body1>
+		<body2>chassis</body2>
+		<anchor>front_right_wheel</anchor>		
+		<anchorOffset>-0.0136154 -0.0075 0</anchorOffset>
+		<axis>0.0519615 0.03 0</axis>
+	</joint:hinge>
+		
+	<joint:hinge name="front_left_wheel_hinge">
+		<body1>front_left_wheel</body1>
+		<body2>chassis</body2>
+		<anchor>front_left_wheel</anchor>		
+		<anchorOffset>0.0136154 -0.0075 0</anchorOffset>
+		<axis>-0.0519615 0.03 0</axis>
+	</joint:hinge>
+						
+	<!-- dribbler joints -->
+	<joint:hinge name="dribbler_left">
+		<body1>dribbler</body1>
+		<body2>chassis</body2>
+		<anchor>dribbler</anchor>
+		<anchorOffset>-0.03 0 0</anchorOffset>
+		<axis>-1 0 0</axis>		
+	</joint:hinge>
+	
+	<joint:hinge name="dribbler_right">
+		<body1>dribbler</body1>
+		<body2>chassis</body2>
+		<anchor>dribbler</anchor>
+		<anchorOffset>0.03 0 0</anchorOffset>
+		<axis>-1 0 0</axis>
+	</joint:hinge>
+	
+	<!-- kicker joint -->
+	<joint:slider name="kicker_joint">
+		<body1>kicker</body1>
+		<body2>chassis</body2>
+		<anchor>kicker</anchor>
+		<axis>0 1 0</axis>
+		<lowStop>0</lowStop>
+		<highStop>0.025</highStop>
+		<erp>0.1</erp>
+		<cfm>0.01</cfm>
+	</joint:slider>
+	
+	
+</model:physical>

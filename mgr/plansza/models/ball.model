@@ -25,10 +25,14 @@
 			<xyz>0 0 0.01</xyz>
 			<rpy>0 0 0 </rpy>
 			<size>0.02</size>
-			<kp>1e2</kp>
-			<kd>1e10</kd>
-			<mu1>1.0</mu1>
-			<mu2>1.0</mu2>
+			<surface>
+				<mu1>10.0</mu1>
+				<bounce>1</bounce>
+				<bounceVel>0.0</bounceVel>
+				<kp>0</kp>
+				<kd>100</kd>
+			</surface>
+			
 			<mass>0.045</mass>
 			<visual>	
 				<scale>0.02 0.02 0.02</scale>
