@@ -8,6 +8,7 @@
 #ifndef POSITION_H_
 #define POSITION_H_
 
+#include <iostream>
 #include "../vector2d/Vector2d.h"
 #include "../angle/Angle.h"
 
@@ -23,7 +24,7 @@ public:
 
 	~Position2d();
 
-
+	friend std::ostream & operator<<(std::ostream & os, const Position2d & v );
 };
 
 #endif /* POSITION_H_ */
