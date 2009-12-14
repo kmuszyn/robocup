@@ -24,7 +24,7 @@ void VideoServer::update(){
 void VideoServer::display(){
 	std::cout<<"VideoData display!\n";
 	for (VideoData::iterator i = videoData.begin(); i!= videoData.end(); i++){
-		std::cout<<(*i).first<<" "<<(*i).second<<std::endl;
+		std::cout<<i->first<<" "<<*(i->second)<<std::endl;
 	}
 }
 

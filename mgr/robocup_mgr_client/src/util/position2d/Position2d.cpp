@@ -37,3 +37,8 @@ Position2d & Position2d::operator=(const Position2d & pos2d){
 Position2d::~Position2d() {
 	//empty
 }
+
+std::ostream & operator<<(std::ostream & os, const Position2d & v ){
+	os<<v.pos<<", rot: "<<v.rot.val;
+	return os;
+}
