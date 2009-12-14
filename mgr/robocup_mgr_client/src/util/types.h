@@ -11,7 +11,7 @@
 #include <string>
 #include "util/position2d/Position2d.h"
 
-enum TeamName{TEAM_1, TEAM_2};
+enum TeamName{TEAM1, TEAM2};
 
 typedef std::map<std::string, Position2d * > VideoData;
 

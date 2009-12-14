@@ -27,6 +27,8 @@ public:
 
 	void setSpeed(double x, double y);
 
+	void goToPosition(Position2d * pos);
+
 	void stop();
 
 	void doTest();
@@ -40,6 +42,8 @@ private:
 	Position2d currPos;
 
 	gazebo::PositionIface * posIface;
+
+	std::string modelName; //TODO: to jest nadmiarowe...
 
 	static log4cxx::LoggerPtr logger;
 };

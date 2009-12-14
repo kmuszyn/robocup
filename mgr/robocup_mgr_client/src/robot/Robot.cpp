@@ -13,15 +13,35 @@
 
 log4cxx::LoggerPtr Robot::logger(log4cxx::Logger::getLogger("robot.Robot"));
 
-Robot::Robot(std::string modelName, TeamName team, GameState * gameState) : driver(modelName) {
+Robot::Robot(std::string modelName, TeamName team) : driver(modelName) {
 	this->modelName = modelName;
 	this->team = team;
-	this->gameStatePtr = gameState;
+
+	//add some test waypoints to stack
+
+	waypoints.push(new Position2d(1,1, 10));
+	waypoints.push(new Position2d(2,2, 90));
 }
 
 Robot::~Robot() {
 	LOG4CXX_DEBUG(logger,"Destroying robot: "<<modelName);
-	this->gameStatePtr = 0;
+}
+
+void Robot::go(){
+	if (waypoints.size() > 0){
+		Position2d * dest = waypoints.top();
+
+		Position2d * curr = (VideoServer::instance().data())[modelName];
+
+		if ((curr->pos - dest->pos).length() < 0.01 ){
+			waypoints.pop();
+			delete dest;
+		}
+		else{
+			driver.goToPosition(dest);
+		}
+	}
+
 }
 
 void Robot::doTest(){

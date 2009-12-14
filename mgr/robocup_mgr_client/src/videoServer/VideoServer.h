@@ -31,7 +31,7 @@ public:
 	void update();
 
 	///Returns video server data filled by update method
-	const VideoData & data();
+	VideoData & data();
 
 	///Displays the content of videoData
 	void display();

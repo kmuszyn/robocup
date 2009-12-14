@@ -12,7 +12,7 @@ log4cxx::LoggerPtr Driver::logger(log4cxx::Logger::getLogger("robot.driver.Drive
 
 
 /////////////////////////////////////////////////////////////////////////
-Driver::Driver(std::string modelName) {
+Driver::Driver(std::string modelName) : modelName (modelName){
 	LOG4CXX_DEBUG(logger,"Creating driver for: "<<modelName);
 	try{
 		this->posIface = new gazebo::PositionIface();
@@ -33,6 +33,20 @@ Driver::~Driver() {
 }
 ///////////////////////////////////////////////////////////////////////////
 
+void Driver::goToPosition(Position2d * pos){
+	LOG4CXX_DEBUG(logger, "Driver, goto position: "<<pos);
+	Position2d * curr = (VideoServer::instance().data())[modelName];
+	Vector2d diff = pos->pos - curr->pos;
+
+	double scale = diff.length() > 1.0 ? 1.0 : diff.length();
+
+	diff = diff * (scale / diff.length());
+
+	LOG4CXX_DEBUG(logger, "diff: "<<diff);
+	setSpeed(diff.x, diff.y);
+
+	//TODO: uwzglednic orientacje robota :)
+}
 
 void Driver::updateParameters(Position2d * newPos, double Talg){
 //	Position2d newPos(pose->pos.x, pose->pos.y, Angle(pose->yaw));
