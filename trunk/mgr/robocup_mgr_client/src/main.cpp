@@ -16,6 +16,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include "videoServer/VideoServer.h"
+
 
 
 log4cxx::LoggerPtr logger(log4cxx::Logger::getLogger("main"));
@@ -26,6 +28,22 @@ int main(int argc, char *argv[]){
 	////// start generatora liczb losowych ////
 	srand(time(0) + getpid());				///
 	///////////////////////////////////////////
+
+	//if (argc==1 && strcmp(argv[1],"-d")==0)
+	log4cxx::PropertyConfigurator::configure("../config/log4cxx.properties");
+
+
+
+	VideoServer::instance().update();
+
+	while(true){
+		VideoServer::instance().update();
+		VideoServer::instance().display();
+	}
+
+
+
+
 //
 //	RRTTree rrtTree;
 //
@@ -42,12 +60,11 @@ int main(int argc, char *argv[]){
 
 
 
-	//if (argc==1 && strcmp(argv[1],"-d")==0)
-	log4cxx::PropertyConfigurator::configure("../config/log4cxx.properties");
 
-	GameState gameState("../config/models.xml");
+
+	/*GameState gameState("../config/models.xml");
 	gameState.update();
-//	gameState.display();
+	gameState.display();
 
 	std::cout<<"Robot r:\n";
 	Robot r("omni_red0",TEAM_1, &gameState);
@@ -57,13 +74,15 @@ int main(int argc, char *argv[]){
 
 	while(true){
 		//update stanu gry
-//		gameState.update();
+		if (gameState.update())
 //		gameState.display();
 
 
 
 		r.doTest();
+//		else
 		usleep(100);
+
 
 		//w zaleznosci od stanu gry -> decyzje arbitra
 			//gol -> restart
@@ -76,7 +95,7 @@ int main(int argc, char *argv[]){
 
 
 
-	}
+	}*/
 }
 
 //lista rzeczy do zrobienia:
