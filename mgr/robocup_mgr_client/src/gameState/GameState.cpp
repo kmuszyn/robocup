@@ -23,7 +23,7 @@ GameState::GameState(std::string filename) {
 	//wyslanie pierwszego zapytania o pozycję modeli do gazebo - żeby w przypadku update były już pobrane pozycje robotów
 	this->requestModelPositions();
 	//pobieranie czasu
-	this->prevSimTime = SimControl::getInstance().getSimTime();
+	this->prevSimTime = SimControl::instance().getSimTime();
 }
 
 GameState::~GameState() {
@@ -32,20 +32,22 @@ GameState::~GameState() {
 }
 
 void GameState::requestModelPositions(){
-	SimControl::getInstance().requestPositions(models);
+	SimControl::instance().requestAllPositions(models);
 }
 
-void GameState::update(){
-	this->updateModels();
+bool GameState::update(){
+/*	if (SimControl::instance().update(models)){
+		double currSimTime=SimControl::instance().getSimTime();
 
-	double currSimTime=SimControl::getInstance().getSimTime();
-	this->Talg=currSimTime-prevSimTime;
-	this->prevSimTime=currSimTime;
+		this->Talg=currSimTime-prevSimTime;
+		this->prevSimTime=currSimTime;
+
+		return true;
+	}
+*/
+	return false;
 }
 
-void GameState::updateModels(){
-	SimControl::getInstance().update(models);
-}
 
 void GameState::display(){
 	std::cout<<"Zawartość GameState:\n";

@@ -16,7 +16,7 @@ Driver::Driver(std::string modelName) {
 	LOG4CXX_DEBUG(logger,"Creating driver for: "<<modelName);
 	try{
 		this->posIface = new gazebo::PositionIface();
-		this->posIface->Open(SimControl::getInstance().getClient(),modelName+"::"+modelName);
+		this->posIface->Open(SimControl::instance().getClient(),modelName+"::"+modelName);
 	}
 	catch(std::string ex){
 		LOG4CXX_ERROR(logger, "Error creating Driver: "<<ex);
@@ -76,9 +76,9 @@ void Driver::doTest(){
 
 	posIface->Lock(1);
 	posIface->data->cmdEnableMotors = 1.0;
-	posIface->data->cmdVelocity.pos.x = 0;//sin(this->currPos.rot.val);
-	posIface->data->cmdVelocity.pos.y = 10;//cos(this->currPos.rot.val);
-	posIface->data->cmdVelocity.yaw = 0;//5.0;
+	posIface->data->cmdVelocity.pos.x = 1.0;//*sin(this->currPos.rot.val);
+	posIface->data->cmdVelocity.pos.y = 0.0;//*cos(this->currPos.rot.val);
+	posIface->data->cmdVelocity.yaw = 0.0;//5.0;
 	posIface->Unlock();
 
 //	std::cout.precision(6);

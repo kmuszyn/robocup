@@ -10,39 +10,51 @@
 #include <stack>
 #include <gazebo.h>
 #include <string.h>
-#include <gazebo/GazeboError.hh>
 
-#include "../util/position2d/Position2d.h"
+#include "util/types.h"
+
+#include "videoServer/VideoServer.h"
 
 #include "log4cxx/logger.h"
 
 class SimControl {
 public:
-	static SimControl &  getInstance();
-	~SimControl();
+	///Returns the instance of SimControl class
+	static SimControl &  instance();
 
-	void addRequest(gazebo::SimulationRequestData::Type type, const char * modelName);
-	void processRequests();
+	///Performs update of VideoData structure
+	void update(VideoData & data);
 
-	void requestPositions(std::map<std::string, Position2d *>  models);
-	void update(std::map<std::string, Position2d *>  models);
+
+
+	void sendRequest(gazebo::SimulationRequestData::Type type, const char * modelName);
+
+	void requestAllPositions(std::map<std::string, Position2d *>  models);
+	//bool update(std::map<std::string, Position2d *>  models);
 
 	double getSimTime();
 
 	gazebo::Client * getClient();
 
+///////////////////////////////////////////////////////////////////////////////////////////
 private:
-	static log4cxx::LoggerPtr logger;
-	std::stack<gazebo::SimulationRequestData *> requests;
-
+	//hidden, for singleton implementation
 	SimControl();
-	SimControl(const SimControl & sc) {};
+	SimControl(const SimControl & );
+	SimControl & operator=(const SimControl &);
+	~SimControl();
 
+	void lock();
+	void unlock();
+///////////////////////////////////////////////////////////////////////////////////////////
+private:
+	std::stack<gazebo::SimulationRequestData *> requests;
 	///wskaznik na klienta odpowiadającego za połączenie z gazebo
 	gazebo::Client* client;
 	///instancja interfejsu symulacyjnego
 	gazebo::SimulationIface* simIface;
 
+	static log4cxx::LoggerPtr logger;
 	///czas symulacji, ustawiany w momencie uruchomienia metody update;
 	///dzieki temu czas symulacji odpowiada momentowi, w ktorym odebrane byly pozycje robotów
 	double simTime;

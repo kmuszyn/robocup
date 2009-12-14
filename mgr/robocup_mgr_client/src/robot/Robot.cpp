@@ -26,60 +26,60 @@ Robot::~Robot() {
 
 void Robot::doTest(){
 //	Position2d * pose = gameStatePtr->getModelPos(modelName);
-/*
-	Vector2d dest(2.7,3.7);
+//
+//	Vector2d dest(2.7,3.7);
+//
+//
+//
+//	////// pomiar czasu
+//	boost::posix_time::ptime t1 = boost::posix_time::ptime(boost::posix_time::microsec_clock::local_time());
+//	///////////
+//
+//
+//
+//
+//
+//
+//	RRT rrt(this->modelName,this->gameStatePtr);
+//	Vector2d tmp = rrt.plan(dest);
+//
+//
+//	////// pomiar czasu
+//	boost::posix_time::ptime t2 = boost::posix_time::ptime(boost::posix_time::microsec_clock::local_time());
+//	boost::posix_time::time_duration tdur = t2-t1;
+//	double tAlg = static_cast<double> (tdur.total_microseconds()/1000000.0);
+//
+//	std::cout<<"Time elapsed: "<<tAlg<<std::endl;
+//
+//	///////////
+//
+//
+//
+//	double angle = Vector2d(1,0).angleTo(tmp-pose->pos);
+//
+//
+//
+//	std::cout<<"*********************\n";
+//	std::cout<<"Robot pos: "<<pose->pos<<std::endl;
+//	std::cout<<"Robot pos next: "<<tmp<<std::endl;
+//
+//
+//
+//	std::cout<<"Angle: "<<angle<<std::endl;
+//
+//
+//	if( (pose->pos - dest).length() > 0.05){
+//		this->driver.setSpeed(10*cos(angle),10*sin(angle));
+//		this->driver.setRotation(0);
+//		std::cout<<"speed: "<<cos(angle)<<","<<sin(angle)<<std::endl;
+//	}
+//	else{
+//		std::cout<<"KONIEC\n";
+//		this->driver.stop();
+//		exit(0);
+//	}
 
 
-
-	////// pomiar czasu
-	boost::posix_time::ptime t1 = boost::posix_time::ptime(boost::posix_time::microsec_clock::local_time());
-	///////////
-
-
-
-
-
-
-	RRT rrt(this->modelName,this->gameStatePtr);
-	Vector2d tmp = rrt.plan(dest);
-
-
-	////// pomiar czasu
-	boost::posix_time::ptime t2 = boost::posix_time::ptime(boost::posix_time::microsec_clock::local_time());
-	boost::posix_time::time_duration tdur = t2-t1;
-	double tAlg = static_cast<double> (tdur.total_microseconds()/1000000.0);
-
-	std::cout<<"Time elapsed: "<<tAlg<<std::endl;
-
-	///////////
-
-
-
-	double angle = Vector2d(1,0).angleTo(tmp-pose->pos);
-
-
-
-	std::cout<<"*********************\n";
-	std::cout<<"Robot pos: "<<pose->pos<<std::endl;
-	std::cout<<"Robot pos next: "<<tmp<<std::endl;
-
-
-
-	std::cout<<"Angle: "<<angle<<std::endl;
-
-
-	if( (pose->pos - dest).length() > 0.05){
-		this->driver.setSpeed(10*cos(angle),10*sin(angle));
-		this->driver.setRotation(0);
-		std::cout<<"speed: "<<cos(angle)<<","<<sin(angle)<<std::endl;
-	}
-	else{
-		std::cout<<"KONIEC\n";
-		this->driver.stop();
-		exit(0);
-	}
-
-*/
 
 
 //	static double startTime = SimControl::getInstance().getSimTime();

@@ -19,7 +19,15 @@ class GameState {
 public:
 	GameState(std::string configFile);
 	~GameState();
-	void update();
+
+	/**
+	 * aktualizacja polozenia modeli
+	 * pobieranie czasu symulacji
+	 * obliczenie TAlg
+	 **/
+	bool update();
+
+
 	void display();
 
 	Position2d * getModelPos(std::string name);
@@ -39,7 +47,6 @@ private:
 
 	void loadConfig(std::string filename);
 	void requestModelPositions();
-	void updateModels();
 };
 
 #endif /* GAMESTATE_H_ */

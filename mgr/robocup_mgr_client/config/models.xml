@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding='UTF-8'?>
 <config>
-	<team1>omni_red</team1>
-	<team2>omni_blue</team2>
-	<teamCount>1</teamCount>
+	<team1>
+		<player>red0</player>		
+	</team1>
+	<team2>
+		<player>blue0</player>
+	</team2>	
 	<ball>ball</ball>
 </config>
