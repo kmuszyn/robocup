@@ -24,6 +24,7 @@ log4cxx::LoggerPtr logger(log4cxx::Logger::getLogger("main"));
 
 
 
+
 int main(int argc, char *argv[]){
 	////// start generatora liczb losowych ////
 	srand(time(0) + getpid());				///
@@ -33,12 +34,14 @@ int main(int argc, char *argv[]){
 	log4cxx::PropertyConfigurator::configure("../config/log4cxx.properties");
 
 
+	Robot red0(AppConfig::instance().team1[0], TEAM1);
 
 	VideoServer::instance().update();
 
 	while(true){
 		VideoServer::instance().update();
 		VideoServer::instance().display();
+		red0.go();
 	}
 
 

@@ -14,7 +14,7 @@ VideoServer & VideoServer::instance(){
 	return instance;
 }
 
-const VideoData & VideoServer::data(){
+VideoData & VideoServer::data(){
 	return videoData;
 }
 
