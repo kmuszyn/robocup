@@ -133,16 +133,16 @@
 
 
 
-	<model:physical name="omni_red0">
+	<model:physical name="red0">
 		<xyz>0.5 0.5 0.1</xyz>
 		<rpy>0 0.0 0.0</rpy>	
 
 		<controller:holonome3sw_position2d name="omni_controller">
-			<updateRate>100</updateRate>
+			<updateRate>10</updateRate>
 			<wheels>
 				<radius>0.02</radius>
 				<distance>0.075</distance>
-				<torque>0.5</torque>
+				<torque>200</torque>
 				<swedish0>
 					<joint>front_right_wheel_hinge</joint>
 				  	<alpha>30</alpha>
@@ -158,7 +158,7 @@
 			</wheels>
 			
 			
-			<interface:position name="omni_red0"/>
+			<interface:position name="red0"/>
 		</controller:holonome3sw_position2d>
 		
 		
@@ -166,17 +166,17 @@
 			<xi:include href="models/mgr1.model" />
 		</include>
 	</model:physical> 
-	
-	
 	<!--
-	<model:physical name="wizbot_model1">
+	
+	
+	<model:physical name="red0">
     <xyz>1 1 0.2</xyz>
     <rpy>0 0 0</rpy>
     
     
     
     <controller:holonome3sw_position2d name="controller1">
-    <updateRate>1</updateRate>
+    <updateRate>100</updateRate>
     <wheels>
       <radius>0.075</radius>
       <distance>0.175</distance>
@@ -194,12 +194,12 @@
         <alpha>240</alpha>
       </swedish2>
     </wheels>
-    <interface:position name="position_iface_0"/>
+    <interface:position name="red0"/>
   </controller:holonome3sw_position2d>
   <include embedded="true">
       <xi:include href="models/wizbot.model" />
     </include>
     
-  </model:physical>-->
-
+  </model:physical>
+-->
 </gazebo:world>

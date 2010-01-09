@@ -22,9 +22,10 @@
 		<stepTime>0.001</stepTime>
 		<gravity>0 0 -9.8</gravity>		
     	<erp>0.8</erp>
-		<cfm>0.01</cfm>
+		<cfm>0.001</cfm>
 		<updateRate>-1</updateRate>
-		<!--<contactSurfaceLayer>0.001</contactSurfaceLayer>-->
+		<contactSurfaceLayer>0.001</contactSurfaceLayer>
+		<contactMaxCorrectingVel>1</contactMaxCorrectingVel>
 	 </physics:ode>
 
 	<rendering:gui>
@@ -79,7 +80,7 @@
 	</model:physical>	
 	
 	<model:physical name="ball">
-		<xyz>0.9 0.5 1 </xyz>		
+		<xyz>3 3  1 </xyz>		
 		<rpy>0.0 0.0 0.0</rpy>	
 		<include embedded="true">
 			<xi:include href="./models/ball.model" />
@@ -108,11 +109,11 @@
 		<rpy>0 0.0 0.0</rpy>	
 
 		<controller:holonome3swd_position2d name="red0_controller">
-			<updateRate>10</updateRate>
+			<updateRate>100</updateRate>
 			<wheels>
 				<radius>0.02</radius>
 				<distance>0.075</distance>
-				<torque>0.5</torque>
+				<torque>1</torque>
 				<swedish0>
 					<joint>front_right_wheel_hinge</joint>
 				  	<alpha>30</alpha>
