@@ -22,7 +22,7 @@
 		<stepTime>0.001</stepTime>
 		<gravity>0 0 -9.8</gravity>		
     	<erp>0.8</erp>
-		<cfm>0.8</cfm>
+		<cfm>0.4</cfm>
 		<updateRate>-1</updateRate>
 	 </physics:ode>
 
@@ -155,7 +155,7 @@
 			<dribbler>
 				<left-joint>dribbler_left</left-joint>
 				<right-joint>dribbler_right</right-joint>
-				<speed>0.01</speed>
+				<speed>100</speed>
 				<max-torque>1.5</max-torque>
 			</dribbler>
 			

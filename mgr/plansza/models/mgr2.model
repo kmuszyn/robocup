@@ -26,7 +26,7 @@
 		<geom:cylinder name="main_cylinder">
 			<xyz>0 0 0.04</xyz>
 			<size>0.06 0.08</size>	<!--r: 6 cm, h: 4 cm -->
-			<mass>2</mass>
+			<mass>1</mass>
 			<kp>2e6</kp>
 			<kd>0</kd>	
 			<visual>
@@ -79,7 +79,7 @@
 		<rpy>90 0 0</rpy>		
 		<geom:cylinder name="rear_wheel_geom">		
 			<size>0.02 0.030</size>
-			<mass>0.1</mass>
+			<mass>2</mass>
 			
 			<visual>				
 				<scale>0.04 0.04 0.030</scale>
@@ -94,30 +94,6 @@
 			<mu2>1</mu2>
 			
 			<fDir1>0 0 1</fDir1>
-			
-			<!--
-			<surface>
-			<type>0</type>
-			<mu1>1.7</mu1>
-			<bounce>0.1</bounce>
-			<bounceVel>0.04</bounceVel>
-			</surface>
-
-			<surface>
-			<type>1</type>
-			<mu1>1.7</mu1>
-			<bounce>0.1</bounce>
-			<bounceVel>0.04</bounceVel>
-			</surface>
-
-			<surface>
-			<type>2</type>
-			<mu1>0.01</mu1>
-			<mu2>1.7</mu2>
-			<mu1Dir>0 0 1</mu1Dir>
-			<bounce>0.1</bounce>
-			<bounceVel>0.04</bounceVel>
-			</surface>-->
 
 		</geom:cylinder>
 	</body:cylinder> 
@@ -127,7 +103,7 @@
 		<rpy>90 0 -60</rpy>		
 		<geom:cylinder name="front_right_wheel_geom">		
 			<size>0.02 0.030</size>
-			<mass>0.1</mass>
+			<mass>2</mass>
 			
 			<kp>2e6</kp>
 			<kd>1000</kd>	
@@ -143,30 +119,7 @@
 			<mu1>0.0001</mu1>
 			<mu2>1</mu2>
 			<fDir1>0 0 1</fDir1>
-<!--
-			<surface>
-			<type>0</type>
-			<mu1>1.7</mu1>
-			<bounce>0.1</bounce>
-			<bounceVel>0.04</bounceVel>
-			</surface>
 
-			<surface>
-			<type>1</type>
-			<mu1>1.7</mu1>
-			<bounce>0.1</bounce>
-			<bounceVel>0.04</bounceVel>
-			</surface>
-
-			<surface>
-			<type>2</type>
-			<mu1>0.01</mu1>
-			<mu2>1.7</mu2>
-			<mu1Dir>0 0 1</mu1Dir>
-			<bounce>0.1</bounce>
-			<bounceVel>0.04</bounceVel>
-			</surface>
--->
 		</geom:cylinder>
 	</body:cylinder> 
 	
@@ -175,7 +128,7 @@
 		<rpy>90 0 60</rpy>		
 		<geom:cylinder name="front_left_wheel_geom">		
 			<size>0.02 0.030</size>
-			<mass>0.1</mass>
+			<mass>2</mass>
 			
 			<kp>2e6</kp>
 			<kd>1000</kd>	
@@ -189,30 +142,6 @@
 			<mu1>0.0001</mu1>
 			<mu2>1</mu2>
 			<fDir1>0 0 1</fDir1>
-			
-	<!--		<surface>
-			<type>0</type>
-			<mu1>1.7</mu1>
-			<bounce>0.1</bounce>
-			<bounceVel>0.04</bounceVel>
-			</surface>
-
-			<surface>
-			<type>1</type>
-			<mu1>1.7</mu1>
-			<bounce>0.1</bounce>
-			<bounceVel>0.04</bounceVel>
-			</surface>
-
-			<surface>
-			<type>2</type>
-			<mu1>0.01</mu1>
-			<mu2>1.7</mu2>
-			<mu1Dir>0 0 1</mu1Dir>
-			<bounce>0.1</bounce>
-			<bounceVel>0.04</bounceVel>
-			</surface>
--->
 		</geom:cylinder>
 	</body:cylinder> 
 	
