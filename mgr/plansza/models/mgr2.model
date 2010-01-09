@@ -90,8 +90,10 @@
 			<kp>2e6</kp>
 			<kd>1000</kd>	
 			
-			<mu1>1.7</mu1>
-			<mu2>1.7</mu2>
+			<mu1>0.0001</mu1>
+			<mu2>1</mu2>
+			
+			<fDir1>0 0 1</fDir1>
 			
 			<!--
 			<surface>
@@ -138,8 +140,9 @@
 			</visual>
 
 
-			<mu1>1.7</mu1>
-			<mu2>1.7</mu2>
+			<mu1>0.0001</mu1>
+			<mu2>1</mu2>
+			<fDir1>0 0 1</fDir1>
 <!--
 			<surface>
 			<type>0</type>
@@ -183,8 +186,10 @@
 				<material>Gazebo/Black</material>
 			</visual>
 
-			<mu1>1.7</mu1>
-			<mu2>1.7</mu2>
+			<mu1>0.0001</mu1>
+			<mu2>1</mu2>
+			<fDir1>0 0 1</fDir1>
+			
 	<!--		<surface>
 			<type>0</type>
 			<mu1>1.7</mu1>
