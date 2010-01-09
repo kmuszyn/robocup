@@ -25,13 +25,9 @@
 			<xyz>0 0 0.01</xyz>
 			<rpy>0 0 0 </rpy>
 			<size>0.02</size>
-			<surface>
-				<mu1>10.0</mu1>
-				<bounce>1</bounce>
-				<bounceVel>0.0</bounceVel>
-				<kp>0</kp>
-				<kd>100</kd>
-			</surface>
+			<mu1>10.0</mu1>
+			<kp>2e6</kp>
+			<kd>0</kd>			
 			
 			<mass>0.045</mass>
 			<visual>	
