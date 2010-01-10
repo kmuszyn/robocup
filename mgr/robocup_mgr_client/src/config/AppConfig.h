@@ -14,6 +14,7 @@
 #include <fstream>
 #include <iostream>
 #include "log4cxx/logger.h"
+#include "util/vector2d/Vector2d.h"
 
 
 /**
@@ -37,6 +38,12 @@ public:
 	std::vector<std::string> team2;
 	///Ball model name (it supposed to be ball, but who knows ?:) )
 	std::string ball;
+
+	///Robot radius
+	double radius;
+
+	///Field size
+	Vector2d fieldSize;
 private:
 	/**
 	 * Constructor is responsible for filling apropriate public fields in the config object.

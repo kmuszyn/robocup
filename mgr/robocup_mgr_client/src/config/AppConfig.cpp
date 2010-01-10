@@ -6,6 +6,7 @@
  */
 
 #include "AppConfig.h"
+#include "boost/lexical_cast.hpp"
 
 log4cxx::LoggerPtr AppConfig::logger(log4cxx::Logger::getLogger("config.AppConfig"));
 
@@ -48,6 +49,16 @@ AppConfig::AppConfig(std::string filename) {
 	curr_node = doc.first_node("config")->first_node("ball");
 	ball = curr_node->value();
 
+	//robot parameters
+	curr_node = doc.first_node("config")->first_node("robot")->first_node("radius");
+	radius = boost::lexical_cast<double>(curr_node->value());
+
+	//field parameters
+	curr_node = doc.first_node("config")->first_node("field")->first_node("sizeX");
+	fieldSize.x = boost::lexical_cast<double>(curr_node->value());
+
+	curr_node = doc.first_node("config")->first_node("field")->first_node("sizeY");
+	fieldSize.y = boost::lexical_cast<double>(curr_node->value());
 }
 
 AppConfig::~AppConfig() {

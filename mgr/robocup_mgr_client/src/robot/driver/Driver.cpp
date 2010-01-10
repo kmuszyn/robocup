@@ -16,7 +16,7 @@ Driver::Driver(std::string modelName) : modelName (modelName){
 	LOG4CXX_DEBUG(logger,"Creating driver for: "<<modelName);
 	try{
 		this->posIface = new gazebo::PositionIface();
-		this->posIface->Open(SimControl::instance().getClient(),modelName+"::"+modelName);
+		this->posIface->Open(SimControl::instance().getClient(),modelName+"::position_iface");
 	}
 	catch(std::string ex){
 		LOG4CXX_ERROR(logger, "Error creating Driver: "<<ex);

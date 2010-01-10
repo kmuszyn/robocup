@@ -54,7 +54,7 @@ Vector2d RRT::plan(Vector2d goal){
 }
 
 Vector2d RRT::extend(Vector2d begin, Vector2d goal){
-	double distance = 0.09; //8 cm, polowa srednicy robota
+	double distance = AppConfig::instance().radius;
 
 	double length = (goal-begin).length();
 	double cosAlfa = (goal.x - begin.x) / length;
@@ -72,8 +72,7 @@ bool RRT::checkCollisions(const Vector2d & point){
 	std::map<std::string, Position2d*>::iterator ii = VideoServer::instance().data().begin();
 	for(;ii!=VideoServer::instance().data().end(); ii++){
 		if( ii->first==this->modelName) continue;
-		//TODO: remove this constant
-		if((point - ii->second->pos).length() < 0.18) return true;
+		if((point - ii->second->pos).length() < 2 * AppConfig::instance().radius) return true;
 	}
 
 	return false;
@@ -92,7 +91,9 @@ Vector2d RRT::randomTarget(){
 
 	//TODO: wymiary boiska pobierac z configa?
 	//odejmowanie 0.08 zeby robot nie wjechal na bande
-	Vector2d res((5.4 - 0.08) * getRand() + 0.08, (7.4 - 0.08) * getRand() + 0.08);
+	AppConfig & conf = AppConfig::instance();
+	Vector2d res((conf.fieldSize.x - conf.radius) * getRand() + conf.radius,
+			(conf.fieldSize.y - conf.radius) * getRand() + conf.radius);
 	return res;
 }
 
