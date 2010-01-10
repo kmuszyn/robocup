@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<config>
+	<blueTeam>
+		<modelName>blue0</modelName>
+		<modelName>blue1</modelName>
+		<modelName>blue2</modelName>
+	</blueTeam>
+
+	<redTeam>
+		<modelName>red0</modelName>
+		<modelName>red1</modelName>
+		<modelName>red2</modelName>
+	</redTeam>
+
+	<settings>
+		<testMode>
+			<!--nazwa modelu ktory chcemy testowac-->
+			<modelName>red0</modelName>
+			<!--czas trwania jednego testu w sekundach-->
+			<!--liczony jest czas symulacji a nie czas rzeczywisty)-->
+			<testTime>2</testTime>
+			<speedFactor>2.0</speedFactor>
+			<!--vx[m/s] vy[m/s] vrot[rad/sek] -->			
+			<velocity>1 0 0</velocity>
+			<velocity>-1 0 0</velocity>
+			<velocity>0 1 0</velocity>
+			<velocity>0 -1 0</velocity> 
+			<velocity>1 1 0</velocity>
+			<velocity>-1 -1 0</velocity>
+			<velocity>-1 1 0</velocity>
+			<velocity>1 -1 0</velocity>
+
+			<!-- x y oraz rotacja -->
+			<position>0.5 1.0 2</position>
+			<position>-1.5 1.0 0.5</position>
+			<position>-0.5 -1.0 2</position>
+		</testMode>
+		
+
+	</settings>
+	
+	<RRT>
+		<!--prawdopodobienstwo kierowania punktow na cel -->	
+		<goalProb>0.75</goalProb>
+		<!-- promien okregu opisujacego robota w [m]
+		standardowo podwojony promien nadwozia robota 0.12 wynika z modelu -->
+		<robotRadius>0.12</robotRadius>
+		<!-- zasieg robota w jednej iteracji [m] -->
+		<robotReach>0.05</robotReach>
+		<!-- odleglosc przy jakiej uznajemy ze robot dojechal do celu [m] -->
+		<minDistance>0.1</minDistance>
+		<!--pozycja docelowa x y rot-->		
+		<goalPosition>3.0 4.0 0.0</goalPosition>
+	</RRT>
+</config>
