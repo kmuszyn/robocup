@@ -36,6 +36,6 @@ void AI::act(){
 
 void AI::generateTask(){
 	BOOST_ASSERT(task==0);
-	Position2d pos(2,1,90);
+	Position2d pos(2,2,90);
 	task = new GoTo(robot, pos);
 }
