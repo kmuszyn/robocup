@@ -40,6 +40,17 @@ public:
 	double getDTime();
 
 	~VideoServer();
+
+#ifdef MGR_VIEWER
+	void writeViewerData();
+	///Counter of updates, used to synchronize app data from different robots in application
+	///in mgr_viewer application
+	long updateCounter;
+
+	///Name of the file for mgr_viewer data to write
+	const std::string viewerFile;
+#endif
+
 private:
 	VideoServer();
 	VideoServer(const VideoServer &);
