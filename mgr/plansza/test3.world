@@ -21,11 +21,11 @@
 	<physics:ode>
 		<stepTime>0.001</stepTime>
 		<gravity>0 0 -9.8</gravity>		
-    	<erp>0.8</erp>
-		<cfm>0.001</cfm>
+    <erp>0.9</erp>
+		<cfm>0.00001</cfm>
 		<updateRate>-1</updateRate>
-		<contactSurfaceLayer>0.001</contactSurfaceLayer>
-		<contactMaxCorrectingVel>1</contactMaxCorrectingVel>
+		<contactSurfaceLayer>0.005</contactSurfaceLayer>
+		<contactMaxCorrectingVel>100</contactMaxCorrectingVel>
 	 </physics:ode>
 
 	<rendering:gui>
@@ -66,7 +66,7 @@
 		<body:plane name="plane1_body">
 			<geom:plane name="plane1_geom">
 				
-				<mu1>10.0</mu1>					
+				<mu1>100.0</mu1>					
 				<kp>2e3</kp>
 				<kd>1</kd>			
 				
@@ -80,7 +80,7 @@
 	</model:physical>	
 	
 	<model:physical name="ball">
-		<xyz>3 3  1 </xyz>		
+		<xyz>3 4  0.4 </xyz>		
 		<rpy>0.0 0.0 0.0</rpy>	
 		<include embedded="true">
 			<xi:include href="./models/ball.model" />
@@ -102,93 +102,18 @@
 	
 	<!-- _______________	 modele robotow     ________________________ -->
 
-
-
 	<model:physical name="red0">
-		<xyz>0.5 0.5 0.05</xyz>
+		<xyz>0.5 0.5 0.04</xyz>
 		<rpy>0 0.0 0.0</rpy>	
-
-		<controller:holonome3swd_position2d name="red0_controller">
-			<updateRate>100</updateRate>
-			<wheels>
-				<radius>0.02</radius>
-				<distance>0.075</distance>
-				<torque>1</torque>
-				<swedish0>
-					<joint>front_right_wheel_hinge</joint>
-				  	<alpha>30</alpha>
-				</swedish0>
-				<swedish1>
-				  	<joint>front_left_wheel_hinge</joint>
-				  	<alpha>150</alpha>
-				</swedish1>
-				<swedish2>
-				  	<joint>rear_wheel_hinge</joint>
-				  	<alpha>270</alpha>
-				</swedish2>
-			</wheels>
-			
-			<dribbler>
-				<left-joint>dribbler_left</left-joint>
-				<right-joint>dribbler_right</right-joint>
-				<speed>0.001</speed>
-				<max-torque>1.5</max-torque>
-			</dribbler>
-			
-			<kicker>
-				<joint>kicker_joint</joint>
-				<force>1e-6</force>				
-			</kicker>
-			
-			<interface:position name="red0"/>
-		</controller:holonome3swd_position2d>
-		
 		
 		<include embedded="true">
 			<xi:include href="models/mgr2.model" />
 		</include>
 	</model:physical> 
 	
-	
 	<model:physical name="blue0">
-		<xyz>3 3 0.05</xyz>
+		<xyz>1 1 0.04</xyz>
 		<rpy>0 0.0 0.0</rpy>	
-
-		<controller:holonome3swd_position2d name="blue0_controller">
-			<updateRate>100</updateRate>
-			<wheels>
-				<radius>0.02</radius>
-				<distance>0.075</distance>
-				<torque>0.5</torque>
-				<swedish0>
-					<joint>front_right_wheel_hinge</joint>
-				  	<alpha>30</alpha>
-				</swedish0>
-				<swedish1>
-				  	<joint>front_left_wheel_hinge</joint>
-				  	<alpha>150</alpha>
-				</swedish1>
-				<swedish2>
-				  	<joint>rear_wheel_hinge</joint>
-				  	<alpha>270</alpha>
-				</swedish2>
-			</wheels>
-			
-			<dribbler>
-				<left-joint>dribbler_left</left-joint>
-				<right-joint>dribbler_right</right-joint>
-				<speed>100</speed>
-				<max-torque>1.5</max-torque>
-			</dribbler>
-			
-			<kicker>
-				<joint>kicker_joint</joint>
-				<force>1e-6</force>				
-			</kicker>
-			
-			<interface:position name="blue0"/>
-		</controller:holonome3swd_position2d>
-		
 		
 		<include embedded="true">
 			<xi:include href="models/mgr2.model" />
