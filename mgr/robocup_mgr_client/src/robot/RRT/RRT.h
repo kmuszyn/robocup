@@ -9,8 +9,10 @@
 #define RRT_H_
 
 #include "RRTTree.h"
-#include "../../util/vector2d/Vector2d.h"
-#include "../../gameState/GameState.h"
+#include "util/vector2d/Vector2d.h"
+#include "gameState/GameState.h"
+
+#include "videoServer/VideoServer.h"
 
 #include <string>
 #include <cstdlib>
@@ -24,7 +26,7 @@
  */
 class RRT {
 public:
-	RRT(std::string modelName, GameState * gameStatePtr);
+	RRT(std::string modelName);
 	~RRT();
 
 	Vector2d plan(Vector2d goal);
@@ -39,7 +41,6 @@ private:
 	float getRand();
 
 	RRTTree * rrttree;
-	GameState * gameStatePtr;
 	std::string modelName;
 
 	//ustawienie stałych algorytmu

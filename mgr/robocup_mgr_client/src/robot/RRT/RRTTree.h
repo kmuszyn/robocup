@@ -8,8 +8,8 @@
 #ifndef RRTTREE_H_
 #define RRTTREE_H_
 
-#include "../../util/vector2d/Vector2d.h"
-#include "../../gameState/GameState.h"
+#include "util/vector2d/Vector2d.h"
+#include "gameState/GameState.h"
 #include <vector>
 #include <fstream>
 #include <ios>

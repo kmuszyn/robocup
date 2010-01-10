@@ -8,9 +8,8 @@
 #include "RRT.h"
 
 
-RRT::RRT(std::string modelName, GameState * gameStatePtr) {
+RRT::RRT(std::string modelName) {
 	this->modelName = modelName;
-	this->gameStatePtr = gameStatePtr;
 	rrttree = 0;
 }
 
@@ -22,7 +21,7 @@ Vector2d RRT::plan(Vector2d goal){
 	const double THRESHOLD = 0.05;
 
 	if (rrttree!=0) delete rrttree;
-	Position2d * robotPos = gameStatePtr->getModelPos(modelName);
+	Position2d * robotPos = (VideoServer::instance().data())[modelName];
 	this->rrttree = new RRTTree(robotPos->pos);
 	RRTTreeNode * nearest;
 	do{
@@ -70,9 +69,10 @@ Vector2d RRT::extend(Vector2d begin, Vector2d goal){
 }
 
 bool RRT::checkCollisions(const Vector2d & point){
-	std::map<std::string, Position2d*>::iterator ii = this->gameStatePtr->getModels()->begin();
-	for(;ii!=this->gameStatePtr->getModels()->end(); ii++){
+	std::map<std::string, Position2d*>::iterator ii = VideoServer::instance().data().begin();
+	for(;ii!=VideoServer::instance().data().end(); ii++){
 		if( ii->first==this->modelName) continue;
+		//TODO: remove this constant
 		if((point - ii->second->pos).length() < 0.18) return true;
 	}
 

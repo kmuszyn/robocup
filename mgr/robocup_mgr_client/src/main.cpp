@@ -6,6 +6,7 @@
 
 #include "gameState/GameState.h"
 #include "robot/Robot.h"
+#include "AI/AI.h"
 
 //#include <sstream>
 
@@ -34,14 +35,15 @@ int main(int argc, char *argv[]){
 	log4cxx::PropertyConfigurator::configure("../config/log4cxx.properties");
 
 
-	Robot red0(AppConfig::instance().team1[0], TEAM1);
 
+	AI robotAI(AppConfig::instance().team1[0], TEAM1);
 	VideoServer::instance().update();
 
 	while(true){
 		VideoServer::instance().update();
-		VideoServer::instance().display();
-		red0.go();
+	//	VideoServer::instance().display();
+//		red0.go();
+		robotAI.act();
 	}
 
 

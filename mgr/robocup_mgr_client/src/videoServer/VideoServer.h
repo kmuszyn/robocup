@@ -36,6 +36,9 @@ public:
 	///Displays the content of videoData
 	void display();
 
+	///Returns time diff beetwen last 2 updates (in simulation time, seconds)
+	double getDTime();
+
 	~VideoServer();
 private:
 	VideoServer();
@@ -44,6 +47,9 @@ private:
 
 private:
 	VideoData videoData;
+
+	///time difference beetwen updates, calculated in VideoServer::update()
+	double dTime;
 
 	///For logging
 	static log4cxx::LoggerPtr logger;
