@@ -7,4 +7,11 @@
 		<player>blue0</player>
 	</team2>	
 	<ball>ball</ball>
+	<robot>
+		<radius>0.09</radius>
+	</robot>
+	<field>
+		<sizeX>5.4</sizeX>
+		<sizeY>7.4</sizeY>
+	</field>
 </config>
