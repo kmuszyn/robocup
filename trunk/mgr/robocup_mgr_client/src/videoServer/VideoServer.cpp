@@ -19,13 +19,18 @@ VideoData & VideoServer::data(){
 }
 
 void VideoServer::update(){
+	double t1 = SimControl::instance().getSimTime();
 	SimControl::instance().update(videoData);
+	double t2 = SimControl::instance().getSimTime();
+	dTime = t2 - t1;
 }
 void VideoServer::display(){
 	std::cout<<"VideoData display!\n";
 	for (VideoData::iterator i = videoData.begin(); i!= videoData.end(); i++){
 		std::cout<<i->first<<" "<<*(i->second)<<std::endl;
 	}
+
+	std::cout<<"Time: "<<SimControl::instance().getSimTime()<<std::endl;
 }
 
 
@@ -48,6 +53,10 @@ VideoServer::VideoServer() {
 
 	videoData.insert(std::pair<std::string, Position2d *>(config.ball, new Position2d()));
 
+}
+
+double VideoServer::getDTime(){
+	return dTime;
 }
 
 VideoServer::~VideoServer() {

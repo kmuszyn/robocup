@@ -19,8 +19,12 @@ Robot::Robot(std::string modelName, TeamName team) : driver(modelName) {
 
 	//add some test waypoints to stack
 
-	waypoints.push(new Position2d(1,1, 10));
+	waypoints.push(new Position2d(1,2, 90));
 	waypoints.push(new Position2d(2,2, 90));
+	waypoints.push(new Position2d(1,1, 90));
+	//waypoints.push(new Position2d(0.5,1, 10));
+	waypoints.push(new Position2d(1,0.5, 10));
+
 }
 
 Robot::~Robot() {
@@ -28,20 +32,40 @@ Robot::~Robot() {
 }
 
 void Robot::go(){
+
+	//if current task is still valid, perform it
+
+	//else - generate new task
+
 	if (waypoints.size() > 0){
 		Position2d * dest = waypoints.top();
-
 		Position2d * curr = (VideoServer::instance().data())[modelName];
 
-		if ((curr->pos - dest->pos).length() < 0.01 ){
+		if ((curr->pos - dest->pos).length() < 0.03 ){
 			waypoints.pop();
 			delete dest;
+			LOG4CXX_DEBUG(logger, "************* Next point ***********");
 		}
 		else{
+
+			//driver.setSpeed(1.2, 0.0);
 			driver.goToPosition(dest);
+//			RRT rrt(this->modelName);
+//			Vector2d tmp = rrt.plan(dest->pos);
+//			Position2d tmpPos;
+//			tmpPos.pos = tmp;
+//			driver.goToPosition(&tmpPos);
 		}
 	}
 
+}
+
+void Robot::goTo(Position2d & pos){
+	RRT rrt(this->modelName);
+	Vector2d tmp = rrt.plan(pos.pos);
+	Position2d tmpPos;
+	tmpPos.pos = tmp;
+	driver.goToPosition(&tmpPos);
 }
 
 void Robot::doTest(){

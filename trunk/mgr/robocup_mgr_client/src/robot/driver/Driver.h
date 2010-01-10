@@ -10,10 +10,12 @@
 
 #include "log4cxx/logger.h"
 #include <string>
+#include <deque>
 #include <gazebo.h>
 
-#include "../../simControl/SimControl.h"
-#include "../../util/position2d/Position2d.h"
+#include "simControl/SimControl.h"
+#include "util/position2d/Position2d.h"
+
 
 class Driver {
 public:
@@ -21,7 +23,7 @@ public:
 	~Driver();
 
 	///Metoda aktualizująca parametry używane przez sterownik - prędkości liniową i kątową
-	void updateParameters(Position2d * pose, double Talg);
+	void updateParameters(Position2d & pos);
 
 	void setRotation(double newRot);
 
@@ -33,19 +35,20 @@ public:
 
 	void doTest();
 private:
-	///parametry chwilowe robota, wyliczane na podstawie zmiany położenia i rotacji
-	///prędkość liniowa (chwilowa)
-	double v;
-	///prędkość kątowa (chwilowa)
-	double w;
-	///aktualna pozycja robota (położenie + rotacja), ustawiana w momencie aktualizacji parametrów
-	Position2d currPos;
+
 
 	gazebo::PositionIface * posIface;
 
 	std::string modelName; //TODO: to jest nadmiarowe...
 
 	static log4cxx::LoggerPtr logger;
+
+	struct DriverData{
+		double dX, dY, dRot;
+		double lastUpdateTime;
+		Position2d lastPos;
+		double updatePeriod;
+	} driverData;
 };
 
 #endif /* DRIVER_H_ */

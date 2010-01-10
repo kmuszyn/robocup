@@ -25,19 +25,36 @@
  */
 class Robot {
 public:
+	/**
+	 * Robot constructor, inits model name and team, to which robot belongs
+	 */
 	Robot(std::string modelName, TeamName team);
 	~Robot();
 
+
 	void go();
+
+	/**
+	 * Go to position action.
+	 *
+	 * @param pos position to go to
+	 */
+	void goTo(Position2d & pos);
 
 	void doTest();
 
 ///////////////////////////////////////////////////////////////////////////////////////
 private:
+	///Robot's team
 	TeamName team;
+
+	///name of a model
 	std::string modelName;
+
+	///This robot driver - physical layer
 	Driver driver;
 
+	///Waypoints, temporary here
 	std::stack<Position2d *> waypoints;
 
 	static log4cxx::LoggerPtr logger;
