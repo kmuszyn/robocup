@@ -23,6 +23,12 @@ void VideoServer::update(){
 	SimControl::instance().update(videoData);
 	double t2 = SimControl::instance().getSimTime();
 	dTime = t2 - t1;
+
+
+#ifdef MGR_VIEWER
+	updateCounter++;
+	writeViewerData();
+#endif
 }
 void VideoServer::display(){
 	std::cout<<"VideoData display!\n";
@@ -34,7 +40,11 @@ void VideoServer::display(){
 }
 
 
-VideoServer::VideoServer() {
+VideoServer::VideoServer()
+#ifdef MGR_VIEWER
+	: viewerFile("videoServer.txt")
+#endif
+{
 	LOG4CXX_DEBUG(logger, "VideoServer construct");
 
 	AppConfig & config = AppConfig::instance();
@@ -53,12 +63,41 @@ VideoServer::VideoServer() {
 
 	videoData.insert(std::pair<std::string, Position2d *>(config.ball, new Position2d()));
 
+#ifdef MGR_VIEWER
+	updateCounter=0;
+	std::ofstream file;
+	file.open(viewerFile.c_str(),std::ios::out);
+	file.close();
+#endif
 }
 
 double VideoServer::getDTime(){
 	return dTime;
 }
 
+#ifdef MGR_VIEWER
+void VideoServer::writeViewerData(){
+	std::ofstream file;
+	file.open(viewerFile.c_str(),std::ios::app);
+	file.precision(3);
+	file<<":"<<updateCounter<<std::endl;
+
+	//write video data:
+	//posx posy rot radius (for ball: rot 0 radius 0.02)
+	for (VideoData::iterator i = videoData.begin(); i!= videoData.end(); i++)	{
+		if ((*i).first != AppConfig::instance().ball)	//its a robot
+			file<<(*i).second->pos.x<<" "<<(*i).second->pos.y<<" "<<(*i).second->rot.degreeValue()
+			<<" "<<AppConfig::instance().radius<<std::endl;
+		else
+			file<<(*i).second->pos.x<<" "<<(*i).second->pos.y<<" "<<0<<" "<<0.02<<std::endl;
+	}
+
+	file.close();
+}
+#endif	//mgr_viewer
+
 VideoServer::~VideoServer() {
 	// TODO Auto-generated destructor stub
 }
+
+
