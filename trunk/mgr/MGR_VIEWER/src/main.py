@@ -48,5 +48,5 @@ if __name__=="__main__":
     #w = MainWindow()
     #w.main()
     ui = MgrUI()
-    vd = VideoData('/home/kamil/workspace/robocup_mgr_client/Debug/videoServer.txt')
+   # vd = VideoData('/home/kamil/workspace/robocup_mgr_client/Debug/videoServer.txt')
     
