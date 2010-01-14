@@ -28,21 +28,44 @@ class MgrUI:
         filter.add_pattern("*.txt")
         filter.set_name("txt files")
         chooser.add_filter(filter)
+        chooser.set_current_folder('/home/kamil/workspace/robocup_mgr_client/Debug')        
         
         response = chooser.run()
         if response == gtk.RESPONSE_OK:
+            self.vd = []
             print chooser.get_filename()
             self.vd = VideoData(chooser.get_filename())
             print 'Loaded',len(self.vd.steps),'steps'
             self.curr_step.set_sensitive(True)            
             self.curr_step.set_range(0,len(self.vd.steps) - 1)
+            self.draw_step()
             
         chooser.destroy()
+        
+    def draw_step(self, action = None):
+        tmp = self.vd.steps[int(self.curr_step.get_value())]
+        drawable = self.drawing_area.window
+        gc = drawable.new_gc(foreground=None, background=None, font=None, 
+                     function=-1, fill=-1, tile=None,
+                     stipple=None, clip_mask=None, subwindow_mode=-1,
+                     ts_x_origin=-1, ts_y_origin=-1, clip_x_origin=-1,
+                     clip_y_origin=-1, graphics_exposures=-1,
+                     line_width=-1, line_style=-1, cap_style=-1,
+                     join_style=-1)
+        
+        for i in tmp:
+            print i.x, i.y, i.radius
+            print i.x * 100, i.y * 100, int(round(i.radius * 200, 0))
+            x = int(round(i.x * 100,0))
+            y = int(round(i.y * 100,0))
+            d = int(round(i.radius * 200, 0))
+            drawable.draw_arc(gc, False, x, y, d, d , 0, 360*64)
+        
     
     def create_main_window(self):
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         self.window.set_border_width(0)
-        self.window.set_default_size(500,-1)
+        self.window.set_default_size(1024,-1)
         self.window.set_title('Mgr Viewer 1.0')
         self.window.connect('delete_event', self.delete_event)
         self.window.show()
@@ -86,7 +109,7 @@ class MgrUI:
         self.winBox.pack_start(self.mainBox)                
         
         self.drawing_area = gtk.DrawingArea()
-        self.drawing_area.set_size_request(300, 200)
+        self.drawing_area.set_size_request(540, 740)
         self.drawing_area.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
         self.drawing_area.show()
         self.mainBox.pack_start(self.drawing_area, True, True, 0)
@@ -107,7 +130,8 @@ class MgrUI:
         self.curr_step.set_digits(0)
         self.curr_step.set_value_pos(gtk.POS_RIGHT)
         self.curr_step.show()        
-        self.curr_step.set_sensitive(False) 
+        self.curr_step.set_sensitive(False)
+        self.curr_step.connect('value_changed', self.draw_step) 
         
         self.menuBox.pack_start(self.curr_step,False)
         
