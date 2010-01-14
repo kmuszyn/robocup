@@ -15,11 +15,16 @@ class MainWin(QtGui.QMainWindow):
         
         self.statusBar().showMessage('Select file with videoData')
         
-        exit = QtGui.QAction('Exit', self)
+        exit = QtGui.QAction('Exit', self)    
         self.connect(exit, QtCore.SIGNAL('triggered()'), QtCore.SLOT('close()'))
+
+        videoData = QtGui.QAction('Load VideoData', self)
+        self.connect(videoData, QtCore.SIGNAL('triggered()'), self.loadVideoData)
         
         menubar = self.menuBar()
         file = menubar.addMenu('&File')
+        
+        file.addAction(videoData)
         file.addAction(exit)
         
                         
@@ -35,3 +40,7 @@ class MainWin(QtGui.QMainWindow):
             event.accept()
         else:
             event.ignore()
+            
+    def loadVideoData(self):
+        print 'Loading...'
+        print 'Dodac tutaj wyswietlanie fiel choosera' 
