@@ -29,10 +29,10 @@ class VideoData:
                 line = line.split(' ')
                 #print line, line[0]
                 tmpItem = VideoDataItem()
-                tmpItem.x = line[0]
-                tmpItem.y = line[1]
-                tmpItem.rot = line[2]
-                tmpItem.radius = line[3]
+                tmpItem.x = float(line[0])
+                tmpItem.y = float(line[1])
+                tmpItem.rot = float(line[2])
+                tmpItem.radius = float(line[3])
                 tmpList.append(tmpItem)
                     
         file.close() 
