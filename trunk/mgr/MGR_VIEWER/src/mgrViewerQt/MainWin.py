@@ -5,6 +5,7 @@ Created on 2010-01-14
 '''
 
 from PyQt4 import QtGui, QtCore
+from videoData import VideoData
 
 class MainWin(QtGui.QMainWindow):
     def __init__(self):
@@ -42,5 +43,8 @@ class MainWin(QtGui.QMainWindow):
             event.ignore()
             
     def loadVideoData(self):
-        print 'Loading...'
-        print 'Dodac tutaj wyswietlanie fiel choosera' 
+        print 'Loading videoData...'    
+        filename = QtGui.QFileDialog.getOpenFileName(self, 'Open file', '/home/kamil/workspace/robocup_mgr_client/Debug')
+        self.vd = VideoData(filename)   
+        self.statusBar().showMessage('Loaded %(steps)03d steps' % {'steps':len(self.vd.steps)})     
+        
