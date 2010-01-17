@@ -34,6 +34,8 @@ public:
 	bool finished();
 
 	std::string getName();
+
+	std::string getInfo();
 ////////////////////////////////////////////////////////////////////
 private:
 	///robot to be controlled

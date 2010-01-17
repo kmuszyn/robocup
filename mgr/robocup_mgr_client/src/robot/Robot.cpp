@@ -147,3 +147,14 @@ void Robot::doTest(){
 //	}
 	driver.doTest();
 }
+
+#ifdef MGR_VIEWER
+void Robot::writeViewerData(){
+	std::ofstream file;
+	file.open((modelName+".txt").c_str(),std::ios::app);
+	Position2d * pos = VideoServer::instance().data()[modelName];
+	file<<":robot\n";
+	file<<pos->pos.x<<" "<<pos->pos.y<<" "<<pos->rot.degreeValue()<<std::endl;
+	file.close();
+}
+#endif

@@ -26,8 +26,8 @@ void VideoServer::update(){
 
 
 #ifdef MGR_VIEWER
-	updateCounter++;
 	writeViewerData();
+	updateCounter++;
 #endif
 }
 void VideoServer::display(){
@@ -80,6 +80,15 @@ void VideoServer::writeViewerData(){
 	std::ofstream file;
 	file.open(viewerFile.c_str(),std::ios::app);
 	file.precision(3);
+
+	if (updateCounter==0){	//write all model names except ball
+		std::string buf("");
+		for (VideoData::iterator i = videoData.begin(); i!= videoData.end(); i++)
+			if ((*i).first != AppConfig::instance().ball)
+				buf.append((*i).first + " ");
+		if (buf.size() > 0) file<<buf<<std::endl;
+	}
+
 	file<<":step "<<updateCounter<<std::endl;
 
 	//write video data:

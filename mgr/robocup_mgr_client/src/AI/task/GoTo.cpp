@@ -31,3 +31,9 @@ bool GoTo::finished(){
 std::string GoTo::getName(){
 	return taskName;
 }
+
+std::string GoTo::getInfo(){
+	std::ostringstream outs;
+	outs<<position.pos.x<<" "<<position.pos.y<<" "<<position.rot.degreeValue();
+	return outs.str();
+}
