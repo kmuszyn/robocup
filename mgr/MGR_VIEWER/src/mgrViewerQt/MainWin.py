@@ -8,6 +8,7 @@ from PyQt4 import QtGui, QtCore
 from VideoData import VideoData
 from MainMenu import MainMenu
 from DrawingArea import DrawingArea
+from Config import Config
 
 class MainWin(QtGui.QMainWindow):
     def __init__(self):
@@ -27,7 +28,7 @@ class MainWin(QtGui.QMainWindow):
         self.connect(exit, QtCore.SIGNAL('triggered()'), QtCore.SLOT('close()'))
 
         videoData = QtGui.QAction('Load VideoData', self)
-        self.connect(videoData, QtCore.SIGNAL('triggered()'), self.loadVideoData)
+        self.connect(videoData, QtCore.SIGNAL('triggered()'), self.loadVideoDataDialog)
         
         menubar = self.menuBar()
         file = menubar.addMenu('&File')
@@ -35,6 +36,9 @@ class MainWin(QtGui.QMainWindow):
         file.addAction(videoData)
         file.addAction(exit)
         
+        '''config gen'''
+        self.config = Config()
+        self.loadVideoData(self.config.videoDataFile)           
                         
     def center(self):
         screen = QtGui.QDesktopWidget().screenGeometry()
@@ -42,6 +46,8 @@ class MainWin(QtGui.QMainWindow):
         self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
         
     def closeEvent(self, event):
+        self.config.disp()
+        self.config.save()
         event.accept()
        # reply = QtGui.QMessageBox.question(self, 'Message', 'Are you sure?', QtGui.QMessageBox.No, 
        #                                    QtGui.QMessageBox.Yes)
@@ -50,15 +56,20 @@ class MainWin(QtGui.QMainWindow):
       #  else:
       #      event.ignore()
             
-    def loadVideoData(self):
+    def loadVideoDataDialog(self):
         print 'Loading videoData...'    
         filename = QtGui.QFileDialog.getOpenFileName(self, 'Open file', 
                                                      '/home/kamil/workspace/robocup_mgr_client/Debug')
-        self.container.drawingArea.setVideoData(VideoData(filename))   
-        self.statusBar().showMessage('Loaded %(steps)03d steps' 
-                                     % {'steps':len(self.container.drawingArea.vd.steps)}) 
-          
-        self.container.mainMenu.enableVideoData(len(self.container.drawingArea.vd.steps)-1)         
+        self.loadVideoData(filename)    
+        
+    def loadVideoData(self, filename):
+        if filename!= None:
+            self.config.videoDataFile = filename
+            self.container.drawingArea.setVideoData(VideoData(filename, self.config))   
+            self.statusBar().showMessage('Loaded %(steps)03d steps' 
+                                         % {'steps':len(self.container.drawingArea.vd.steps)}) 
+              
+            self.container.mainMenu.enableVideoData(len(self.container.drawingArea.vd.steps)-1)        
 
 class Container(QtGui.QWidget):
     def __init__(self, parent = None):
