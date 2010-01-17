@@ -21,12 +21,36 @@ class MainMenu(QtGui.QWidget):
         #self.slider.setTickPosition(QtGui.QSlider.TicksRight)
       #  self.slider.setMinimum(0)
        # self.slider.setMaximum(200)
+       
+        '''some labels'''
+        tasklabel = QtGui.QLabel('Task: goTo')
+        infoLabel = QtGui.QLabel('(2,2), rot 0')
+       
+        '''combo box for robot files'''
+        
+        combo = QtGui.QComboBox(self)
+        combo.addItem('Test1')
+        combo.addItem('Test2')
+        combo.addItem('Test3')
+        
+        '''check box'''
+        cb = QtGui.QCheckBox('Hide RRT')
+        cb.setFocusPolicy(QtCore.Qt.NoFocus)  
+        
+        cb2 = QtGui.QCheckBox('Hide Speed')
+        cb2.setFocusPolicy(QtCore.Qt.NoFocus)
         
         '''layout'''
         vbox = QtGui.QVBoxLayout()        
         vbox.addWidget(sliderLabel)
-        vbox.addWidget(self.sliderValue)
         vbox.addWidget(self.slider)
+        vbox.addWidget(self.sliderValue)
+        vbox.addStretch(1)
+        vbox.addWidget(combo)     
+        vbox.addWidget(tasklabel)
+        vbox.addWidget(infoLabel)
+        vbox.addWidget(cb)
+        vbox.addWidget(cb2)      
         self.setLayout(vbox)
         
     def enableVideoData(self, maxStepTime):
