@@ -41,6 +41,12 @@ public:
 	 * @return name of the task
 	 */
 	virtual std::string getName() = 0;
+
+	/**
+	 * Return additional info about the task, useful for debugging
+	 * F.eg. goTo task may return target position
+	 */
+	virtual std::string getInfo() = 0;
 };
 
 #endif /* TASK_H_ */

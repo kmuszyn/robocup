@@ -46,12 +46,23 @@ private:
 	 */
 	void generateTask();
 
+#ifdef MGR_VIEWER
+	/**
+	 * Writes AI info to file for debugging.
+	 */
+	void writeViewerData();
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////////
 private:
 	///Robot controlled by AI
 	Robot robot;
 	///Robot's task
 	Task * task;
+
+#ifdef MGR_VIEWER
+	std::string debugFile;
+#endif
 };
 
 #endif /* AI_H_ */

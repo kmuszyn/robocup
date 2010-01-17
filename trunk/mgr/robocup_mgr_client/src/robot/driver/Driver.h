@@ -39,7 +39,7 @@ private:
 
 	gazebo::PositionIface * posIface;
 
-	std::string modelName; //TODO: to jest nadmiarowe...
+	std::string modelName; //TODO: to jest nadmiarowe... ale uzywane do zapisu danych do debugowania
 
 	static log4cxx::LoggerPtr logger;
 

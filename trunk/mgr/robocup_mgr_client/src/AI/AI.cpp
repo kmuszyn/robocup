@@ -10,6 +10,14 @@
 
 AI::AI(std::string robotName, TeamName teamName) : robot(robotName, teamName){
 	task = 0;
+
+#ifdef MGR_VIEWER
+	//clear file used to write debug data
+	debugFile = robotName + ".txt";
+	std::ofstream file;
+	file.open(debugFile.c_str(),std::ios::out);
+	file.close();
+#endif
 }
 
 AI::~AI() {
@@ -29,6 +37,10 @@ void AI::act(){
 		task = 0;
 	}
 
+#ifdef MGR_VIEWER
+	writeViewerData();
+#endif
+
 	return;
 }
 
@@ -39,3 +51,19 @@ void AI::generateTask(){
 	Position2d pos(2,2,90);
 	task = new GoTo(robot, pos);
 }
+
+
+#ifdef MGR_VIEWER
+void AI::writeViewerData(){
+	std::ofstream file;
+	file.open(debugFile.c_str(),std::ios::app);
+
+	file<<":step "<<VideoServer::instance().updateCounter<<std::endl;
+	file<<":ai\n";
+	file<<task->getName()<<std::endl;
+	file<<task->getInfo()<<std::endl;
+	file.close();
+
+	robot.writeViewerData();
+}
+#endif

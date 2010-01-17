@@ -43,6 +43,10 @@ public:
 
 	void doTest();
 
+#ifdef MGR_VIEWER
+	void writeViewerData();
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////////////
 private:
 	///Robot's team
