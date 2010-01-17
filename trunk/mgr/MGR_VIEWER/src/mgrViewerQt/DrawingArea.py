@@ -45,7 +45,9 @@ class DrawingArea(QtGui.QWidget):
             y = int(round(i.y * 100,0)) + self.MARGIN
             d = int(round(i.radius * 100, 0)) 
             
+            p.setBrush(QtGui.QColor(200,10,10))
             p.drawEllipse(QtCore.QPointF(x,y), d, d)
             
     def paintField(self,p):
+        p.setBrush(QtGui.QColor(28,140,28))
         p.drawRect(self.MARGIN, self.MARGIN, self.FIELD_WIDTH, self.FIELD_HEIGHT)          
