@@ -7,6 +7,7 @@ Created on 2010-01-14
 from PyQt4 import QtGui, QtCore
 from VideoData import VideoData
 from MainMenu import MainMenu
+from DrawingArea import DrawingArea
 
 class MainWin(QtGui.QMainWindow):
     def __init__(self):
@@ -14,7 +15,12 @@ class MainWin(QtGui.QMainWindow):
         self.resize(400,300)
         self.setWindowTitle('Test QT')
         self.center()
+                       
+        '''adding main container'''
+        self.container = Container(self)            
+        self.setCentralWidget(self.container)
         
+        '''creating top menu'''
         self.statusBar().showMessage('Select file with videoData')
         
         exit = QtGui.QAction('Exit', self)    
@@ -29,10 +35,6 @@ class MainWin(QtGui.QMainWindow):
         file.addAction(videoData)
         file.addAction(exit)
         
-        
-        '''menu creation'''
-        mainMenu = MainMenu(self)
-        self.setCentralWidget(mainMenu)
                         
     def center(self):
         screen = QtGui.QDesktopWidget().screenGeometry()
@@ -49,7 +51,20 @@ class MainWin(QtGui.QMainWindow):
             
     def loadVideoData(self):
         print 'Loading videoData...'    
-        filename = QtGui.QFileDialog.getOpenFileName(self, 'Open file', '/home/kamil/workspace/robocup_mgr_client/Debug')
-        self.vd = VideoData(filename)   
-        self.statusBar().showMessage('Loaded %(steps)03d steps' % {'steps':len(self.vd.steps)})             
+        filename = QtGui.QFileDialog.getOpenFileName(self, 'Open file', 
+                                                     '/home/kamil/workspace/robocup_mgr_client/Debug')
+        self.container.drawingArea.vd = VideoData(filename)   
+        self.statusBar().showMessage('Loaded %(steps)03d steps' 
+                                     % {'steps':len(self.container.drawingArea.vd.steps)})             
+
+class Container(QtGui.QWidget):
+    def __init__(self, parent = None):
+        QtGui.QWidget.__init__(self, parent)                
+        self.drawingArea = DrawingArea(self)
+        self.mainMenu = MainMenu(self)
         
+        hbox = QtGui.QHBoxLayout()    
+        hbox.addWidget(self.drawingArea)
+        hbox.addWidget(self.mainMenu)
+        self.setLayout(hbox)
+            
