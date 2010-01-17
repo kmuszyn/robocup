@@ -80,16 +80,27 @@ void VideoServer::writeViewerData(){
 	std::ofstream file;
 	file.open(viewerFile.c_str(),std::ios::app);
 	file.precision(3);
-	file<<":"<<updateCounter<<std::endl;
+	file<<":step "<<updateCounter<<std::endl;
 
 	//write video data:
-	//posx posy rot radius (for ball: rot 0 radius 0.02)
+	//posx posy rot radius KIND(for ball: rot 0 radius 0.02)
+	//kind: 0 - ball, 1 -  member of team 1, 2 - member of team 2
 	for (VideoData::iterator i = videoData.begin(); i!= videoData.end(); i++)	{
-		if ((*i).first != AppConfig::instance().ball)	//its a robot
+		if ((*i).first != AppConfig::instance().ball){	//its a robot
 			file<<(*i).second->pos.x<<" "<<(*i).second->pos.y<<" "<<(*i).second->rot.degreeValue()
-			<<" "<<AppConfig::instance().radius<<std::endl;
+			<<" "<<AppConfig::instance().radius;
+
+			//which team member is it?
+			if (std::find(AppConfig::instance().team1.begin(),
+					AppConfig::instance().team1.end(), (*i).first) == AppConfig::instance().team1.end() )
+				file<<" 2";
+			else
+				file<<" 1";
+
+			file<<std::endl;
+		}
 		else
-			file<<(*i).second->pos.x<<" "<<(*i).second->pos.y<<" "<<0<<" "<<0.02<<std::endl;
+			file<<(*i).second->pos.x<<" "<<(*i).second->pos.y<<" "<<0<<" "<<"0.02 0"<<std::endl;
 	}
 
 	file.close();
