@@ -43,9 +43,17 @@ class DrawingArea(QtGui.QWidget):
             #print i.x * 100, i.y * 100, int(round(i.radius * 200, 0))
             x = int(round(i.x * 100,0)) + self.MARGIN
             y = self.FIELD_HEIGHT - int(round(i.y * 100,0)) + self.MARGIN
-            d = int(round(i.radius * 100, 0)) 
+            d = int(round(i.radius * 100, 0))             
             
-            p.setBrush(QtGui.QColor(200,10,10))
+            color = QtGui.QColor(250,110,30) #orange            
+            
+            if i.team == 1:
+                color = QtGui.QColor(200,10,10)
+                
+            if i.team == 2:
+                color = QtGui.QColor(20,30,190)
+            
+            p.setBrush(color)
             p.drawEllipse(QtCore.QPointF(x,y), d, d)
             
     def paintField(self,p):
