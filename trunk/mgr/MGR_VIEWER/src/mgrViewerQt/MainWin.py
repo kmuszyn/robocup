@@ -11,14 +11,14 @@ from DrawingArea import DrawingArea
 
 class MainWin(QtGui.QMainWindow):
     def __init__(self):
-        QtGui.QMainWindow.__init__(self)
-        self.resize(400,300)
+        QtGui.QMainWindow.__init__(self)      
         self.setWindowTitle('Test QT')
         self.center()
                        
         '''adding main container'''
         self.container = Container(self)            
         self.setCentralWidget(self.container)
+        self.adjustSize()
         
         '''creating top menu'''
         self.statusBar().showMessage('Select file with videoData')
@@ -42,12 +42,13 @@ class MainWin(QtGui.QMainWindow):
         self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
         
     def closeEvent(self, event):
-        reply = QtGui.QMessageBox.question(self, 'Message', 'Are you sure?', QtGui.QMessageBox.No, 
-                                           QtGui.QMessageBox.Yes)
-        if reply == QtGui.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
+        event.accept()
+       # reply = QtGui.QMessageBox.question(self, 'Message', 'Are you sure?', QtGui.QMessageBox.No, 
+       #                                    QtGui.QMessageBox.Yes)
+      #  if reply == QtGui.QMessageBox.Yes:
+      #      event.accept()
+      #  else:
+      #      event.ignore()
             
     def loadVideoData(self):
         print 'Loading videoData...'    
@@ -55,7 +56,9 @@ class MainWin(QtGui.QMainWindow):
                                                      '/home/kamil/workspace/robocup_mgr_client/Debug')
         self.container.drawingArea.vd = VideoData(filename)   
         self.statusBar().showMessage('Loaded %(steps)03d steps' 
-                                     % {'steps':len(self.container.drawingArea.vd.steps)})             
+                                     % {'steps':len(self.container.drawingArea.vd.steps)}) 
+          
+        self.container.mainMenu.enableVideoData(len(self.container.drawingArea.vd.steps))         
 
 class Container(QtGui.QWidget):
     def __init__(self, parent = None):
@@ -67,4 +70,11 @@ class Container(QtGui.QWidget):
         hbox.addWidget(self.drawingArea)
         hbox.addWidget(self.mainMenu)
         self.setLayout(hbox)
+            
+        '''main menu slider connection'''
+        self.connect(self.mainMenu.slider, QtCore.SIGNAL('valueChanged(int)'), self.sliderAction)
+        
+    def sliderAction(self,value):
+        self.mainMenu.changeSliderValue(value)
+        self.drawingArea.setTimeStep(value)    
             
