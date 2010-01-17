@@ -9,6 +9,7 @@ from VideoData import VideoData
 from MainMenu import MainMenu
 from DrawingArea import DrawingArea
 from Config import Config
+import os
 
 class MainWin(QtGui.QMainWindow):
     def __init__(self):
@@ -69,7 +70,21 @@ class MainWin(QtGui.QMainWindow):
             self.statusBar().showMessage('Loaded %(steps)03d steps' 
                                          % {'steps':len(self.container.drawingArea.vd.steps)}) 
               
-            self.container.mainMenu.enableVideoData(len(self.container.drawingArea.vd.steps)-1)        
+            self.container.mainMenu.enableVideoData(len(self.container.drawingArea.vd.steps)-1) 
+            
+            if len(self.config.modelFiles) > 0:
+                self.loadModelsData()
+    def loadModelsData(self):
+        dir = os.path.dirname(self.config.videoDataFile)
+        self.container.drawingArea.models = []
+        for model in self.config.modelFiles:
+            filename =  dir +'/'+ model+'.txt'
+            md = ModelData(filename)
+            if md != None:
+                self.container.drawingArea.models.append(md)
+                to jest syf, bo tez menu musi miec do tego dostep!
+            
+            
 
 class Container(QtGui.QWidget):
     def __init__(self, parent = None):
