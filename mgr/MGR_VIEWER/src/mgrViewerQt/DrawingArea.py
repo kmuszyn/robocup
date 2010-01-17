@@ -42,7 +42,7 @@ class DrawingArea(QtGui.QWidget):
             #print i.x, i.y, i.radius
             #print i.x * 100, i.y * 100, int(round(i.radius * 200, 0))
             x = int(round(i.x * 100,0)) + self.MARGIN
-            y = int(round(i.y * 100,0)) + self.MARGIN
+            y = self.FIELD_HEIGHT - int(round(i.y * 100,0)) + self.MARGIN
             d = int(round(i.radius * 100, 0)) 
             
             p.setBrush(QtGui.QColor(200,10,10))
