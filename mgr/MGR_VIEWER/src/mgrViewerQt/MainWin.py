@@ -54,11 +54,11 @@ class MainWin(QtGui.QMainWindow):
         print 'Loading videoData...'    
         filename = QtGui.QFileDialog.getOpenFileName(self, 'Open file', 
                                                      '/home/kamil/workspace/robocup_mgr_client/Debug')
-        self.container.drawingArea.vd = VideoData(filename)   
+        self.container.drawingArea.setVideoData(VideoData(filename))   
         self.statusBar().showMessage('Loaded %(steps)03d steps' 
                                      % {'steps':len(self.container.drawingArea.vd.steps)}) 
           
-        self.container.mainMenu.enableVideoData(len(self.container.drawingArea.vd.steps))         
+        self.container.mainMenu.enableVideoData(len(self.container.drawingArea.vd.steps)-1)         
 
 class Container(QtGui.QWidget):
     def __init__(self, parent = None):
