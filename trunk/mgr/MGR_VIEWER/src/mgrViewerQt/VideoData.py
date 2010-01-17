@@ -32,6 +32,7 @@ class VideoData:
                 tmpItem.y = float(line[1])
                 tmpItem.rot = float(line[2])
                 tmpItem.radius = float(line[3])
+                tmpItem.team = float(line[4])
                 tmpList.append(tmpItem)
                     
         file.close() 
@@ -42,6 +43,7 @@ class VideoDataItem:
     y = 0
     rot = 0
     radius = 0
+    team = 0
 
           
         
