@@ -5,7 +5,8 @@ Created on 2010-01-14
 '''
 
 from PyQt4 import QtGui, QtCore
-from videoData import VideoData
+from VideoData import VideoData
+from MainMenu import MainMenu
 
 class MainWin(QtGui.QMainWindow):
     def __init__(self):
@@ -28,6 +29,10 @@ class MainWin(QtGui.QMainWindow):
         file.addAction(videoData)
         file.addAction(exit)
         
+        
+        '''menu creation'''
+        mainMenu = MainMenu(self)
+        self.setCentralWidget(mainMenu)
                         
     def center(self):
         screen = QtGui.QDesktopWidget().screenGeometry()
@@ -46,5 +51,5 @@ class MainWin(QtGui.QMainWindow):
         print 'Loading videoData...'    
         filename = QtGui.QFileDialog.getOpenFileName(self, 'Open file', '/home/kamil/workspace/robocup_mgr_client/Debug')
         self.vd = VideoData(filename)   
-        self.statusBar().showMessage('Loaded %(steps)03d steps' % {'steps':len(self.vd.steps)})     
+        self.statusBar().showMessage('Loaded %(steps)03d steps' % {'steps':len(self.vd.steps)})             
         
