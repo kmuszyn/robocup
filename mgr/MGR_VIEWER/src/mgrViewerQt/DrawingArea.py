@@ -9,6 +9,7 @@ class DrawingArea(QtGui.QWidget):
     
     timeStep = 0;
     vd = None; #video Data
+    models = []
     MARGIN = 10;
     FIELD_WIDTH = 540
     FIELD_HEIGHT = 740
