@@ -80,14 +80,33 @@ class MainWin(QtGui.QMainWindow):
         self.container.mainMenu.enableVideoData(stepsCount)
         self.container.drawingArea.vd = self.simData.getVideoData(0)
         
+        if self.simData.modelsDataLoaded():            
+            self.container.mainMenu.enableModelData(True)      
+            tmp = dict()
+            for k in self.simData.modelData.keys():
+                tmp[k] = self.simData.modelData[k].steps[0]          
+            self.container.mainMenu.setModelData(tmp)
+            self.container.mainMenu.initModelList(self.simData.modelData.keys())      
+            
+            #TODO: model data display - czy przekazywac cale model data, czy tylko slownik [red0 : ModelData]
+        
     def bindActions(self):
         '''main menu slider connection'''
         self.connect(self.container.mainMenu.slider, QtCore.SIGNAL('valueChanged(int)'), self.sliderAction)
+        self.connect(self.container.mainMenu.combo, QtCore.SIGNAL('currentIndexChanged (const QString&)'), self.comboAction)
         
     def sliderAction(self,value):
         self.container.mainMenu.changeSliderValue(value)
         self.container.drawingArea.vd = self.simData.getVideoData(value)
+        tmp = dict()
+        for k in self.simData.modelData.keys():
+            tmp[k] = self.simData.modelData[k].steps[value]
+        self.container.mainMenu.setModelData(tmp)
         self.container.drawingArea.repaint()
+        
+    def comboAction(self, value):
+        print 'Combo: ', value
+        self.container.mainMenu.dispModelData(value)  
             
 
 class Container(QtGui.QWidget):

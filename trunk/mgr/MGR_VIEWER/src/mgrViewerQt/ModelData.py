@@ -18,12 +18,11 @@ class ModelData:
         aiP = re.compile(r':ai(.)*')
         robotP = re.compile(r':robot(.)*')
         
-        dataItem = []
+        dataItem = None
         
         line=file.readline()
         while  line != "":
-            print line
-            if stepP.match(line):
+            if stepP.match(line):                
                 if dataItem != None:
                     self.steps.append(dataItem)
                 dataItem = ModelDataItem()

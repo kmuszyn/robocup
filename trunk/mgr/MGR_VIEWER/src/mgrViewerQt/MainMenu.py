@@ -22,23 +22,27 @@ class MainMenu(QtGui.QWidget):
       #  self.slider.setMinimum(0)
        # self.slider.setMaximum(200)
        
-        '''some labels'''
-        tasklabel = QtGui.QLabel('Task: goTo')
-        infoLabel = QtGui.QLabel('(2,2), rot 0')
+        
        
         '''combo box for robot files'''
+                        
+        self.combo = QtGui.QComboBox(self)
         
-        combo = QtGui.QComboBox(self)
-        combo.addItem('Test1')
-        combo.addItem('Test2')
-        combo.addItem('Test3')
+        ''' position, rotation'''
+        self.position = QtGui.QLabel("Pos:")
+        self.rotation = QtGui.QLabel("Rot: ")
+        
+        '''AI labels'''
+        self.taskName = QtGui.QLabel('Task:')
+        self.taskDesc = QtGui.QLabel('Details:')
+        
         
         '''check box'''
-        cb = QtGui.QCheckBox('Hide RRT')
-        cb.setFocusPolicy(QtCore.Qt.NoFocus)  
+        #cb = QtGui.QCheckBox('Hide RRT')
+        #cb.setFocusPolicy(QtCore.Qt.NoFocus)  
         
-        cb2 = QtGui.QCheckBox('Hide Speed')
-        cb2.setFocusPolicy(QtCore.Qt.NoFocus)
+       # cb2 = QtGui.QCheckBox('Hide Speed')
+       # cb2.setFocusPolicy(QtCore.Qt.NoFocus)
         
         '''layout'''
         vbox = QtGui.QVBoxLayout()        
@@ -46,18 +50,43 @@ class MainMenu(QtGui.QWidget):
         vbox.addWidget(self.slider)
         vbox.addWidget(self.sliderValue)
         vbox.addStretch(1)
-        vbox.addWidget(combo)     
-        vbox.addWidget(tasklabel)
-        vbox.addWidget(infoLabel)
-        vbox.addWidget(cb)
-        vbox.addWidget(cb2)      
+        vbox.addWidget(self.combo)     
+        vbox.addWidget(self.position)
+        vbox.addWidget(self.rotation)
+        vbox.addWidget(self.taskName)
+        vbox.addWidget(self.taskDesc)      
         self.setLayout(vbox)
+        
+        self.enableModelData(False)
         
     def enableVideoData(self, maxStepTime):
         self.slider.setEnabled(True)
         self.slider.setValue(0)
         self.changeSliderValue(0)   
         self.slider.setMaximum(maxStepTime-1)
+        
+    def enableModelData(self, enabled):
+        self.combo.setEnabled(enabled)
+        self.position.setEnabled(enabled)
+        self.rotation.setEnabled(enabled)
+        self.taskName.setEnabled(enabled)
+        self.taskDesc.setEnabled(enabled)
+        
+    def initModelList(self, items):
+        self.combo.clear()
+        for i in items:
+            self.combo.addItem(i)
+            
+    def setModelData(self, data):
+        self.modelData = data
+        
+    def dispModelData(self, model):
+        print self.modelData
+        data = self.modelData[str(model)]
+        print data
+        self.position = 'Pos:', data.robot['x'], data.robot['y']
+        self.rotation = 'Rot:', data.robot['rot']
+        
         
     def changeSliderValue(self, value):
         if self.slider.isEnabled():
