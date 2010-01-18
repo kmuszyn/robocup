@@ -8,8 +8,10 @@ Allows GUI and data separation
 '''
 from Config import Config
 from VideoData import VideoData
+from ModelData import ModelData
+import os
 
-class SimData:
+class SimData:    
     def __init__(self):
         '''config gen'''
         self.config = Config()        
@@ -29,14 +31,13 @@ class SimData:
         return self.videoData.steps[stepNr]
  
     def loadModelsData(self):
-        pass
-        #dir = os.path.dirname(self.config.videoDataFile)
-        #self.container.drawingArea.models = []
-        #for model in self.config.modelFiles:
-        #    filename =  dir +'/'+ model+'.txt'
-        ##    md = ModelData(filename)
-         #   if md != None:
-         #       self.container.drawingArea.models.append(md)
-               # to jest syf, bo tez menu musi miec do tego dostep!
+        self.modelData = dict()
+        dir = os.path.dirname(self.config.videoDataFile)
+        for model in self.config.modelFiles:
+            filename =  dir +'/'+ model+'.txt'
             
+            if os.path.isfile(filename) == True:
+                self.modelData[model] = ModelData(filename)
+                
+        print self.modelData   
  
