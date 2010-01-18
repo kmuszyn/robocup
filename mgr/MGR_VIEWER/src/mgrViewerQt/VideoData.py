@@ -21,9 +21,8 @@ class VideoData:
         models = file.readline()
         models = models[0:-2]
         models = models.split(' ')
-        for m in models:
-            config.modelFiles.append(m)
-        
+        config.modelFiles = models
+                
         for line in file:            
             result = pStep.match(line)
             if result:
