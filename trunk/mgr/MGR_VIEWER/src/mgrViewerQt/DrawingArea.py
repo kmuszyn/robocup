@@ -7,7 +7,6 @@ from PyQt4 import QtGui, QtCore
 
 class DrawingArea(QtGui.QWidget):
     
-    timeStep = 0;
     vd = None; #video Data
     models = []
     MARGIN = 10;
@@ -32,14 +31,8 @@ class DrawingArea(QtGui.QWidget):
             self.setTimeStep(0)
         
         
-    def setTimeStep(self, ts):
-        self.timeStep = ts
-        self.repaint()
-        
-    def paintVideoData(self, p):
-        tmp = self.vd.steps[self.timeStep]
-        
-        for i in tmp:
+    def paintVideoData(self, p):                
+        for i in self.vd:
             #print i.x, i.y, i.radius
             #print i.x * 100, i.y * 100, int(round(i.radius * 200, 0))
             x = int(round(i.x * 100,0)) + self.MARGIN

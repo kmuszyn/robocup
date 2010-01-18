@@ -10,11 +10,12 @@ from MainMenu import MainMenu
 from DrawingArea import DrawingArea
 from Config import Config
 import os
+from SimData import SimData
 
 class MainWin(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)      
-        self.setWindowTitle('Test QT')
+        self.setWindowTitle('MGR VIEWER 1.0')
         self.center()
                        
         '''adding main container'''
@@ -37,9 +38,17 @@ class MainWin(QtGui.QMainWindow):
         file.addAction(videoData)
         file.addAction(exit)
         
-        '''config gen'''
-        self.config = Config()
-        self.loadVideoData(self.config.videoDataFile)           
+        self.simData = SimData()
+        
+        '''binding actions'''
+        self.bindActions()
+        
+        '''pre loading video data from last file'''
+        
+        if self.simData.config.videoDataFile != None:
+            self.loadVideoData(self.simData.config.videoDataFile)    
+            
+                      
                         
     def center(self):
         screen = QtGui.QDesktopWidget().screenGeometry()
@@ -47,8 +56,8 @@ class MainWin(QtGui.QMainWindow):
         self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
         
     def closeEvent(self, event):
-        self.config.disp()
-        self.config.save()
+        self.simData.config.disp()
+        self.simData.config.save()
         event.accept()
        # reply = QtGui.QMessageBox.question(self, 'Message', 'Are you sure?', QtGui.QMessageBox.No, 
        #                                    QtGui.QMessageBox.Yes)
@@ -61,29 +70,24 @@ class MainWin(QtGui.QMainWindow):
         print 'Loading videoData...'    
         filename = QtGui.QFileDialog.getOpenFileName(self, 'Open file', 
                                                      '/home/kamil/workspace/robocup_mgr_client/Debug')
-        self.loadVideoData(filename)    
+        self.loadVideoData(filename)
+                
+    def loadVideoData(self, filename): 
+        self.simData.loadVideoData(filename)    
+        stepsCount = self.simData.videoDataSize()
+        self.statusBar().showMessage('Loaded %(steps)03d steps' 
+                                         % {'steps' : stepsCount})               
+        self.container.mainMenu.enableVideoData(stepsCount)
+        self.container.drawingArea.vd = self.simData.getVideoData(0)
         
-    def loadVideoData(self, filename):
-        if filename!= None:
-            self.config.videoDataFile = filename
-            self.container.drawingArea.setVideoData(VideoData(filename, self.config))   
-            self.statusBar().showMessage('Loaded %(steps)03d steps' 
-                                         % {'steps':len(self.container.drawingArea.vd.steps)}) 
-              
-            self.container.mainMenu.enableVideoData(len(self.container.drawingArea.vd.steps)-1) 
-            
-            if len(self.config.modelFiles) > 0:
-                self.loadModelsData()
-    def loadModelsData(self):
-        dir = os.path.dirname(self.config.videoDataFile)
-        self.container.drawingArea.models = []
-        for model in self.config.modelFiles:
-            filename =  dir +'/'+ model+'.txt'
-            md = ModelData(filename)
-            if md != None:
-                self.container.drawingArea.models.append(md)
-                to jest syf, bo tez menu musi miec do tego dostep!
-            
+    def bindActions(self):
+        '''main menu slider connection'''
+        self.connect(self.container.mainMenu.slider, QtCore.SIGNAL('valueChanged(int)'), self.sliderAction)
+        
+    def sliderAction(self,value):
+        self.container.mainMenu.changeSliderValue(value)
+        self.container.drawingArea.vd = self.simData.getVideoData(value)
+        self.container.drawingArea.repaint()
             
 
 class Container(QtGui.QWidget):
@@ -97,10 +101,5 @@ class Container(QtGui.QWidget):
         hbox.addWidget(self.mainMenu)
         self.setLayout(hbox)
             
-        '''main menu slider connection'''
-        self.connect(self.mainMenu.slider, QtCore.SIGNAL('valueChanged(int)'), self.sliderAction)
-        
-    def sliderAction(self,value):
-        self.mainMenu.changeSliderValue(value)
-        self.drawingArea.setTimeStep(value)    
+    
             

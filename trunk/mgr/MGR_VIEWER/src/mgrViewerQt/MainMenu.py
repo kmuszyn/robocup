@@ -57,7 +57,7 @@ class MainMenu(QtGui.QWidget):
         self.slider.setEnabled(True)
         self.slider.setValue(0)
         self.changeSliderValue(0)   
-        self.slider.setMaximum(maxStepTime)
+        self.slider.setMaximum(maxStepTime-1)
         
     def changeSliderValue(self, value):
         if self.slider.isEnabled():
