@@ -40,4 +40,7 @@ class SimData:
                 self.modelData[model] = ModelData(filename)
                 
         print self.modelData   
+        
+    def modelsDataLoaded(self):
+        return len(self.modelData)> 0
  
