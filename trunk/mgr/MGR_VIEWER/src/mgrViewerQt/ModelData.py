@@ -18,13 +18,14 @@ class ModelData:
         aiP = re.compile(r':ai(.)*')
         robotP = re.compile(r':robot(.)*')
         
-        dataItem = None
+        dataItem = ModelDataItem()
         
         line=file.readline()
         while  line != "":
             if stepP.match(line):                
-                if dataItem != None:
+                if dataItem.task != "":        
                     self.steps.append(dataItem)
+                                  
                 dataItem = ModelDataItem()
             elif aiP.match(line):
                 taskName = file.readline()[0:-1]
@@ -41,13 +42,12 @@ class ModelData:
                     
             line=file.readline()
                         
-        file.close() 
+        file.close()
+
 
 class ModelDataItem:
-    
-    task = ""
-    taskDesc = ""
-    robot = dict()
         
     def __init__(self):
-        pass
+        self.task = ""
+        self.taskDesc = ""
+        self.robot = dict()

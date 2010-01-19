@@ -78,14 +78,24 @@ class MainMenu(QtGui.QWidget):
             self.combo.addItem(i)
             
     def setModelData(self, data):
-        self.modelData = data
+        print 'Set model data!', data
+        self.modelData = data        
+        model = self.combo.currentText()
+        print 'model', model
+        if model :
+            self.dispModelData(model)
         
     def dispModelData(self, model):
-        print self.modelData
+        print 'Disp model data'
         data = self.modelData[str(model)]
-        print data
-        self.position = 'Pos:', data.robot['x'], data.robot['y']
-        self.rotation = 'Rot:', data.robot['rot']
+        print 'data', data
+        #print data
+        robotPos = 'Pos: %(x)2.2f %(y)2.2f' % {'x' : float(data.robot['x']), 'y': float(data.robot['y'])}
+        robotRot = 'Rot: %(rot)2.2f' % {'rot' : float(data.robot['rot'])}
+        self.position.setText(robotPos)
+        self.rotation.setText(robotRot)
+        self.taskName.setText('Task: ' + data.task)
+        self.taskDesc.setText('Details: ' + data.taskDesc)
         
         
     def changeSliderValue(self, value):
