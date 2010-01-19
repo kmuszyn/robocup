@@ -87,8 +87,6 @@ class MainWin(QtGui.QMainWindow):
                 tmp[k] = self.simData.modelData[k].steps[0]          
             self.container.mainMenu.setModelData(tmp)
             self.container.mainMenu.initModelList(self.simData.modelData.keys())      
-            
-            #TODO: model data display - czy przekazywac cale model data, czy tylko slownik [red0 : ModelData]
         
     def bindActions(self):
         '''main menu slider connection'''
@@ -100,7 +98,7 @@ class MainWin(QtGui.QMainWindow):
         self.container.drawingArea.vd = self.simData.getVideoData(value)
         tmp = dict()
         for k in self.simData.modelData.keys():
-            tmp[k] = self.simData.modelData[k].steps[value]
+            tmp[k] = self.simData.modelData[k].steps[value]                    
         self.container.mainMenu.setModelData(tmp)
         self.container.drawingArea.repaint()
         
