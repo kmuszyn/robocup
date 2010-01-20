@@ -16,7 +16,16 @@ class MainMenu(QtGui.QWidget):
         
         self.slider = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         self.slider.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.slider.setEnabled(False)                    
+        self.slider.setEnabled(False)        
+        
+        '''prev/next'''
+        
+        self.prev = QtGui.QPushButton('<<')
+        self.next = QtGui.QPushButton('>>')
+        
+        browseHBox = QtGui.QHBoxLayout()
+        browseHBox.addWidget(self.prev)
+        browseHBox.addWidget(self.next)            
         
         #self.slider.setTickPosition(QtGui.QSlider.TicksRight)
       #  self.slider.setMinimum(0)
@@ -49,6 +58,7 @@ class MainMenu(QtGui.QWidget):
         vbox.addWidget(sliderLabel)
         vbox.addWidget(self.slider)
         vbox.addWidget(self.sliderValue)
+        vbox.addLayout(browseHBox)
         vbox.addStretch(1)
         vbox.addWidget(self.combo)     
         vbox.addWidget(self.position)
@@ -64,6 +74,8 @@ class MainMenu(QtGui.QWidget):
         self.slider.setValue(0)
         self.changeSliderValue(0)   
         self.slider.setMaximum(maxStepTime-1)
+        self.prev.setEnabled(True)
+        self.next.setEnabled(True)
         
     def enableModelData(self, enabled):
         self.combo.setEnabled(enabled)
@@ -72,24 +84,20 @@ class MainMenu(QtGui.QWidget):
         self.taskName.setEnabled(enabled)
         self.taskDesc.setEnabled(enabled)
         
+        
     def initModelList(self, items):
         self.combo.clear()
         for i in items:
             self.combo.addItem(i)
             
     def setModelData(self, data):
-        print 'Set model data!', data
         self.modelData = data        
         model = self.combo.currentText()
-        print 'model', model
         if model :
             self.dispModelData(model)
         
     def dispModelData(self, model):
-        print 'Disp model data'
         data = self.modelData[str(model)]
-        print 'data', data
-        #print data
         robotPos = 'Pos: %(x)2.2f %(y)2.2f' % {'x' : float(data.robot['x']), 'y': float(data.robot['y'])}
         robotRot = 'Rot: %(rot)2.2f' % {'rot' : float(data.robot['rot'])}
         self.position.setText(robotPos)
