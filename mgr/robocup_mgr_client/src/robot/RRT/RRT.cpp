@@ -100,3 +100,13 @@ Vector2d RRT::randomTarget(){
 float RRT::getRand(){
 	return ((float) rand() / RAND_MAX);
 }
+
+#ifdef MGR_VIEWER
+void RRT::writeViewerData(std::ofstream & s){
+	rrttree->writeViewerData(s);
+}
+
+int RRT::countNodes(){
+	return rrttree->countNodes();
+}
+#endif

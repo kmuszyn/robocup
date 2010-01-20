@@ -35,6 +35,12 @@ public:
 	void print2tex(const Vector2d & start, const Vector2d & end, GameState * gameStatePtr);
 	void print2tex_(RRTTreeNode * node, std::ofstream & file);
 
+#ifdef MGR_VIEWER
+	int countNodes();
+	int countNodes_(RRTTreeNode * root);
+	void writeViewerData(std::ofstream & s);
+#endif
+
 private:
 	RRTTreeNode * root;
 
@@ -54,6 +60,11 @@ public:
 	/////////////////////////////////////
 	RRTTreeNode * parent;
 	std::vector<RRTTreeNode *> children;
+
+#ifdef MGR_VIEWER
+	int countNodes();
+	void writeViewerData(std::ofstream & s);
+#endif
 };
 
 #endif /* RRTTREE_H_ */

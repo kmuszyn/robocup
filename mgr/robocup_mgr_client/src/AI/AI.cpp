@@ -30,17 +30,17 @@ void AI::act(){
 	//if there is no task
 	if (task == 0)
 		generateTask();
+
+#ifdef MGR_VIEWER
+	writeViewerData();
+#endif
+
 	if (task->valid())
 		task->execute();
 	else{
 		delete task;
 		task = 0;
 	}
-
-#ifdef MGR_VIEWER
-	writeViewerData();
-#endif
-
 	return;
 }
 
@@ -48,7 +48,10 @@ void AI::act(){
 
 void AI::generateTask(){
 	BOOST_ASSERT(task==0);
-	Position2d pos(2,2,90);
+	float x = (float(rand()) / RAND_MAX) * 5.4;
+	float y = (float(rand()) / RAND_MAX) * 7.4;
+	//Position2d pos(2,2,90);
+	Position2d pos(x,y,90);
 	task = new GoTo(robot, pos);
 }
 
@@ -64,6 +67,6 @@ void AI::writeViewerData(){
 	file<<task->getInfo()<<std::endl;
 	file.close();
 
-	robot.writeViewerData();
+	//robot.writeViewerData();
 }
 #endif

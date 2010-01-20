@@ -174,6 +174,17 @@ void RRTTree::print2tex_(RRTTreeNode * node, std::ofstream & file){
 	}
 }
 
+#ifdef MGR_VIEWER
+int RRTTree::countNodes(){
+	return root->countNodes();
+}
+
+void RRTTree::writeViewerData(std::ofstream & s){
+	root->writeViewerData(s);
+}
+
+#endif
+
 /////////////////////// RRTTreeNode //////////////////////////////////
 
 RRTTreeNode::RRTTreeNode(Vector2d pos, RRTTreeNode * parent){
@@ -181,4 +192,28 @@ RRTTreeNode::RRTTreeNode(Vector2d pos, RRTTreeNode * parent){
 	this->parent = parent;
 }
 
+#ifdef MGR_VIEWER
+int RRTTreeNode::countNodes(){
+	int result = 1; //this node
+	if (children.size()>0){
+		std::vector<RRTTreeNode *>::iterator ii = children.begin();
+		for (; ii != children.end(); ii++) {
+			result += (*ii)->countNodes();
+		}
+	}
 
+	return result;
+}
+
+void RRTTreeNode::writeViewerData(std::ofstream & s){
+
+	s<<position.x<<" "<<position.y<<std::endl;
+
+	if (children.size()>0){
+		std::vector<RRTTreeNode *>::iterator ii = children.begin();
+		for (; ii != children.end(); ii++) {
+			(*ii)->writeViewerData(s);
+		}
+	}
+}
+#endif
