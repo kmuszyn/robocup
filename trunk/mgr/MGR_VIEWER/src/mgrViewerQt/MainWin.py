@@ -58,18 +58,21 @@ class MainWin(QtGui.QMainWindow):
     def closeEvent(self, event):
         self.simData.config.disp()
         self.simData.config.save()
-        event.accept()
-       # reply = QtGui.QMessageBox.question(self, 'Message', 'Are you sure?', QtGui.QMessageBox.No, 
-       #                                    QtGui.QMessageBox.Yes)
-      #  if reply == QtGui.QMessageBox.Yes:
-      #      event.accept()
-      #  else:
-      #      event.ignore()
+       # event.accept()
+        reply = QtGui.QMessageBox.question(self, 'Message', 'Are you sure?', QtGui.QMessageBox.No, 
+                                           QtGui.QMessageBox.Yes)
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
             
     def loadVideoDataDialog(self):
         print 'Loading videoData...'    
-        filename = QtGui.QFileDialog.getOpenFileName(self, 'Open file', 
-                                                     '/home/kamil/workspace/robocup_mgr_client/Debug')
+        #filename = QtGui.QFileDialog.getOpenFileName(self, 'Open file', 
+        #                                             '/home/kamil/workspace/robocup_mgr_client/Debug')
+        
+        filename = QtGui.QFileDialog.getOpenFileName(self, 'Open file','.')
+        
         self.loadVideoData(filename)
                 
     def loadVideoData(self, filename): 
@@ -94,6 +97,7 @@ class MainWin(QtGui.QMainWindow):
         self.connect(self.container.mainMenu.combo, QtCore.SIGNAL('currentIndexChanged (const QString&)'), self.comboAction)
         self.connect(self.container.mainMenu.prev, QtCore.SIGNAL('clicked()'), self.decSlider)
         self.connect(self.container.mainMenu.next, QtCore.SIGNAL('clicked()'), self.incSlider)
+        self.connect(self.container.mainMenu.hideRRT, QtCore.SIGNAL('stateChanged(int)'), self.container.drawingArea.repaint)
 
     def decSlider(self):
         val = self.container.mainMenu.slider.value()
@@ -121,7 +125,7 @@ class MainWin(QtGui.QMainWindow):
         
     def comboAction(self, value):
         self.container.mainMenu.dispModelData(value)  
-            
+        self.container.drawingArea.repaint()   
 
 class Container(QtGui.QWidget):
     def __init__(self, parent = None):

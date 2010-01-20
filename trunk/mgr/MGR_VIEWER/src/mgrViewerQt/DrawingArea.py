@@ -23,6 +23,7 @@ class DrawingArea(QtGui.QWidget):
         self.paintField(p)            
         if self.vd != None:
             self.paintVideoData(p)
+            self.paintRRT(p)
         p.end()
         
     def setVideoData(self, data):
@@ -49,6 +50,25 @@ class DrawingArea(QtGui.QWidget):
             
             p.setBrush(color)
             p.drawEllipse(QtCore.QPointF(x,y), d, d)
+    
+    def paintRRT(self,p):
+        menu = self.parentWidget().mainMenu
+        
+        if menu.hideRRT.isChecked():
+            return
+        
+        rrt = menu.getRRT()
+        if len(rrt) > 0:
+            for pos in rrt:
+                
+                x = int(round(pos.x * 100,0)) + self.MARGIN
+                y = self.FIELD_HEIGHT - int(round(pos.y * 100,0)) + self.MARGIN
+                
+                pen = QtGui.QPen()
+                pen.setColor(QtCore.Qt.black)
+                pen.setWidth(2)
+                p.setPen(pen)
+                p.drawPoint(x,y)
             
     def paintField(self,p):
         p.setBrush(QtGui.QColor(28,140,28))
