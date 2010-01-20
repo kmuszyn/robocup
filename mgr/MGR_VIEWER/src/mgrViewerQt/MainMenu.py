@@ -47,8 +47,8 @@ class MainMenu(QtGui.QWidget):
         
         
         '''check box'''
-        #cb = QtGui.QCheckBox('Hide RRT')
-        #cb.setFocusPolicy(QtCore.Qt.NoFocus)  
+        self.hideRRT = QtGui.QCheckBox('Hide RRT')
+        self.hideRRT.setFocusPolicy(QtCore.Qt.NoFocus)  
         
        # cb2 = QtGui.QCheckBox('Hide Speed')
        # cb2.setFocusPolicy(QtCore.Qt.NoFocus)
@@ -64,7 +64,8 @@ class MainMenu(QtGui.QWidget):
         vbox.addWidget(self.position)
         vbox.addWidget(self.rotation)
         vbox.addWidget(self.taskName)
-        vbox.addWidget(self.taskDesc)      
+        vbox.addWidget(self.taskDesc)
+        vbox.addWidget(self.hideRRT)      
         self.setLayout(vbox)
         
         self.enableModelData(False)
@@ -104,7 +105,14 @@ class MainMenu(QtGui.QWidget):
         self.rotation.setText(robotRot)
         self.taskName.setText('Task: ' + data.task)
         self.taskDesc.setText('Details: ' + data.taskDesc)
-        
+   
+    def getRRT(self):
+        model = self.combo.currentText()
+        if model:
+            data = self.modelData[str(model)]
+            return data.rrt
+        else:    
+            return []
         
     def changeSliderValue(self, value):
         if self.slider.isEnabled():
