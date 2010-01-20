@@ -44,7 +44,7 @@ public:
 	void doTest();
 
 #ifdef MGR_VIEWER
-	void writeViewerData();
+	void writeViewerData(RRT & rrt);
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////////

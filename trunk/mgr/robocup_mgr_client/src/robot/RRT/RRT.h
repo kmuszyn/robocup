@@ -32,6 +32,11 @@ public:
 	Vector2d plan(Vector2d goal);
 	Vector2d extend(Vector2d begin, Vector2d goal);
 
+#ifdef MGR_VIEWER
+	void writeViewerData(std::ofstream & s);
+	int countNodes();
+#endif
+
 private:
 	Vector2d chooseTarget(Vector2d goal);
 	Vector2d randomTarget();
