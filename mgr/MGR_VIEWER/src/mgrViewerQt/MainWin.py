@@ -92,6 +92,23 @@ class MainWin(QtGui.QMainWindow):
         '''main menu slider connection'''
         self.connect(self.container.mainMenu.slider, QtCore.SIGNAL('valueChanged(int)'), self.sliderAction)
         self.connect(self.container.mainMenu.combo, QtCore.SIGNAL('currentIndexChanged (const QString&)'), self.comboAction)
+        self.connect(self.container.mainMenu.prev, QtCore.SIGNAL('clicked()'), self.decSlider)
+        self.connect(self.container.mainMenu.next, QtCore.SIGNAL('clicked()'), self.incSlider)
+
+    def decSlider(self):
+        val = self.container.mainMenu.slider.value()
+        if val - 1 > self.container.mainMenu.slider.minimum():
+            val = val -1
+        else:
+            val = self.container.mainMenu.slider.minimum()            
+        self.container.mainMenu.slider.setValue(val)   
+    def incSlider(self):
+        val = self.container.mainMenu.slider.value()
+        if val + 1 < self.container.mainMenu.slider.maximum():
+            val = val +1
+        else:
+            val = self.container.mainMenu.slider.maximum()            
+        self.container.mainMenu.slider.setValue(val)
         
     def sliderAction(self,value):
         self.container.mainMenu.changeSliderValue(value)
@@ -103,7 +120,6 @@ class MainWin(QtGui.QMainWindow):
         self.container.drawingArea.repaint()
         
     def comboAction(self, value):
-        print 'Combo: ', value
         self.container.mainMenu.dispModelData(value)  
             
 

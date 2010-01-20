@@ -17,6 +17,7 @@ class ModelData:
         stepP = re.compile(r':step[a-z]*')
         aiP = re.compile(r':ai(.)*')
         robotP = re.compile(r':robot(.)*')
+        rrtP = re.compile(r':rrt(.)*')
         
         dataItem = ModelDataItem()
         
@@ -38,7 +39,18 @@ class ModelData:
                 pos = pos.split(' ')
                 dataItem.robot['x'] = pos[0]
                 dataItem.robot['y'] = pos[1]
-                dataItem.robot['rot'] = pos[2]              
+                dataItem.robot['rot'] = pos[2]
+            elif rrtP.match(line):
+                line = line.split(' ')
+                rrtSize = int(line[1])
+                for i in range(0, rrtSize):
+                    line = file.readline()
+                    line = line.split(' ')
+                    pos = RRTPos()
+                    pos.x = float(line[0])
+                    pos.y = float(line[1])
+                 
+                    dataItem.rrt.append(pos)
                     
             line=file.readline()
                         
@@ -51,3 +63,9 @@ class ModelDataItem:
         self.task = ""
         self.taskDesc = ""
         self.robot = dict()
+        self.rrt = []
+        
+class RRTPos:
+    def __init__(self):
+        x = 0.0
+        y = 0.0        

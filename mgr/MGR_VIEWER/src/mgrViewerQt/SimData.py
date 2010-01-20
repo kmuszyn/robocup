@@ -32,14 +32,12 @@ class SimData:
  
     def loadModelsData(self):
         self.modelData = dict()
-        dir = os.path.dirname(self.config.videoDataFile)
+        dir = os.path.dirname(str(self.config.videoDataFile))
         for model in self.config.modelFiles:
             filename =  dir +'/'+ model+'.txt'
             
             if os.path.isfile(filename) == True:
-                self.modelData[model] = ModelData(filename)
-                
-        print self.modelData   
+                self.modelData[model] = ModelData(filename)            
         
     def modelsDataLoaded(self):
         return len(self.modelData)> 0
