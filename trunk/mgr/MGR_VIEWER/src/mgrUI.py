@@ -12,6 +12,8 @@ class DrawingArea(QtGui.QWidget):
     FIELD_WIDTH = 540
     FIELD_HEIGHT = 740
     
+    step = []
+    
     def __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
         self.setFixedSize(
@@ -41,6 +43,7 @@ class MgrMenu(QtGui.QWidget):
     def build_step_menu(self):           
         self.stepVal = QtGui.QLabel()
         self.stepVal.setText('Current step: 0')
+        self.stepVal.setEnabled(False)
         
         self.vbox.addWidget(self.stepVal)
         
