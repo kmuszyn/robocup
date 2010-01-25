@@ -14,20 +14,20 @@ class MainWin(QtGui.QMainWindow):
         self.setWindowTitle('MGR VIEWER 2.0')
         self.setGeometry(10,10,840,840)
         
-        self.add_scroll()
-        self.populate_scroll()
+        self.addScroll()
+        self.populateScroll()
         
-        self.bind_actions()
+        self.bindActions()
         
-        self.create_menu()
+        self.createMenu()
         
-        self.init_video_data()        
+        self.initVideoData()        
 
-    def add_scroll(self):
+    def addScroll(self):
         self.scroll = QtGui.QScrollArea(self)
         self.setCentralWidget(self.scroll)
         
-    def populate_scroll(self):
+    def populateScroll(self):
         container = QtGui.QWidget()
     
         self.drawingArea = DrawingArea(self)
@@ -40,7 +40,7 @@ class MainWin(QtGui.QMainWindow):
         
         self.scroll.setWidget(container)
         
-    def create_menu(self):
+    def createMenu(self):
         """Creates top menu with file option"""
         
         self.statusBar().showMessage('Select file with videoData')
@@ -49,7 +49,7 @@ class MainWin(QtGui.QMainWindow):
         self.connect(exit, QtCore.SIGNAL('triggered()'), QtCore.SLOT('close()'))
 
         videoData = QtGui.QAction('Load VideoData', self)
-        self.connect(videoData, QtCore.SIGNAL('triggered()'), self.video_data_dialog)
+        self.connect(videoData, QtCore.SIGNAL('triggered()'), self.videoDataDialog)
         
         menubar = self.menuBar()
         file = menubar.addMenu('&File')
@@ -57,24 +57,35 @@ class MainWin(QtGui.QMainWindow):
         file.addAction(videoData)
         file.addAction(exit)
 
-    def init_video_data(self):        
+    def initVideoData(self):        
         self.config = Config()
         if self.config.video_data_OK():
-            self.load_video_data()
+            self.loadVideoData()
         
-    def load_video_data(self):
+    def loadVideoData(self):
         print 'Trying to load data from:', self.config.videoDataFile
         self.videoData = VideoData(self.config)
         
-    def video_data_dialog(self):
+        if self.videoData :
+            self.mgrMenu.setVideoDataLength(len(self.videoData.steps)-1)
+            self.mgrMenu.setVideoDataEnabled(True)
+            self.setVideoData(0)
+        else:
+            self.mgrMenu.setVideoDataEnabled(True)
+        
+    def videoDataDialog(self):
         self.config.videoDataFile = QtGui.QFileDialog.getOpenFileName(self, 'Open file','.')
+        self.loadVideoData()
         
     def closeEvent(self, event):
         self.config.disp()
         self.config.save()
         
-    def bind_actions(self):                
-        pass
+    def bindActions(self):                
+        self.connect(self.mgrMenu.slider, QtCore.SIGNAL('valueChanged(int)'), self.setVideoData)
+        
+    def setVideoData(self, val):
+        self.drawingArea.setVideoData(self.videoData.steps[val])
         
 
 if __name__ == '__main__':
