@@ -5,8 +5,9 @@ Created on 2010-01-24
 '''
 from PyQt4 import QtGui, QtCore
 from mgrUI import DrawingArea, MgrMenu
-from mgrData import Config, VideoData
+from mgrData import Config, VideoData, ModelData
 import sys
+import os
 
 class MainWin(QtGui.QMainWindow):
     def __init__(self):
@@ -70,12 +71,32 @@ class MainWin(QtGui.QMainWindow):
             self.mgrMenu.setVideoDataLength(len(self.videoData.steps)-1)
             self.mgrMenu.setVideoDataEnabled(True)
             self.setVideoData(0)
+            
+            if len(self.config.modelNames) > 0:
+                self.loadModelsData()
+                self.setRobotData(0)
+            
         else:
             self.mgrMenu.setVideoDataEnabled(True)
         
     def videoDataDialog(self):
-        self.config.videoDataFile = QtGui.QFileDialog.getOpenFileName(self, 'Open file','.')
-        self.loadVideoData()
+        tmp = QtGui.QFileDialog.getOpenFileName(self, 'Open file','.')
+        if tmp:
+            self.config.videoDataFile = tmp    
+            self.loadVideoData()
+        
+    def loadModelsData(self):
+        self.modelData = dict()
+        dir = os.path.dirname(str(self.config.videoDataFile))
+        for model in self.config.modelNames:
+            filename =  dir +'/'+ model+'.txt'
+            
+            if os.path.isfile(filename) == True:
+                self.modelData[model] = ModelData(filename)
+        
+        self.mgrMenu.setRobotDataEnabled(True)        
+        self.mgrMenu.addModels(self.config.modelNames)       
+             
         
     def closeEvent(self, event):
         self.config.disp()
@@ -83,10 +104,19 @@ class MainWin(QtGui.QMainWindow):
         
     def bindActions(self):                
         self.connect(self.mgrMenu.slider, QtCore.SIGNAL('valueChanged(int)'), self.setVideoData)
+        self.connect(self.mgrMenu.slider, QtCore.SIGNAL('valueChanged(int)'), self.setRobotData)
+        self.connect(self.mgrMenu.robotCombo, QtCore.SIGNAL('currentIndexChanged(int)'), self.switchRobotData)
         
     def setVideoData(self, val):
         self.drawingArea.setVideoData(self.videoData.steps[val])
         
+    def setRobotData(self, val):        
+        model = str(self.mgrMenu.robotCombo.currentText())
+        self.mgrMenu.setRobotData(self.modelData[model].steps[val])
+        self.drawingArea.setRRT(self.modelData[model].steps[val].rrt)
+        
+    def switchRobotData(self, val):
+        self.setRobotData(self.mgrMenu.slider.value())
 
 if __name__ == '__main__':
     print 'Start'
