@@ -13,6 +13,7 @@ class DrawingArea(QtGui.QWidget):
     FIELD_HEIGHT = 740
     
     data = []
+    rrt = []
     
     def __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
@@ -24,7 +25,9 @@ class DrawingArea(QtGui.QWidget):
         p = QtGui.QPainter()
         p.begin(self)    
         self.paintField(p)
-        self.paintData(p)                   
+        if len(self.data) > 0 : self.paintData(p)
+        if len(self.rrt) > 0 : self.paintRRT(p)
+                           
         p.end()
             
     def paintField(self,p):
@@ -48,25 +51,54 @@ class DrawingArea(QtGui.QWidget):
                 color = QtGui.QColor(20,30,190)
             
             p.setBrush(color)
-            p.drawEllipse(QtCore.QPointF(x,y), d, d)    
+            p.drawEllipse(QtCore.QPointF(x,y), d, d)   
+            
+    def paintRRT(self,p):
+        #menu = self.parentWidget().mainMenu
+        
+       # if menu.hideRRT.isChecked():
+        #    return
+                
+        if len(self.rrt) > 0:
+            for pos in self.rrt:
+                
+                x = int(round(pos.x * 100,0)) + self.MARGIN
+                y = self.FIELD_HEIGHT - int(round(pos.y * 100,0)) + self.MARGIN
+                
+                pen = QtGui.QPen()
+                pen.setColor(QtCore.Qt.black)
+                pen.setWidth(2)
+                p.setPen(pen)
+                p.drawPoint(x,y)
                 
     def setVideoData(self, videoData):
         self.data = videoData;
         self.repaint()
         
+    def setRRT(self, rrtData):
+        self.rrt = rrtData
+        self.repaint()
+        
+        
+        
+        
+        
 class MgrMenu(QtGui.QWidget):
+        
     def __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
         self.setMinimumWidth(160)
         self.vbox = QtGui.QVBoxLayout()
         self.setLayout(self.vbox)
         
-        self.build_step_menu()
+        self.buildStepMenu()
+        self.buildRobotMenu()
         self.bind_actions()      
         
         self.setVideoDataEnabled(False)  
+        self.setRobotDataEnabled(False)
     
-    def build_step_menu(self):           
+    def buildStepMenu(self):           
         self.stepVal = QtGui.QLabel()
         self.stepVal.setText('Current step: 0')
         self.stepVal.setEnabled(False)
@@ -85,6 +117,38 @@ class MgrMenu(QtGui.QWidget):
         hbox1.addWidget(self.next)
         self.vbox.addLayout(hbox1)
         
+    def buildRobotMenu(self):
+        self.vbox.addStretch(1)
+        
+        self.robotCombo = QtGui.QComboBox(self)
+        self.vbox.addWidget(self.robotCombo)
+        
+        t = QtGui.QLabel('Task:', self)
+        self.task = QtGui.QLabel('', self)        
+        hbox = QtGui.QHBoxLayout()
+        hbox.addWidget(t)
+        hbox.addWidget(self.task)
+        self.vbox.addLayout(hbox)
+        
+        desc = QtGui.QLabel('Details:', self)
+        self.taskDesc = QtGui.QLabel('', self)        
+        hbox = QtGui.QHBoxLayout()
+        hbox.addWidget(desc)
+        hbox.addWidget(self.taskDesc)
+        self.vbox.addLayout(hbox)
+        
+        p = QtGui.QLabel('Robot pos.:', self)
+        self.robotPos = QtGui.QLabel('', self)        
+        hbox = QtGui.QHBoxLayout()
+        hbox.addWidget(p)
+        hbox.addWidget(self.robotPos)
+        self.vbox.addLayout(hbox)
+        
+        
+        
+        
+        
+        
     def bind_actions(self):
         self.connect(self.slider, QtCore.SIGNAL('valueChanged(int)'), 
                      self.set_step_val)
@@ -102,3 +166,22 @@ class MgrMenu(QtGui.QWidget):
         self.stepVal.setEnabled(enabled)
         self.prev.setEnabled(enabled)
         self.next.setEnabled(enabled)
+        
+    def setRobotDataEnabled(self, enabled):
+        self.robotCombo.setEnabled(enabled)
+        self.task.setEnabled(enabled)
+        self.taskDesc.setEnabled(enabled)
+        self.robotPos.setEnabled(enabled)
+        
+    def addModels(self, models):
+        self.robotCombo.clear()
+        for i in models:
+            self.robotCombo.addItem(i)
+            
+    def setRobotData(self, data):
+        self.task.setText(data.task)
+        self.taskDesc.setText(data.taskDesc)
+        pos = '%(x)2.2f %(y)2.2f %(rot)3.2f' % {'x'   : float(data.robot['x']), 
+                                                          'y'   : float(data.robot['y']), 
+                                                          'rot' : float(data.robot['rot'])}
+        self.robotPos.setText(pos)
