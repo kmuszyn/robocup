@@ -12,7 +12,7 @@ class DrawingArea(QtGui.QWidget):
     FIELD_WIDTH = 540
     FIELD_HEIGHT = 740
     
-    step = []
+    data = []
     
     def __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
@@ -23,12 +23,36 @@ class DrawingArea(QtGui.QWidget):
     def paintEvent(self, event):
         p = QtGui.QPainter()
         p.begin(self)    
-        self.paintField(p)                   
+        self.paintField(p)
+        self.paintData(p)                   
         p.end()
             
     def paintField(self,p):
         p.setBrush(QtGui.QColor(28,140,28))
         p.drawRect(self.MARGIN, self.MARGIN, self.FIELD_WIDTH, self.FIELD_HEIGHT)
+        
+    def paintData(self,p):
+        for i in self.data:
+            #print i.x, i.y, i.radius
+            #print i.x * 100, i.y * 100, int(round(i.radius * 200, 0))
+            x = int(round(i.x * 100,0)) + self.MARGIN
+            y = self.FIELD_HEIGHT - int(round(i.y * 100,0)) + self.MARGIN
+            d = int(round(i.radius * 100, 0))             
+            
+            color = QtGui.QColor(250,110,30) #orange            
+            
+            if i.team == 1:
+                color = QtGui.QColor(200,10,10)
+                
+            if i.team == 2:
+                color = QtGui.QColor(20,30,190)
+            
+            p.setBrush(color)
+            p.drawEllipse(QtCore.QPointF(x,y), d, d)    
+                
+    def setVideoData(self, videoData):
+        self.data = videoData;
+        self.repaint()
         
 class MgrMenu(QtGui.QWidget):
     def __init__(self, parent = None):
@@ -38,7 +62,9 @@ class MgrMenu(QtGui.QWidget):
         self.setLayout(self.vbox)
         
         self.build_step_menu()
-        self.bind_actions()        
+        self.bind_actions()      
+        
+        self.setVideoDataEnabled(False)  
     
     def build_step_menu(self):           
         self.stepVal = QtGui.QLabel()
@@ -67,3 +93,12 @@ class MgrMenu(QtGui.QWidget):
                 
     def set_step_val(self, value):        
         self.stepVal.setText('Current step: %(val)5d' % {'val':value})
+        
+    def setVideoDataLength(self, val):
+        self.slider.setMaximum(val)
+    
+    def setVideoDataEnabled(self, enabled):
+        self.slider.setEnabled(enabled)
+        self.stepVal.setEnabled(enabled)
+        self.prev.setEnabled(enabled)
+        self.next.setEnabled(enabled)
