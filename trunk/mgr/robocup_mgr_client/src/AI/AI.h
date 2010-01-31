@@ -10,7 +10,6 @@
 
 #include <string>
 
-#include <robot/Robot.h>
 #include <util/types.h>
 #include <AI/task/Task.h>
 
@@ -34,10 +33,10 @@ public:
 	~AI();
 
 	/**
-	 * Main AI method, performs tasks selection and execution
+	 * Main AI method, that creates task for a robot.
 	 *
 	 */
-	void act();
+	Task * assignTask();
 
 ////////////////////////////////////////////////////////////////////////////////////
 private:
@@ -56,7 +55,11 @@ private:
 ////////////////////////////////////////////////////////////////////////////////////
 private:
 	///Robot controlled by AI
-	Robot robot;
+	std::string robotName;
+
+	///Team name
+	TeamName teamName;
+
 	///Robot's task
 	Task * task;
 

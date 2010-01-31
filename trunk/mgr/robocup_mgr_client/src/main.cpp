@@ -34,16 +34,17 @@ int main(int argc, char *argv[]){
 	//if (argc==1 && strcmp(argv[1],"-d")==0)
 	log4cxx::PropertyConfigurator::configure("../config/log4cxx.properties");
 
-
-
-	AI robotAI(AppConfig::instance().team1[0], TEAM1);
+	//AI robotAI2(AppConfig::instance().team2[0], TEAM2);
 	VideoServer::instance().update();
+	Robot red0(AppConfig::instance().team1[0], TEAM1);
 
 	while(true){
 		VideoServer::instance().update();
 	//	VideoServer::instance().display();
 //		red0.go();
-		robotAI.act();
+
+	//	robotAI2.act();
+		red0.makeMove();
 	}
 
 
