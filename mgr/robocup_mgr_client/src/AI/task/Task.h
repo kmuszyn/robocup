@@ -8,6 +8,8 @@
 #ifndef TASK_H_
 #define TASK_H_
 
+#include "robot/driver/Driver.h"
+
 #include <string>
 
 /**
@@ -20,8 +22,9 @@ public:
 
 	/**
 	 * Executes task's actions
+	 * @param d reference to robot's driver module
 	 */
-	virtual void execute() = 0;
+	virtual void execute(Driver & d) = 0;
 	/**
 	 * Is the task still vaild? (f.eg. position to go is occupied now)
 	 *

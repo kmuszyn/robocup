@@ -72,6 +72,7 @@ bool RRT::checkCollisions(const Vector2d & point){
 	std::map<std::string, Position2d*>::iterator ii = VideoServer::instance().data().begin();
 	for(;ii!=VideoServer::instance().data().end(); ii++){
 		if( ii->first==this->modelName) continue;
+		if( ii->first==AppConfig::instance().ball) continue;
 		if((point - ii->second->pos).length() < 2 * AppConfig::instance().radius) return true;
 	}
 

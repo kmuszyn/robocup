@@ -7,7 +7,7 @@
 
 #include "GoTo.h"
 
-GoTo::GoTo(Robot & robot, Position2d position) : robot(robot), position(position), taskName("GoTo") {
+GoTo::GoTo(Position2d position) :  position(position), taskName("GoTo") {
 
 
 }
@@ -16,8 +16,8 @@ GoTo::~GoTo() {
 
 }
 
-void GoTo::execute(){
-	robot.goTo(position);
+void GoTo::execute(Driver & d){
+	d.goToPosition(&position);
 }
 
 bool GoTo::valid(){

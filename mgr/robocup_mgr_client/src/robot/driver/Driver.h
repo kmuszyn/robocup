@@ -29,6 +29,9 @@ public:
 
 	void setSpeed(double x, double y);
 
+	///Sets model linear speed (x,y) and angular speed (rotVel)
+	void set(double xVel, double yVel, double rotVel);
+
 	void goToPosition(Position2d * pos);
 
 	void stop();
@@ -42,13 +45,6 @@ private:
 	std::string modelName; //TODO: to jest nadmiarowe... ale uzywane do zapisu danych do debugowania
 
 	static log4cxx::LoggerPtr logger;
-
-	struct DriverData{
-		double dX, dY, dRot;
-		double lastUpdateTime;
-		Position2d lastPos;
-		double updatePeriod;
-	} driverData;
 };
 
 #endif /* DRIVER_H_ */

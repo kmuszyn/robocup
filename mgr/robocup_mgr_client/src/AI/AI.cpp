@@ -8,7 +8,7 @@
 #include "AI.h"
 #include "AI/task/GoTo.h"
 
-AI::AI(std::string robotName, TeamName teamName) : robot(robotName, teamName){
+AI::AI(std::string robotName, TeamName teamName) : robotName(robotName), teamName(teamName){
 	task = 0;
 
 #ifdef MGR_VIEWER
@@ -26,33 +26,42 @@ AI::~AI() {
 }
 
 
-void AI::act(){
+Task * AI::assignTask(){
 	//if there is no task
-	if (task == 0)
+	if (task == 0){
+		std::cout<<"Task 0\n";
 		generateTask();
+	}
+
+	if (!(task->valid()) || task->finished()){
+		std::cout<<"Task ||\n";
+		delete task;
+		task = 0;
+		generateTask();
+	}
 
 #ifdef MGR_VIEWER
 	writeViewerData();
 #endif
 
-	if (task->valid())
-		task->execute();
-	else{
-		delete task;
-		task = 0;
-	}
-	return;
+	return task;
 }
 
 /////////////////// private methods //////////////////////////////////////////
 
 void AI::generateTask(){
-	BOOST_ASSERT(task==0);
+	//BOOST_ASSERT(task==0);
 	float x = (float(rand()) / RAND_MAX) * 5.4;
 	float y = (float(rand()) / RAND_MAX) * 7.4;
-	//Position2d pos(2,2,90);
-	Position2d pos(x,y,90);
-	task = new GoTo(robot, pos);
+	Position2d pos(0.7,1.5,90);
+	//Position2d pos(x,y,90);
+
+	//Position2d * ballPos = VideoServer::instance().data()[AppConfig::instance().ball];
+	//std::cout<<"Ball pos"<<*ballPos<<std::endl;
+
+	task = new GoTo(pos);
+
+	std::cout<<"Generated task: goTo:"<<pos<<std::endl;
 }
 
 

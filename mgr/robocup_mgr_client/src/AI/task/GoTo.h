@@ -22,13 +22,12 @@ public:
 	/**
 	 * Constructor
 	 *
-	 * @param robot reference to robot to be controlled
 	 * @param position target position for a robot
 	 */
-	GoTo(Robot & robot, Position2d position);
+	GoTo(Position2d position);
 	~GoTo();
 
-	void execute();
+	void execute(Driver & d);
 
 	bool valid();
 	bool finished();
@@ -38,9 +37,6 @@ public:
 	std::string getInfo();
 ////////////////////////////////////////////////////////////////////
 private:
-	///robot to be controlled
-	Robot & robot;
-
 	///Go to position
 	Position2d position;
 

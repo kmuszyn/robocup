@@ -22,10 +22,6 @@ Driver::Driver(std::string modelName) : modelName (modelName){
 		LOG4CXX_ERROR(logger, "Error creating Driver: "<<ex);
 		exit(0);
 	}
-
-	driverData.lastUpdateTime = 0;
-	driverData.updatePeriod = 10 * 0.001;
-
 }
 
 Driver::~Driver() {
@@ -36,22 +32,23 @@ Driver::~Driver() {
 
 void Driver::goToPosition(Position2d * pos){
 
+	//calculating (x,y) speed
+
 	LOG4CXX_DEBUG(logger, "****** Driver, goto position: "<<pos->pos);
 	Position2d * curr = (VideoServer::instance().data())[modelName];
 	LOG4CXX_DEBUG(logger, "****** Driver, current position: "<<curr->pos);
 	Vector2d diff = pos->pos - curr->pos;
 
-
-	//updateParameters(*curr);
 	LOG4CXX_DEBUG(logger, "Distance to target: "<<diff.length());
 	LOG4CXX_DEBUG(logger, "Distance vec: "<<diff);
 
 	double scale = 2.0;
 
+	if (diff.length() < 0.25) scale = 0.1;
+
 	diff = diff * (scale / diff.length());
 
 	LOG4CXX_DEBUG(logger, "Distance vec after scalling: "<<diff);
-
 
 	LOG4CXX_DEBUG(logger, "Diff1: "<<diff);
 
@@ -61,31 +58,12 @@ void Driver::goToPosition(Position2d * pos){
 
 	LOG4CXX_DEBUG(logger, "Desired speed: "<<diff);
 
-	setSpeed(diff.x, diff.y);
-	//setRotation(1);
+	//calculating rotation speed
 
-	LOG4CXX_DEBUG(logger, "Actual speeds: "<<driverData.dX<<" "<<driverData.dY<<" "<<driverData.dRot);
-	//TODO: uwzglednic orientacje robota :)
-}
+	//setSpeed(diff.x, diff.y);
 
-void Driver::updateParameters(Position2d & newPos){
-
-	double simTime = SimControl::instance().getSimTime();
-
-	if (simTime - driverData.lastUpdateTime > driverData.updatePeriod){
-
-		LOG4CXX_DEBUG(logger, "NEW PARAMS FOR DRIVER!!!!!!!!!!!!!!!!!!111");
-
-		double dT = simTime - driverData.lastUpdateTime;
-
-		driverData.dX = (newPos.pos.x - driverData.lastPos.pos.x) / dT;
-		driverData.dY = (newPos.pos.y - driverData.lastPos.pos.y) / dT;
-		//TODO: proper rot update
-		driverData.dRot = (newPos.rot.val - driverData.lastPos.rot.val) / dT;
-		//assign new values
-		driverData.lastPos = newPos;
-		driverData.lastUpdateTime = simTime;
-	}
+	//set(diff.x, diff.y, 0);
+	set(0, 0, -1);
 
 }
 
@@ -105,6 +83,15 @@ void Driver::setSpeed(double x, double y){
 	posIface->data->cmdEnableMotors = 1.0;
 	posIface->data->cmdVelocity.pos.x = x;
 	posIface->data->cmdVelocity.pos.y = y;
+	posIface->Unlock();
+}
+
+void Driver::set(double x, double y, double rot){
+	posIface->Lock(1);
+	posIface->data->cmdEnableMotors = 1.0;
+	posIface->data->cmdVelocity.pos.x = x;
+	posIface->data->cmdVelocity.pos.y = y;
+	posIface->data->cmdVelocity.yaw = rot;
 	posIface->Unlock();
 }
 
