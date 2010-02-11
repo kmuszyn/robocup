@@ -20,6 +20,8 @@
 #include "videoServer/VideoServer.h"
 
 
+//remove this
+#include "robot/RRT/RRT2.h"
 
 log4cxx::LoggerPtr logger(log4cxx::Logger::getLogger("main"));
 
@@ -34,6 +36,7 @@ int main(int argc, char *argv[]){
 	//if (argc==1 && strcmp(argv[1],"-d")==0)
 	log4cxx::PropertyConfigurator::configure("../config/log4cxx.properties");
 
+
 	//AI robotAI2(AppConfig::instance().team2[0], TEAM2);
 	VideoServer::instance().update();
 	Robot red0(AppConfig::instance().team1[0], TEAM1);
@@ -45,6 +48,10 @@ int main(int argc, char *argv[]){
 
 	//	robotAI2.act();
 		red0.makeMove();
+		Vector2d dest(2,2);
+		Vector2d res;
+		RRT2 rrt2(AppConfig::instance().team1[0]);
+		rrt2.plan(dest, res);
 	}
 
 

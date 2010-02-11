@@ -87,6 +87,24 @@ double Vector2d::distance(Vector2d to)const
 	return sqrt(pow(to.x-this->x,2)+pow(to.y-this->y,2));
 }
 
+double Vector2d::distance(const Vector2d & start, const Vector2d & end) const{
+	//convert line from start-end to Ax+By+C
+	double A,B,C;
+	if(end.x - start.x == 0){
+		A = 1;
+		B = 0;
+		C = start.y;
+	}
+	else{
+		A = (end.y - start.y) / (end.x - start.x);
+		B = -1.0;
+		C = start.y - ((end.y-start.y) * start.x / (end.x - start.x));
+	}
+
+	double result = fabs((A * this->x) + (B*this->y) + C)/sqrt((A*A) + (B*B));
+	return result;
+}
+
 Vector2d Vector2d::rotate(double angle){
 	double d = this->length();
 	double curr_angle = atan2(y,x);

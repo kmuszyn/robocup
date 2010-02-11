@@ -27,6 +27,9 @@ public:
 	//rzutuje wybrany punkt na prosta Ax+By+C=0
 	Vector2d projectionOn(double a, double b,double c) const;
 	double distance(Vector2d to) const;
+
+	///Calculates distance to line given by 2 points: start and end
+	double distance(const Vector2d & start, const Vector2d & end) const;
 	Vector2d & operator=(const Vector2d &);
 	Vector2d  operator-(const Vector2d &)const;
 	Vector2d operator-(const Vector2d &);
