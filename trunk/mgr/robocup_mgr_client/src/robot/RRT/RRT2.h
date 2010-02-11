@@ -40,6 +40,23 @@ public:
 	void plan(const Vector2d & dest, Vector2d & point);
 
 private:
+	/**
+	 * Returns random target - either dest or a random point on the field
+	 */
+	Vector2d getTarget(const Vector2d & dest);
+
+	/**
+	 * Returns rand 0..1, srand() should be called first!
+	 */
+	double getRand();
+
+private:
+	/// Minimum distance to target to stop algorith
+	static const double THRESHOLD = 0.2;
+
+	///Probability of expanding tree towards destination
+	static const float GOAL_PROB = 0.4;
+
 	const string & modelName;
 };
 
