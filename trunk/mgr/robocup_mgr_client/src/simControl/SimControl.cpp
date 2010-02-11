@@ -115,7 +115,8 @@ void SimControl::update(VideoData & videoData) {
 				std::string modelName(response->modelName);
 				Position2d modelPos(response->modelPose.pos.x,
 						response->modelPose.pos.y, response->modelPose.yaw);
-				videoData[modelName]->update(modelPos);
+				//std::cout<<"Response data: "<<response->modelName<<": "<<response->modelPose.yaw<<std::endl;
+				*(videoData[modelName]) = modelPos;
 			}
 
 			//send further requests about robot positions

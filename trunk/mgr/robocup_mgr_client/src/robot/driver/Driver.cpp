@@ -44,7 +44,7 @@ void Driver::goToPosition(Position2d * pos){
 
 	double scale = 2.0;
 
-	if (diff.length() < 0.25) scale = 0.1;
+	//if (diff.length() < 0.25) scale = 0.5;
 
 	diff = diff * (scale / diff.length());
 
@@ -60,10 +60,19 @@ void Driver::goToPosition(Position2d * pos){
 
 	//calculating rotation speed
 
-	//setSpeed(diff.x, diff.y);
+	Vector2d vcurr(cos(curr->rot.val),sin(curr->rot.val));
+	Vector2d vdest(cos(pos->rot.val),sin(pos->rot.val));
 
-	//set(diff.x, diff.y, 0);
-	set(0, 0, -1);
+	double angle2rot = vcurr.angleTo(vdest);
+	//std::cout<<"Angle2: "<<angle2rot<<std::endl;
+
+	double vRot = (angle2rot)*3;
+
+//	std::cout<<"Predkosc: "<<diff<<std::endl;
+//	std::cout<<"Rotacja: "<<curr->rot.val<<std::endl;
+//	std::cout<<"Poz: " << curr->pos<<std::endl;
+
+	set(diff.x, diff.y, vRot);
 
 }
 
@@ -102,6 +111,10 @@ void Driver::stop(){
 	posIface->data->cmdVelocity.pos.y = 0.0;
 	posIface->data->cmdVelocity.yaw = 0;
 	posIface->Unlock();
+}
+
+const std::string & Driver::getModelName(){
+	return this->modelName;
 }
 
 ///////////////////////////////// metody testowe ///////////////////////////

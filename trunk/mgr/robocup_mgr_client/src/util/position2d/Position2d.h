@@ -16,19 +16,11 @@ class Position2d {
 public:
 	Vector2d pos;
 	Angle rot;
-	double dX, dY, dRot;
 
 	Position2d();
 	Position2d(double x, double y, Angle rot);
 	Position2d(const Position2d & );
 	Position2d & operator=(const Position2d &);
-
-	/*
-	 * Used to update current position. Position is changed to newPos, but
-	 * the difference beetwen new and current position is calculated
-	 * and saved to dX, dY and dRot fields.
-	 */
-	void update(Position2d & newPos);
 
 	~Position2d();
 

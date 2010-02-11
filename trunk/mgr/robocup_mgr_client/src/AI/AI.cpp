@@ -53,7 +53,9 @@ void AI::generateTask(){
 	//BOOST_ASSERT(task==0);
 	float x = (float(rand()) / RAND_MAX) * 5.4;
 	float y = (float(rand()) / RAND_MAX) * 7.4;
-	Position2d pos(0.7,1.5,90);
+	float rot = - M_PI + (float(rand()) / RAND_MAX) * 2 * M_PI;
+	//Position2d pos(1.7,3.5,rot);
+	Position2d pos(2.5,2.5,rot);
 	//Position2d pos(x,y,90);
 
 	//Position2d * ballPos = VideoServer::instance().data()[AppConfig::instance().ball];

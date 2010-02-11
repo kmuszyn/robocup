@@ -37,6 +37,8 @@ public:
 	void stop();
 
 	void doTest();
+
+	const std::string & getModelName();
 private:
 
 
