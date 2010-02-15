@@ -44,6 +44,10 @@ public:
 
 	///Field size
 	Vector2d fieldSize;
+
+	// RRT params
+	///safety margin
+	double safetyMargin;
 private:
 	/**
 	 * Constructor is responsible for filling apropriate public fields in the config object.

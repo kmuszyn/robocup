@@ -9,12 +9,16 @@
 #define GEOM_H_
 
 #include "util/vector2d/Vector2d.h"
+#include <list>
+#include <string>
 
 /**
  * Geom class provides methods to perform basic geometry calculations, f.eg. checking if
  * given path is obstacle-free.
  *
  */
+using namespace std;
+
 class Geom {
 public:
 	Geom();
@@ -23,14 +27,15 @@ public:
 public:
 	/**
 	 * Checks if path from start to end is obstacle-free.
-	 * List of obstacles based on VideoData.
-	 * Warning: start point usually is a robot's position, so
-	 * if obstacle and start position is closer then robot radious,
-	 * it is assumed that this is the robot we are doing calculation for.
 	 *
 	 * @return true if path is clear
 	 */
-	static bool isPathClear(Vector2d & start, Vector2d & end);
+	static bool isPathClear(const Vector2d & start, const Vector2d & end, const list<Vector2d> & obstacles);
+
+	/**
+	 * Checks if point collides with given robot positions
+	 */
+	static bool pointCollides(const Vector2d & point, const list<Vector2d> & obstacles);
 };
 
 #endif /* GEOM_H_ */

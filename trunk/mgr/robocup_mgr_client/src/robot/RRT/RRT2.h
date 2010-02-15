@@ -10,8 +10,10 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include "util/vector2d/Vector2d.h"
 #include "util/position2d/Position2d.h"
+
 
 /**
  * This is a second implementation of RRT algorithm, faster, better and so on :)
@@ -50,24 +52,44 @@ private:
 	 */
 	double getRand();
 
+
 private:
 	/// Minimum distance to target to stop algorith
-	static const double THRESHOLD = 0.2;
+	static const double THRESHOLD = 0.05;
 
 	///Probability of expanding tree towards destination
 	static const float GOAL_PROB = 0.4;
 
+	///Distance used to add new nodes, calculated in constructor method
+	double extendDistance;
+
 	const string & modelName;
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 class Node{
 public:
 	Node(double x, double y);
 	~Node();
+
+	///adds a child to current node
+	void addChild(Node * child);
+
+	///returns pointer to the node nearest to target
+	Node * findNearest(const Vector2d & target);
+
+	/**
+	 * Generates a node wich extends tree towards target starting from this node,
+	 * collisions are not checked here!
+	 */
+	Node * extend(const double distance, const Vector2d & target);
 public:
 	Node * parent;
 	vector<Node *> children;
 	Vector2d point;
+
+	static int nodesCounter;
 };
 
 #endif /* RRT2_H_ */
