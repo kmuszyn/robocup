@@ -6,7 +6,7 @@
  */
 
 #include "GoTo.h"
-#include "robot/RRT/RRT.h"
+#include "robot/RRT/RRT2.h"
 #include "util/geom/Geom.h"
 
 GoTo::GoTo(Position2d position) :  position(position), taskName("GoTo") {
@@ -22,20 +22,16 @@ void GoTo::execute(Driver & d){
 
 	Position2d * robotPos = (VideoServer::instance().data())[d.getModelName()];
 
-	if (Geom::isPathClear(robotPos->pos, this->position.pos)){
-		std::cout<<".";
-		d.goToPosition(&(this->position));
-	}
-	else{
-		RRT rrt(d.getModelName());
-		Vector2d tmp = rrt.plan(this->position.pos);
-		Position2d tmpPos;
-		tmpPos.pos = tmp;
-		tmpPos.rot = this->position.rot;
+	RRT2 rrt(d.getModelName());
+	Vector2d tmp;
+	rrt.plan(this->position.pos, tmp);
+	Position2d tmpPos;
+	tmpPos.pos = tmp;
+	tmpPos.rot = this->position.rot;
 
-		d.goToPosition(&tmpPos);
-	}
+	d.goToPosition(&tmpPos);
 }
+
 
 bool GoTo::valid(){
 	return true;

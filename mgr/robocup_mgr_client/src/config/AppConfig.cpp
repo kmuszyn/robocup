@@ -59,6 +59,9 @@ AppConfig::AppConfig(std::string filename) {
 
 	curr_node = doc.first_node("config")->first_node("field")->first_node("sizeY");
 	fieldSize.y = boost::lexical_cast<double>(curr_node->value());
+
+	curr_node = doc.first_node("config")->first_node("rrt")->first_node("safetyMargin");
+	safetyMargin = boost::lexical_cast<double>(curr_node->value());
 }
 
 AppConfig::~AppConfig() {
@@ -66,6 +69,6 @@ AppConfig::~AppConfig() {
 }
 
 AppConfig & AppConfig::instance(){
-	static AppConfig appConfig("../config/models.xml");
+	static AppConfig appConfig("../config/config.xml");
 	return appConfig;
 }

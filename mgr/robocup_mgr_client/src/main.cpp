@@ -48,10 +48,19 @@ int main(int argc, char *argv[]){
 
 	//	robotAI2.act();
 		red0.makeMove();
-		Vector2d dest(2,2);
+		/*Vector2d dest(2,2);
 		Vector2d res;
-		RRT2 rrt2(AppConfig::instance().team1[0]);
-		rrt2.plan(dest, res);
+		std::cout<<"Planning start\n";
+		clock_t t1 = clock();
+		for (long i = 0; i < 1000000; i++){
+			RRT2 rrt2(AppConfig::instance().team1[0]);
+			rrt2.plan(dest, res);
+		}
+
+		clock_t t2 = (double) clock() - t1;
+
+		std::cout<<"Time: "<<(double)t2 / CLOCKS_PER_SEC<<std::endl;*/
+
 	}
 
 
