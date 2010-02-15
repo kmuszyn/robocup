@@ -14,4 +14,7 @@
 		<sizeX>5.4</sizeX>
 		<sizeY>7.4</sizeY>
 	</field>
+	<rrt>
+		<safetyMargin>0.01</safetyMargin>
+	</rrt>
 </config>
