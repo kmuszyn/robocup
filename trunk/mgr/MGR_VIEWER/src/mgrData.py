@@ -8,59 +8,88 @@ import re
 
 """---------------------------------------------------------------------------------"""
 class Config:
-    videoDataFile = None
-    modelNames = []
+    """
+    Class holds info about last used videodata file and possible robot file names
+    extracted from videodata
+    """
+    
+    videoDataFileName = ''
+    robotNames = []
+    configFile = None
     def __init__(self):
+        pass
+        
+    def load(self, filename):    
+        self.configFile = filename 
         try:
-            file = open('mgrViewerConfig', 'r')
+            file = open(self.configFile, 'r')
             if file!= None:
-                self.videoDataFile = file.readline()
-                print 'Config, read file',self.videoDataFile             
+                self.videoDataFileName = file.readline()
+                print 'Config, read file',self.videoDataFileName             
                 file.close()            
         except IOError, x:
-            pass
+            pass     
         
-    
     def save(self):
-        if self.videoDataFile != None:
-            file = open('mgrViewerConfig', 'w')
-            file.write(self.videoDataFile)
+        if self.videoDataFileName != None:
+            file = open(self.configFile, 'w')
+            file.write(self.videoDataFileName)
             file.close()
-            print 'Saved videoData file:', self.videoDataFile
+            print 'Saved videoData file:', self.videoDataFileName
             
     def disp(self):
-        print self.videoDataFile
-        print self.modelNames
+        print self.videoDataFileName
+        print self.robotNames
         
-    def video_data_OK(self):
-        return self.videoDataFile != None and len(self.videoDataFile) > 0
+    def videoDataFileNameOK(self):
+        return self.videoDataFileName != None and len(self.videoDataFileName) > 0
         
 
 """---------------------------------------------------------------------------------"""
     
 class VideoData:
-    ''' Class holds video data read from file, allows easy access to selected time step '''    
+    """ Class holds video data read from file, allows easy access to selected time step """    
     
-    def __init__(self, config):
+    def __init__(self):
         self.steps = []  # Empty data structure for holding LISTS of VideoDataItems  
-                # one list per one time step 
-        file = open(config.videoDataFile, 'r')        
+                # one list per one time step
+        self.robotNames = []
+                
+    def load(self, videoDataFileName): 
+        file = open(videoDataFileName, 'r')        
         #re patterns
         pStep = re.compile(r':step[a-z]*')
-        tmpList = []           
+        tmpList = []      
         
-        models = file.readline()
-        models = models[0:-2]
-        models = models.split(' ')
-        config.modelNames = models
+        stepNr = None             
+        
+        robots = file.readline()
+        robots = robots[0:-2]
+        robots = robots.split(' ')
+        self.robotNames = robots
                 
-        for line in file:            
+        for line in file:    
             result = pStep.match(line)
             if result:
-                #print ':step'
-                if len(tmpList) > 0:
+                """saving read step and clearing tmpList for a new step data"""
+                if stepNr != None:
+                    """
+                    if steps nr are not in order, add empty missing steps
+                    added because steps may not start from 0, but 1 or greater nr, depends
+                    on when was the writing function called in robocup_mgr_client
+                    steps numbers must be correct in order to synchronize videodata steps
+                    with robot data steps
+                    """
+                    if len(self.steps) < stepNr:
+                        print 'adding empty steps', stepNr                
+                        while(len(self.steps) < stepNr):
+                            self.steps.append([])  
+                    
                     self.steps.append(tmpList)
+                    
                 tmpList = []
+                line = line.split(' ')
+                stepNr = int(line[1])
             else:
                 line = line[0:-1] #trim \n sign
                 line = line.split(' ')
@@ -74,6 +103,9 @@ class VideoData:
                 tmpList.append(tmpItem)
                     
         file.close() 
+        
+    def length(self):
+        return len(self.steps)
         
 class VideoDataItem:
     ''' Class represents videoData item '''
@@ -92,8 +124,9 @@ class ModelData:
         
         stepP = re.compile(r':step[a-z]*')
         aiP = re.compile(r':ai(.)*')
-        robotP = re.compile(r':robot(.)*')
-        rrtP = re.compile(r':rrt(.)*')
+        robotP = re.compile(r':robot(\w)(.)*')
+        rrtP = re.compile(r':rrt(\w)(.)*')
+        rrtP = re.compile(r':rrtresult(\w)(.)*')
         
         dataItem = ModelDataItem()
         
@@ -119,7 +152,7 @@ class ModelData:
             elif rrtP.match(line):
                 line = line.split(' ')
                 rrtSize = int(line[1])
-                for i in range(0, rrtSize):
+                for i in range(rrtSize):
                     line = file.readline()
                     line = line.split(' ')
                     pos = RRTPos()
