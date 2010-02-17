@@ -5,7 +5,7 @@ Created on 2010-01-24
 '''
 from PyQt4 import QtGui, QtCore
 from mgrUI import DrawingArea, DrawingMenu
-from mgrData import Config, VideoData, ModelData
+from mgrData import Config, VideoData, RobotData
 import sys
 import os
 
@@ -48,8 +48,6 @@ class MainWin(QtGui.QMainWindow):
         
         scroll.setWidget(container)
         
-        self.bindActions()
-        
     def createTopMenu(self):
         """Creates top menu with file option"""
         
@@ -71,46 +69,45 @@ class MainWin(QtGui.QMainWindow):
         if self.config.video_data_OK():
             self.loadVideoData()
         
-    def loadVideoData(self, videoDataFileName):    
-        try:    
-            self.videoData = VideoData()
-            self.videoData.load(videoDataFileName)
-            
-            self.drawingMenu.enableVideoData(self.videoData.length())
-            
-            return
-            
-            if self.videoData :
-                self.drawingMenu.setVideoDataLength(len(self.videoData.steps)-1)
-                self.drawingMenu.setVideoDataEnabled(True)
-                self.setVideoData(0)
-                
-                if len(self.config.robotNames) > 0:
-                    self.loadModelsData()
-                    self.setRobotData(0)
-                
-            else:
-                self.drawingMenu.setVideoDataEnabled(True)
-        except BaseException as e:
-            self.displayErrorMsg('Error while reading videoData: ' + str(e))
-        
     def videoDataDialog(self):
         tmp = QtGui.QFileDialog.getOpenFileName(self, 'Open file','.')
         if tmp:
             self.config.videoDataFileName = tmp    
-            self.loadVideoData(self.config.videoDataFileName)
+            self.loadVideoData(self.config.videoDataFileName)        
         
-    def loadModelsData(self):
-        self.modelData = dict()
-        dir = os.path.dirname(str(self.config.videoDataFileName))
-        for model in self.config.robotNames:
-            filename =  dir +'/'+ model+'.txt'
+    def loadVideoData(self, videoDataFileName):    
+        try:    
+            self.videoData = VideoData()
+            self.videoData.load(videoDataFileName)
+            self.drawingMenu.enableVideoData(self.videoData.length())
+            self.setVideoData(0)
             
-            if os.path.isfile(filename) == True:
-                self.modelData[model] = ModelData(filename)
+            self.loadRobotData(self.videoData.robotNames)
+            
+            self.setRobotData(0)
+            self.bindActions()
+                        
+        except BaseException as e:
+            self.displayErrorMsg('Error while reading videoData: ' + str(e))
         
-        self.drawingMenu.setRobotDataEnabled(True)        
-        self.drawingMenu.addModels(self.config.robotNames)       
+    def loadRobotData(self, robotNames):
+        try:
+            self.robotData = dict()
+            dir = os.path.dirname(str(self.config.videoDataFileName))
+            for robot in robotNames:
+                filename =  dir +'/'+ robot+'.txt'
+                
+                if os.path.isfile(filename) == True:
+                    tmp = RobotData()
+                    tmp.load(filename)
+                    
+                    if tmp.length() > 0:
+                        self.robotData[robot] = tmp                    
+            
+            self.drawingMenu.enableRobotData(self.robotData.keys())
+                   
+        except BaseException as e:
+            self.displayErrorMsg('Error while reading robotData: ' + str(e)) 
              
         
     def closeEvent(self, event):
@@ -118,24 +115,27 @@ class MainWin(QtGui.QMainWindow):
         self.config.save()
         
     def bindActions(self):                
-        self.connect(self.drawingMenu.slider, QtCore.SIGNAL('valueChanged(int)'), self.setVideoData)
-        self.connect(self.drawingMenu.slider, QtCore.SIGNAL('valueChanged(int)'), self.setRobotData)
-        self.connect(self.drawingMenu.robotCombo, QtCore.SIGNAL('currentIndexChanged(int)'), self.switchRobotData)
+        #self.connect(self.drawingMenu.slider, QtCore.SIGNAL('valueChanged(int)'), self.setVideoData)
+        self.drawingMenu.slider.valueChanged.connect(self.setVideoData)
+        if len(self.robotData) > 0:
+            self.drawingMenu.slider.valueChanged.connect(self.setRobotData)
+            self.drawingMenu.robotCombo.currentIndexChanged.connect(self.setRobotData)
+           
         
     def setVideoData(self, val):
         self.drawingArea.setVideoData(self.videoData.steps[val])
         
     def setRobotData(self, val):        
-        model = str(self.drawingMenu.robotCombo.currentText())
-        if len(self.modelData[model].steps) > 0 :
-            self.drawingMenu.setRobotData(self.modelData[model].steps[val])
-            self.drawingArea.setRRT(self.modelData[model].steps[val].rrt)
+        robot = str(self.drawingMenu.robotCombo.currentText())
+        if self.robotData[robot].steps[val] != None:
+            #self.drawingMenu.setRobotData(self.robotData[robot].steps[val])
+            self.drawingArea.setRRT(self.robotData[robot].steps[val].rrt)            
         
     def switchRobotData(self, val):
         self.setRobotData(self.drawingMenu.slider.value())
         
     def displayErrorMsg(self, msg):
-        QtGui.QMessageBox.warning(self, 'Error', msg , QtGui.QMessageBox.Ok)
+        QtGui.QMessageBox.critical(self, 'Error', msg , QtGui.QMessageBox.Ok)
 
 if __name__ == '__main__':
     print 'Start'
