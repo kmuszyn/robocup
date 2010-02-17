@@ -19,7 +19,7 @@ class DrawingArea(QtGui.QWidget):
         QtGui.QWidget.__init__(self, parent)
         self.setFixedSize(
                 QtCore.QSize(self.FIELD_WIDTH + 2 * self.MARGIN,
-                             self.FIELD_HEIGHT + 2 * self.MARGIN))
+                             self.FIELD_HEIGHT + 2 * self.MARGIN))        
         
     def paintEvent(self, event):
         p = QtGui.QPainter()
@@ -53,29 +53,23 @@ class DrawingArea(QtGui.QWidget):
             p.setBrush(color)
             p.drawEllipse(QtCore.QPointF(x,y), d, d)   
             
-    def paintRRT(self,p):
-        #menu = self.parentWidget().mainMenu
-        
-       # if menu.hideRRT.isChecked():
-        #    return
+    def paintRRT(self, p):        
+        for pos in self.rrt:
                 
-        if len(self.rrt) > 0:
-            for pos in self.rrt:
+            x = int(round(pos.x * 100, 0)) + self.MARGIN
+            y = self.FIELD_HEIGHT - int(round(pos.y * 100, 0)) + self.MARGIN
                 
-                x = int(round(pos.x * 100,0)) + self.MARGIN
-                y = self.FIELD_HEIGHT - int(round(pos.y * 100,0)) + self.MARGIN
-                
-                pen = QtGui.QPen()
-                pen.setColor(QtCore.Qt.black)
-                pen.setWidth(2)
-                p.setPen(pen)
-                p.drawPoint(x,y)
+            pen = QtGui.QPen()
+            pen.setColor(QtCore.Qt.black)
+            pen.setWidth(2)
+            p.setPen(pen)
+            p.drawPoint(x, y)
                 
     def setVideoData(self, videoData):
         self.data = videoData;
         self.repaint()
         
-    def setRRT(self, rrtData):
+    def setRRT(self, rrtData):        
         self.rrt = rrtData
         self.repaint()
         
@@ -83,7 +77,7 @@ class DrawingArea(QtGui.QWidget):
         
         
         
-class MgrMenu(QtGui.QWidget):
+class DrawingMenu(QtGui.QWidget):
         
     def __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
@@ -157,9 +151,6 @@ class MgrMenu(QtGui.QWidget):
                 
     def set_step_val(self, value):        
         self.stepVal.setText('Current step: %(val)5d' % {'val':value})
-        
-    def setVideoDataLength(self, val):
-        self.slider.setMaximum(val)
     
     def setVideoDataEnabled(self, enabled):
         self.slider.setEnabled(enabled)
@@ -172,16 +163,26 @@ class MgrMenu(QtGui.QWidget):
         self.task.setEnabled(enabled)
         self.taskDesc.setEnabled(enabled)
         self.robotPos.setEnabled(enabled)
-        
-    def addModels(self, models):
-        self.robotCombo.clear()
-        for i in models:
-            self.robotCombo.addItem(i)
             
     def setRobotData(self, data):
+        
+        if data == None : return
+        
         self.task.setText(data.task)
         self.taskDesc.setText(data.taskDesc)
+        print data.robot
         pos = '%(x)2.2f %(y)2.2f %(rot)3.2f' % {'x'   : float(data.robot['x']), 
                                                           'y'   : float(data.robot['y']), 
                                                           'rot' : float(data.robot['rot'])}
         self.robotPos.setText(pos)
+        
+    def enableVideoData(self, length):
+        """Enables video data and sets slider value to proper val"""
+        self.setVideoDataEnabled(True)        
+        self.slider.setMaximum(length - 1)
+        
+    def enableRobotData(self, robots):
+        self.setRobotDataEnabled(True)
+        self.robotCombo.clear()
+        for i in robots:
+            self.robotCombo.addItem(i)
