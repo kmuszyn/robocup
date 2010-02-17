@@ -116,27 +116,47 @@ class VideoDataItem:
     team = 0
     
 """---------------------------------------------------------------------------------"""
-class ModelData:
-    def __init__(self, filename):
+class RobotData:
+    def __init__(self):
         self.steps = []  # Empty data structure for holding LISTS of VideoDataItems  
                 # one list per one time step 
+                
+    def load(self, filename):
         file = open(filename, 'r')        
         
         stepP = re.compile(r':step[a-z]*')
         aiP = re.compile(r':ai(.)*')
-        robotP = re.compile(r':robot(\w)(.)*')
-        rrtP = re.compile(r':rrt(\w)(.)*')
-        rrtP = re.compile(r':rrtresult(\w)(.)*')
+        robotP = re.compile(r':robot(.)*')
+        rrtP = re.compile(r':rrt(\s)[0-9]+')
+        rrtResP = re.compile(r':rrtresult(\s)(.)*')
         
-        dataItem = ModelDataItem()
+        stepNr = None
+        dataItem = RobotDataItem()
         
         line=file.readline()
         while  line != "":
-            if stepP.match(line):                
-                if dataItem.task != "":        
+            if stepP.match(line):
+                
+                """saving read step and clearing tmpList for a new step data"""
+                if stepNr != None:
+                    """
+                    if steps nr are not in order, add empty missing steps
+                    added because steps may not start from 0, but 1 or greater nr, depends
+                    on when was the writing function called in robocup_mgr_client
+                    steps numbers must be correct in order to synchronize videodata steps
+                    with robot data steps
+                    """
+                    if len(self.steps) < stepNr:
+                        print 'adding empty steps', stepNr                
+                        while(len(self.steps) < stepNr):
+                            self.steps.append(None)  
+                    
                     self.steps.append(dataItem)
-                                  
-                dataItem = ModelDataItem()
+                    
+                dataItem = RobotDataItem()
+                line = line.split(' ')
+                stepNr = int(line[1])
+                
             elif aiP.match(line):
                 taskName = file.readline()[0:-1]
                 dataItem.task = taskName
@@ -144,12 +164,14 @@ class ModelData:
                 dataItem.taskDesc = taskDesc
                 
             elif robotP.match(line):
+                print 'Robot match!'
                 pos = file.readline()[0:-1]
                 pos = pos.split(' ')
                 dataItem.robot['x'] = pos[0]
                 dataItem.robot['y'] = pos[1]
                 dataItem.robot['rot'] = pos[2]
             elif rrtP.match(line):
+                print 'rrt match'
                 line = line.split(' ')
                 rrtSize = int(line[1])
                 for i in range(rrtSize):
@@ -164,9 +186,12 @@ class ModelData:
             line=file.readline()
                         
         file.close()
+        
+    def length(self):
+        return len(self.steps)
 
 
-class ModelDataItem:
+class RobotDataItem:
         
     def __init__(self):
         self.task = ""
