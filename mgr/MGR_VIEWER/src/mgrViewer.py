@@ -128,8 +128,8 @@ class MainWin(QtGui.QMainWindow):
     def setRobotData(self, val):        
         robot = str(self.drawingMenu.robotCombo.currentText())
         if self.robotData[robot].steps[val] != None:
-            #self.drawingMenu.setRobotData(self.robotData[robot].steps[val])
-            self.drawingArea.setRRT(self.robotData[robot].steps[val].rrt)            
+            self.drawingMenu.setRobotData(self.robotData[robot].steps[val])
+            self.drawingArea.setRRT(self.robotData[robot].steps[val].rrt, self.robotData[robot].steps[val].rrtRes)  
         
     def switchRobotData(self, val):
         self.setRobotData(self.drawingMenu.slider.value())

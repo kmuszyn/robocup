@@ -164,14 +164,12 @@ class RobotData:
                 dataItem.taskDesc = taskDesc
                 
             elif robotP.match(line):
-                print 'Robot match!'
                 pos = file.readline()[0:-1]
                 pos = pos.split(' ')
                 dataItem.robot['x'] = pos[0]
                 dataItem.robot['y'] = pos[1]
                 dataItem.robot['rot'] = pos[2]
             elif rrtP.match(line):
-                print 'rrt match'
                 line = line.split(' ')
                 rrtSize = int(line[1])
                 for i in range(rrtSize):
@@ -182,6 +180,10 @@ class RobotData:
                     pos.y = float(line[1])
                  
                     dataItem.rrt.append(pos)
+            elif rrtResP.match(line):
+                line = line.split(' ')
+                dataItem.rrtRes['x'] = float(line[1])
+                dataItem.rrtRes['y'] = float(line[2])
                     
             line=file.readline()
                         
@@ -198,6 +200,7 @@ class RobotDataItem:
         self.taskDesc = ""
         self.robot = dict()
         self.rrt = []
+        self.rrtRes = dict()
         
 class RRTPos:
     def __init__(self):

@@ -14,6 +14,7 @@ class DrawingArea(QtGui.QWidget):
     
     data = []
     rrt = []
+    rrtResult = dict()
     
     def __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
@@ -64,13 +65,29 @@ class DrawingArea(QtGui.QWidget):
             pen.setWidth(2)
             p.setPen(pen)
             p.drawPoint(x, y)
+            
+        if len(self.rrtResult):
+            xr = self.rrtResult['x']
+            yr = self.rrtResult['y']
+            
+            x = int(round(xr * 100, 0)) + self.MARGIN
+            y = self.FIELD_HEIGHT - int(round(yr * 100, 0)) + self.MARGIN
+            
+            pen = QtGui.QPen()
+            pen.setColor(QtCore.Qt.red)
+            pen.setWidth(3)
+            p.setPen(pen)
+            
+            p.drawLine(x-5, y-5, x+5, y+5)
+            p.drawLine(x-5, y+5, x+5, y-5)
                 
     def setVideoData(self, videoData):
         self.data = videoData;
         self.repaint()
         
-    def setRRT(self, rrtData):        
+    def setRRT(self, rrtData, rrtResult):        
         self.rrt = rrtData
+        self.rrtResult = rrtResult
         self.repaint()
         
         
@@ -170,7 +187,7 @@ class DrawingMenu(QtGui.QWidget):
         
         self.task.setText(data.task)
         self.taskDesc.setText(data.taskDesc)
-        print data.robot
+        
         pos = '%(x)2.2f %(y)2.2f %(rot)3.2f' % {'x'   : float(data.robot['x']), 
                                                           'y'   : float(data.robot['y']), 
                                                           'rot' : float(data.robot['rot'])}
