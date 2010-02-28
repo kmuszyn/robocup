@@ -21,14 +21,16 @@
  */
 using namespace std;
 
+class Node;
+
 class RRT2 {
 public:
 	/**
 	 * Inits planner.
-	 * @param modelName model for which planning is done, used also to skip it in collision
+	 * @param robotName model for which planning is done, used also to skip it in collision
 	 * detection
 	 */
-	RRT2(const string & modelName);
+	RRT2(const string & robotName);
 	/**
 	 * Removes rrttree from memory
 	 */
@@ -53,17 +55,28 @@ private:
 	double getRand();
 
 
+	/**
+	 * Stores data in file for MGR_VIEWER
+	 * format:
+	 * :rrt (nodesCount)
+	 * x y (of a node)
+	 * x y
+	 * ...
+	 */
+	void writeViewerData(const Node * root, const Vector2d & result);
+
+
 private:
-	/// Minimum distance to target to stop algorith
-	static const double THRESHOLD = 0.05;
+	/// Minimum distance to target to stop algorithm
+	static const double THRESHOLD = 0.1;
 
 	///Probability of expanding tree towards destination
-	static const float GOAL_PROB = 0.4;
+	static const float GOAL_PROB = 0.6;
 
 	///Distance used to add new nodes, calculated in constructor method
 	double extendDistance;
 
-	const string & modelName;
+	const string & robotName;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,6 +97,12 @@ public:
 	 * collisions are not checked here!
 	 */
 	Node * extend(const double distance, const Vector2d & target);
+
+	/**
+	 * Writes node data to given file.
+	 */
+	void writeViewerData(ofstream & file) const;
+
 public:
 	Node * parent;
 	vector<Node *> children;

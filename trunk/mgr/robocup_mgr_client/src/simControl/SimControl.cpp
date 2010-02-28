@@ -100,11 +100,11 @@ void SimControl::requestAllPositions(std::map<std::string , Position2d *> models
 }
 
 void SimControl::update(VideoData & videoData) {
-
+	int i = 0;
 	while(true){
-		lock();
 		int responseCount = simIface->data->responseCount;
 		if (responseCount > 0) {
+			lock();
 			LOG4CXX_DEBUG(logger,"RespCount "<<responseCount)
 			//server response parsing
 			for (; simIface->data->responseCount > 0; simIface->data->responseCount--) {
@@ -128,11 +128,13 @@ void SimControl::update(VideoData & videoData) {
 
 			//simulation time update TODO: remove this?
 			this->simTime = simIface->data->simTime;
-
 			unlock();
+			//std::cout<<i<<std::endl;
 			return;
 		}
-		unlock();
+		i++;
+		usleep(i);
+		//unlock();
 	}
 
 }
@@ -226,8 +228,8 @@ gazebo::Client * SimControl::getClient(){
 	return this->client;
 }
 
-void SimControl::lock(){
-	simIface->Lock(1);
+bool SimControl::lock(){
+	return simIface->Lock(1);
 }
 void SimControl::unlock(){
 	simIface->Unlock();

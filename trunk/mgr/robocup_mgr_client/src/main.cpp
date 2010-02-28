@@ -40,14 +40,32 @@ int main(int argc, char *argv[]){
 	//AI robotAI2(AppConfig::instance().team2[0], TEAM2);
 	VideoServer::instance().update();
 	Robot red0(AppConfig::instance().team1[0], TEAM1);
+	Robot red1(AppConfig::instance().team1[1], TEAM1);
+	Robot red2(AppConfig::instance().team1[2], TEAM1);
+	Robot red3(AppConfig::instance().team1[3], TEAM1);
+
+	Robot blue0(AppConfig::instance().team2[0], TEAM2);
+	Robot blue1(AppConfig::instance().team2[1], TEAM2);
+	Robot blue2(AppConfig::instance().team2[2], TEAM2);
+	Robot blue3(AppConfig::instance().team2[3], TEAM2);
 
 	while(true){
+		//cout<<"Update\n";
 		VideoServer::instance().update();
 	//	VideoServer::instance().display();
-//		red0.go();
 
-	//	robotAI2.act();
+
 		red0.makeMove();
+//		red1.makeMove();
+//		red2.makeMove();
+//		red3.makeMove();
+//
+//
+//		blue0.makeMove();
+//		blue1.makeMove();
+//		blue2.makeMove();
+//		blue3.makeMove();
+
 		/*Vector2d dest(2,2);
 		Vector2d res;
 		std::cout<<"Planning start\n";
@@ -63,7 +81,7 @@ int main(int argc, char *argv[]){
 
 	}
 
-
+	cout<<"While is broken\n";
 
 
 //

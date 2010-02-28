@@ -23,6 +23,9 @@ Robot::~Robot() {
 void Robot::makeMove(){
 	Task *t = ai.assignTask();
 	t->execute(driver);
+#ifdef MGR_VIEWER
+	writeViewerData();
+#endif
 }
 
 
@@ -40,8 +43,8 @@ void Robot::goTo(Position2d & pos){
 }
 */
 
-#ifdef MGR_VIEWER
-void Robot::writeViewerData(RRT & rrt){
+
+void Robot::writeViewerData(){
 	std::ofstream file;
 	file.open((name+".txt").c_str(),std::ios::app);
 	Position2d * pos = VideoServer::instance().data()[name];
@@ -49,9 +52,8 @@ void Robot::writeViewerData(RRT & rrt){
 	file<<pos->pos.x<<" "<<pos->pos.y<<" "<<pos->rot.degreeValue()<<std::endl;
 
 	//write rrt part
-	file<<":rrt "<<rrt.countNodes()<<std::endl;
-	rrt.writeViewerData(file);
+	//file<<":rrt "<<rrt.countNodes()<<std::endl;
+	//rrt.writeViewerData(file);
 
 	file.close();
 }
-#endif

@@ -41,7 +41,7 @@ public:
 	void makeMove();
 
 #ifdef MGR_VIEWER
-	void writeViewerData(RRT & rrt);
+	void writeViewerData();
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////////

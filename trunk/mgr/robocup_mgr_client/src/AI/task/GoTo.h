@@ -14,6 +14,8 @@
 
 #include <string>
 
+using namespace std;
+
 /**
  * Go to given position (x,y,rot)
  */
@@ -22,9 +24,10 @@ public:
 	/**
 	 * Constructor
 	 *
-	 * @param position target position for a robot
+	 * @param dest target position for a robot
+	 * @param modelName robot model name
 	 */
-	GoTo(Position2d position);
+	GoTo(Position2d dest, const string & robotName);
 	~GoTo();
 
 	void execute(Driver & d);
@@ -38,10 +41,13 @@ public:
 ////////////////////////////////////////////////////////////////////
 private:
 	///Go to position
-	Position2d position;
+	Position2d dest;
 
 	///Task name
 	std::string taskName;
+
+	//Driver ref
+	const string & robotName;
 };
 
 #endif /* GOTO_H_ */
