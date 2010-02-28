@@ -44,7 +44,7 @@ private:
 	SimControl & operator=(const SimControl &);
 	~SimControl();
 
-	void lock();
+	bool lock();
 	void unlock();
 ///////////////////////////////////////////////////////////////////////////////////////////
 private:

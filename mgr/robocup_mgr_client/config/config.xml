@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding='UTF-8'?>
 <config>
 	<team1>
-		<player>red0</player>		
+		<player>red0</player>
+		<player>red1</player>
+		<player>red2</player>
+		<player>red3</player>			
 	</team1>
 	<team2>
 		<player>blue0</player>
+		<player>blue1</player>
+		<player>blue2</player>
+		<player>blue3</player>
 	</team2>	
 	<ball>ball</ball>
 	<robot>
@@ -15,6 +21,6 @@
 		<sizeY>7.4</sizeY>
 	</field>
 	<rrt>
-		<safetyMargin>0.01</safetyMargin>
+		<safetyMargin>0.03</safetyMargin>
 	</rrt>
 </config>

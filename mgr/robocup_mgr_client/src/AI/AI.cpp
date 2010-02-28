@@ -33,8 +33,12 @@ Task * AI::assignTask(){
 		generateTask();
 	}
 
-	if (!(task->valid()) || task->finished()){
-		std::cout<<"Task ||\n";
+	bool valid = task->valid();
+	bool finished = task->finished();
+
+	if (!valid || finished){
+
+		std::cout<<"Task ENDED, valid: "<<valid<<" finished: "<<finished<<"\n";
 		delete task;
 		task = 0;
 		generateTask();
@@ -51,17 +55,18 @@ Task * AI::assignTask(){
 
 void AI::generateTask(){
 	//BOOST_ASSERT(task==0);
-	float x = (float(rand()) / RAND_MAX) * 5.4;
-	float y = (float(rand()) / RAND_MAX) * 7.4;
+	float x = 0.8 + (float(rand()) / RAND_MAX) * (5.4 - 1.6);
+	float y = 0.8 + (float(rand()) / RAND_MAX) * (7.4 - 1.6);
 	float rot = - M_PI + (float(rand()) / RAND_MAX) * 2 * M_PI;
-	//Position2d pos(1.7,3.5,rot);
-	Position2d pos(2.5,2.5,rot);
-	//Position2d pos(x,y,90);
+
+//	Position2d pos(1,4.5,rot);
+//	Position2d pos(4, 0.5, rot);
+	Position2d pos(x,y,rot);
 
 	//Position2d * ballPos = VideoServer::instance().data()[AppConfig::instance().ball];
 	//std::cout<<"Ball pos"<<*ballPos<<std::endl;
 
-	task = new GoTo(pos);
+	task = new GoTo(pos, robotName);
 
 	std::cout<<"Generated task: goTo:"<<pos<<std::endl;
 }

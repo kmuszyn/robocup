@@ -6,6 +6,7 @@
  */
 
 #include "Driver.h"
+#include "robot/dynWindow/DynWindow.h"
 #include <math.h>
 
 log4cxx::LoggerPtr Driver::logger(log4cxx::Logger::getLogger("robot.driver.Driver"));
@@ -32,6 +33,19 @@ Driver::~Driver() {
 
 void Driver::goToPosition(Position2d * pos){
 
+	/*
+
+	 curPos
+
+	 calc of linear speed
+
+	 Vector2d xy = DynWindow::calculate(robotName, pos->pos, currentSpeed)
+
+	 caculation of rot speed
+
+
+	 */
+
 	//calculating (x,y) speed
 
 	LOG4CXX_DEBUG(logger, "****** Driver, goto position: "<<pos->pos);
@@ -42,21 +56,17 @@ void Driver::goToPosition(Position2d * pos){
 	LOG4CXX_DEBUG(logger, "Distance to target: "<<diff.length());
 	LOG4CXX_DEBUG(logger, "Distance vec: "<<diff);
 
-	double scale = 2.0;
+	Vector2d currSpeed;
+	currSpeed.x = posIface->data->velocity.pos.x;
+	currSpeed.y = posIface->data->velocity.pos.y;
+	diff = DynWindow::calcSpeed(modelName, pos->pos, currSpeed);
 
-	//if (diff.length() < 0.25) scale = 0.5;
 
-	diff = diff * (scale / diff.length());
+	//double scale = 2.0;
+	//diff = diff * (scale / diff.length());
 
-	LOG4CXX_DEBUG(logger, "Distance vec after scalling: "<<diff);
-
-	LOG4CXX_DEBUG(logger, "Diff1: "<<diff);
 
 	diff = diff.rotate(-(curr->rot.val));
-
-	LOG4CXX_DEBUG(logger, "diff2: "<<diff);
-
-	LOG4CXX_DEBUG(logger, "Desired speed: "<<diff);
 
 	//calculating rotation speed
 
@@ -68,12 +78,11 @@ void Driver::goToPosition(Position2d * pos){
 
 	double vRot = (angle2rot)*3;
 
-//	std::cout<<"Predkosc: "<<diff<<std::endl;
+//	std::cout<<"Calculated order: "<<diff<<std::endl;
 //	std::cout<<"Rotacja: "<<curr->rot.val<<std::endl;
 //	std::cout<<"Poz: " << curr->pos<<std::endl;
 
 	set(diff.x, diff.y, vRot);
-
 }
 
 void Driver::setRotation(double newRot){

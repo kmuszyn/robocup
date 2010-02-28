@@ -12,7 +12,7 @@
 
 int Node::nodesCounter = 0;
 
-RRT2::RRT2(const string & modelName) : modelName(modelName){
+RRT2::RRT2(const string & robotName) : robotName(robotName){
 	extendDistance = AppConfig::instance().radius / 2.0;
 	Node::nodesCounter = 0;
 }
@@ -36,7 +36,7 @@ void RRT2::plan(const Vector2d & dest, Vector2d & result){
 
 	// 1. Checking if dest is not reached
 
-	Position2d * robotPos = (VideoServer::instance().data())[modelName];
+	Position2d * robotPos = (VideoServer::instance().data())[robotName];
 	//if robot already at dest point
 	if ((robotPos->pos - dest).length() < THRESHOLD){
 		result = dest;
@@ -53,7 +53,7 @@ void RRT2::plan(const Vector2d & dest, Vector2d & result){
 			VideoServer::instance().data().begin();
 	for (; ii != VideoServer::instance().data().end(); ii++) {
 		if (ii->first == AppConfig::instance().ball) continue;
-		if (ii->first == modelName) continue;
+		if (ii->first == robotName) continue;
 		obstacles.push_back(ii->second->pos);
 //		cout<<"Adding: "<<ii->second->pos<<endl;
 	}
@@ -84,6 +84,10 @@ void RRT2::plan(const Vector2d & dest, Vector2d & result){
 		nearest = root->findNearest(target);
 		//if tree reached target point, break loop
 		if ((nearest->point - dest).length() < THRESHOLD) break;
+
+		//if max node count reached
+		if (Node::nodesCounter > 500) break;
+
 		//else, keep expanding
 		Node * tmp = nearest->extend(extendDistance, target);
 		//checking collision here!
@@ -122,20 +126,16 @@ void RRT2::plan(const Vector2d & dest, Vector2d & result){
 		else
 			break;
 	}
+
+	// 7. Saving results to file MGR_VIEWER
+#ifdef MGR_VIEWER
+	this->writeViewerData(root, result);
+#endif
 //	cout<<"Result after simplyfing: "<<result<<endl;
 
 
 	//cout<<"Result: "<<result<<endl;
 
-	//dopoki nie koniec
-	//wybor punktu docelowego
-	//znalezienie elementu najblizej celu w drzewie
-	//losowe przedluzenie drzewa
-
-	//po petli
-	//zbudowac sciezke cel - poczatek
-	//idac od poczatku - dopoki nie ma kolizji, sprawdzamy kolejne punkty
-	//kolizja - zwracamy ostatni, ktory byl OK
 
 	delete root;
 }
@@ -154,6 +154,17 @@ double RRT2::getRand(){
 	return ((double) rand() / RAND_MAX);
 }
 
+void RRT2::writeViewerData(const Node * root, const Vector2d & result){
+	string debugFile = robotName + ".txt";
+	ofstream file;
+	file.open(debugFile.c_str(),ios::app);
+	file<<":rrt "<<Node::nodesCounter<<endl;
+	if (root != 0){
+		root->writeViewerData(file);
+	}
+	file<<":rrtresult "<<result.x<<" "<<result.y<<endl;
+	file.close();
+}
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -197,4 +208,10 @@ Node * Node::extend(const double distance, const Vector2d & target){
 void Node::addChild(Node * child){
 	child->parent = this;
 	children.push_back(child);
+}
+
+void Node::writeViewerData(ofstream & file) const {
+	file<<point.x<<" "<<point.y<<endl;
+	for (vector<Node *>::const_iterator i = children.begin(); i != children.end(); i++)
+		(*i)->writeViewerData(file);
 }
