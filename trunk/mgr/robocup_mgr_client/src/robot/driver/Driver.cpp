@@ -47,18 +47,13 @@ void Driver::goToPosition(Position2d * pos){
 	 */
 
 	//calculating (x,y) speed
-
-	LOG4CXX_DEBUG(logger, "****** Driver, goto position: "<<pos->pos);
 	Position2d * curr = (VideoServer::instance().data())[modelName];
-	LOG4CXX_DEBUG(logger, "****** Driver, current position: "<<curr->pos);
 	Vector2d diff = pos->pos - curr->pos;
-
-	LOG4CXX_DEBUG(logger, "Distance to target: "<<diff.length());
-	LOG4CXX_DEBUG(logger, "Distance vec: "<<diff);
 
 	Vector2d currSpeed;
 	currSpeed.x = posIface->data->velocity.pos.x;
 	currSpeed.y = posIface->data->velocity.pos.y;
+	//std::cout<<"Curr speed: "<<currSpeed<<std::endl;
 	diff = DynWindow::calcSpeed(modelName, pos->pos, currSpeed);
 
 
