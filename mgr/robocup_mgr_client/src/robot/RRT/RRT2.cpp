@@ -86,7 +86,7 @@ void RRT2::plan(const Vector2d & dest, Vector2d & result){
 		if ((nearest->point - dest).length() < THRESHOLD) break;
 
 		//if max node count reached
-		if (Node::nodesCounter > 500) break;
+		if (Node::nodesCounter > 200) break;
 
 		//else, keep expanding
 		Node * tmp = nearest->extend(extendDistance, target);
