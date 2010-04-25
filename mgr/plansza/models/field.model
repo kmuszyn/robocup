@@ -121,7 +121,7 @@
 			<xyz>2.7 6.725 0.05 </xyz>
 			<rpy>0.0 0.0 180</rpy>
 		
-			<include embedded="false">
+			<include embedded="true">
 				<xi:include href="goal.model" />
 			</include>
 		</model:physical>
