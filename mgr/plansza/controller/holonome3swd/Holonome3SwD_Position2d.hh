@@ -133,6 +133,9 @@ namespace gazebo
 /// This is a controller that simulates a WizBot motion
 class Holonome3SwD_Position2d : public Controller
 {
+  ///enum type - description of a kicker state
+  enum KickerState {KICKER_STATE_READY, KICKER_STATE_KICK, KICKER_STATE_BACK};
+	
   /// Constructor
   public: Holonome3SwD_Position2d(Entity *parent );
 
@@ -187,7 +190,6 @@ class Holonome3SwD_Position2d : public Controller
   
   //kicker params
   private: float krForce;
-  private: bool krReturn;
 
   /// Polar coordinate of the center of the wheels
   private: float DIST[3];
@@ -216,10 +218,12 @@ class Holonome3SwD_Position2d : public Controller
 
   /// True = enable motors
   private: bool enableMotors;
+  
+  private: KickerState kickerState;
 
 private:
   float A[3], L[3], R[3];
-  
+
 };
 
 /** \} */

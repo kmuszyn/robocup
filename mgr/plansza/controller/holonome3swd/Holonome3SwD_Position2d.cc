@@ -32,7 +32,6 @@
 #include "Joint.hh"
 #include "World.hh"
 #include "Simulator.hh"
-#include "gazebo.h"
 #include "GazeboError.hh"
 #include "ControllerFactory.hh"
 #include "Holonome3SwD_Position2d.hh"
@@ -54,6 +53,10 @@ enum {RIGHT, LEFT};
     gzthrow("Holonome3SwD_Position2d controller requires a Model as its parent");
 
   ResetData();
+
+  ///init PID params
+//  u = 0;
+//  t = Simulator::Instance()->GetRealTime().Double();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -166,7 +169,7 @@ void Holonome3SwD_Position2d::LoadChild(XMLConfigNode *node)
   
 
 
-#if 1
+#if 0
   std::cout << "Holonomous robot, here are the params:" << std::endl;
   for (size_t i = 0; i < 3; ++i)
   {
@@ -221,8 +224,9 @@ void Holonome3SwD_Position2d::InitChild()
       this->dribblerJoint[i]->SetMaxForce( 0, this->drMaxTorque);
   }
  
-   this->krReturn = true; 
-   kickerJoint->SetForce(0,(float)-krForce/10.0);
+   kickerJoint->SetForce(0,-10);	//just to hide kicker
+   
+   kickerState = KICKER_STATE_READY;
 }
 
 void Holonome3SwD_Position2d::ResetChild()
@@ -235,8 +239,7 @@ void Holonome3SwD_Position2d::ResetChild()
       this->dribblerJoint[i]->SetMaxForce( 0, this->drMaxTorque);
   }
   
-  this->krReturn = true;
-  kickerJoint->SetForce(0,(float)-krForce/10.0);
+  kickerJoint->SetForce(0,-10);	//just to hide kicker
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -246,11 +249,13 @@ void Holonome3SwD_Position2d::UpdateChild()
   this->GetPositionCmd();
 
   //std::cout << "Anchors: {";
+  
+  //std::cout<<"joint velocities:\n";
   for (size_t i = 0; i < 3; ++i)
   {
     if (this->enableMotors)
     {
-	//std::cout<<"Setting velocity! "<< this->PhiP[i] <<" "<< this->MAXTORQUE[i] <<"\n";
+	 // std::cout<<"Current: "<<this->joint[i]->GetVelocity(0)<<" | to be set: "<<this->PhiP[i]<<std::endl;
       this->joint[i]->SetVelocity( 0, this->PhiP[i]);
       this->joint[i]->SetMaxForce( 0, this->MAXTORQUE[i] );
     }
@@ -260,24 +265,36 @@ void Holonome3SwD_Position2d::UpdateChild()
       this->joint[i]->SetMaxForce( 0, 0 );
     }   
   }
-  
-  float kickerPosition = kickerJoint->GetAngle(0).GetAsRadian();
-  
-  if (kickerPosition > 0.019)
-  {
-	    krReturn = true;
-		kickerJoint->SetForce(0,(float)-krForce/10.0);  
-  }
-  
-  if (kickerPosition < 0.005 )
-  {
-	  krReturn = false;
-	  kickerJoint->SetForce(0,krForce);  
-  }
-  
- // std::cout<<"Position: "<<kickerPosition<<std::endl;
     
-  //std::cout << "}" << std::endl;
+  //------ kicker update part: ----------------------------------
+  double kickerPosition = kickerJoint->GetAngle(0).GetAsRadian();
+  //std::cout<<"Position: "<<kickerPosition<<std::endl;
+  //changing states
+  if ( kickerPosition > 0.034  && kickerState == KICKER_STATE_KICK ) {
+	  kickerState = KICKER_STATE_BACK;
+	 // std::cout<<"Changing state to BACK\n";
+  }
+  if ( kickerPosition < 0.005 && kickerState == KICKER_STATE_BACK ) {
+	  kickerState = KICKER_STATE_READY;
+	  //signal that kicker is ready
+	  this->myIface->Lock(1);
+	  this->myIface->data->cmdVelocity.pos.z = -1;
+	  this->myIface->Unlock();
+	 // std::cout<<"Changed state to READY\n";
+  }
+  //doing state actions
+  switch(kickerState){
+	  
+	  case KICKER_STATE_BACK  :
+	  case KICKER_STATE_READY : 
+	  kickerJoint->SetForce(0,-1); //to prevent kicker from going forward
+	  break;
+	  
+	  case KICKER_STATE_KICK:
+	  kickerJoint->SetForce(0,krForce); //to prevent kicker from going forward
+	  break;
+  }
+  
   this->PutPositionData();
 }
 
@@ -309,14 +326,25 @@ void Holonome3SwD_Position2d::GetPositionCmd()
     double vx = this->myIface->data->cmdVelocity.pos.x;
     double vy = this->myIface->data->cmdVelocity.pos.y;
     double va = this->myIface->data->cmdVelocity.yaw;
+
+    //Vector3 vel = this->myParent->GetLinearVel();
+
     for (size_t i = 0; i < 3; ++i)
     {
       this->PhiP[i] = -(1/R[i])*(-sin(A[i])*vx +
           cos(A[i])*vy +
           L[i]*va);
     }
+
     this->enableMotors = this->myIface->data->cmdEnableMotors > 0;
+    
+    if (this->myIface->data->cmdVelocity.pos.z > 0 && kickerState == KICKER_STATE_READY){
+		//std::cout<<"Recived kick order, changing state to KICK\n";
+		kickerState = KICKER_STATE_KICK;
+	}
+    
     this->myIface->Unlock();
+
 #if 0
     std::cout << "Xi=[" << Xi[0] << ", " << Xi[1] << ", " << Xi[2] << "]; ";
     std::cout << "vx=" << vx <<", vy=" << vy << ", va=" << va << "; ";
@@ -330,8 +358,15 @@ void Holonome3SwD_Position2d::GetPositionCmd()
 // Update the data in the interface
 void Holonome3SwD_Position2d::PutPositionData()
 {
+
   if (this->myIface->Lock(1))
   {
+    Vector3 vel = this->myParent->GetLinearVel();
+    Vector3 rotvel = this->myParent->GetAngularVel();
+  //  std::cout<<"Model vel: "<< vel.x <<" "<< vel.y<<std::endl;
+   // std::cout<<"vel length: "<<sqrt((vel.x*vel.x)+(vel.y*vel.y))<<std::endl;
+  //  std::cout<<"Time: "<<Simulator::Instance()->GetSimTime().Double()<<std::endl;
+
     // TODO: Data timestamp
     this->myIface->data->head.time = Simulator::Instance()->GetSimTime().Double();
 
@@ -339,9 +374,9 @@ void Holonome3SwD_Position2d::PutPositionData()
     this->myIface->data->pose.pos.y = this->Xi[1];
     this->myIface->data->pose.yaw = NORMALIZE(this->Xi[2]);
 
-    this->myIface->data->velocity.pos.x = 0;
-    this->myIface->data->velocity.pos.y = 0;
-    this->myIface->data->velocity.yaw = 0;
+    this->myIface->data->velocity.pos.x = vel.x;
+    this->myIface->data->velocity.pos.y = vel.y;
+    this->myIface->data->velocity.yaw = rotvel.z;
 
     // TODO
     this->myIface->data->stall = 0;
