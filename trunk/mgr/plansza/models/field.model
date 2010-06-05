@@ -32,12 +32,13 @@
 			<rpy>0 0 0 </rpy>
 			<size>5.4 7.4 0.05</size>
 
-			<mu1>1.0</mu1>
+			<mu1>10.0</mu1>
 			
 			<kp>2e6</kp>
 			<kd>10000</kd>
 			
-			
+			<bounce>0.3</bounce>
+			<bounceVel>0.001</bounceVel>
 			<visual>	
 				<scale>5.4 7.4 0.05</scale>
 				<mesh>unit_box</mesh>

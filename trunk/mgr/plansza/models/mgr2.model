@@ -25,7 +25,7 @@
 			<wheels>
 				<radius>0.02</radius>
 				<distance>0.075</distance>
-				<torque>1</torque>
+				<torque>1.0</torque>
 				<swedish0>
 					<joint>front_right_wheel_hinge</joint>
 				  	<alpha>30</alpha>
@@ -43,13 +43,13 @@
 			<dribbler>
 				<left-joint>dribbler_left</left-joint>
 				<right-joint>dribbler_right</right-joint>
-				<speed>0.001</speed>
+				<speed>1000.0</speed>
 				<max-torque>1.5</max-torque>
 			</dribbler>
 			
 			<kicker>
 				<joint>kicker_joint</joint>
-				<force>1e-6</force>				
+				<force>5</force>				
 			</kicker>
 			
 			<interface:position name="position_iface"/>
@@ -73,7 +73,7 @@
 		
 		<!--dribbler supporters -->
 		<geom:box name="dribbler_sup_L"> <!-- left one -->
-			<xyz>-0.035 0.060 0.030</xyz>
+			<xyz>-0.035 0.060 0.010</xyz>
 			<size>0.01 0.04 0.04</size>
 			<mass>0.01</mass>
 			<visual>
@@ -84,7 +84,7 @@
 		</geom:box>
 		
 		<geom:box name="dribbler_sup_R"> <!-- right one -->
-			<xyz>0.035 0.060 0.030</xyz>
+			<xyz>0.035 0.060 0.010</xyz>
 			<size>0.01 0.04 0.04</size>
 			<mass>0.01</mass>
 			<visual>
@@ -183,13 +183,13 @@
 		
 	<!-- dribbler bar -->
 	<body:cylinder name="dribbler">
-		<xyz>0 0.070 0.015</xyz>
+		<xyz>0 0.070 0.005</xyz>
 		<rpy>90 0 90</rpy>		
 		<geom:cylinder name="dribbler_geom">		
 			<size>0.005 0.060</size>
-			<mass>0.5</mass>
-			<mu1>1e5</mu1>	
-			<kp>2e4</kp>
+			<mass>0.01</mass>
+			<mu1>1e8</mu1>	
+			<kp>2e6</kp>
 			<kd>0</kd>
 			<visual>				
 				<scale>0.01 0.01 0.060</scale>
@@ -204,11 +204,14 @@
 	<!-- kicker -->
 	<body:box name="kicker">
 		<xyz>0 0.063 0.022</xyz>
+		<rpy>-30 0 0</rpy>
 		<geom:box name="kicker_geom"> 			
 			<size>0.060 0.006 0.020</size>
-			<mass>0.01</mass>
-			<kd>2e3</kd>
+			<mass>0.05</mass>
+			<kd>2e6</kd>
 			<kp>0</kp>
+			<bounce>10</bounce>
+			<bounceVel>0</bounceVel>
 			<visual>
 				<scale>0.060 0.006 0.020</scale>
 				<mesh>unit_box</mesh>
@@ -275,8 +278,8 @@
 		<anchor>kicker</anchor>
 		<axis>0 1 0</axis>
 		<lowStop>0</lowStop>
-		<highStop>0.00005</highStop>
-		<!--<highStop>0.025</highStop>-->
+		<!--<highStop>0.00005</highStop>-->
+		<highStop>0.035</highStop>
 	</joint:slider>
 	
 	
