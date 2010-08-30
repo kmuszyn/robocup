@@ -21,11 +21,11 @@
 	<physics:ode>
 		<stepTime>0.001</stepTime>
 		<gravity>0 0 -9.8</gravity>		
-    <erp>0.9</erp>
+		<erp>0.9</erp>
 		<cfm>0.001</cfm>
-		<updateRate>-1</updateRate>
+		<updateRate>100</updateRate>
 		<contactSurfaceLayer>0.005</contactSurfaceLayer>
-		<contactMaxCorrectingVel>100</contactMaxCorrectingVel>
+		<contactMaxCorrectingVel>1</contactMaxCorrectingVel>
 	 </physics:ode>
 
 	<rendering:gui>
@@ -75,13 +75,13 @@
 	
 	<!-- White Directional light -->
 	<model:renderable name="point_white">
-	    <xyz>0 0 2</xyz>
+	    <xyz>2.7 3.7 10</xyz>
 	    <light>
 	      <type>point</type>
 	      <diffuseColor>0.8 0.8 0.8</diffuseColor>
 	      <specularColor>0.1 0.1 0.1</specularColor>
 	      <attenuation>10 0.8 0.1 0.0</attenuation>
-		<range>2.0</range>
+		<range>20.0</range>
 	    </light>
 	</model:renderable>
 	
@@ -109,7 +109,8 @@
 	</model:physical>	
 	
 	<model:physical name="ball">
-		<xyz>0.706 0.6  2.4 </xyz>		
+		<!--<xyz>0.706 0.6  1.4 </xyz>		-->
+		<xyz>0.7 0.57  2.4 </xyz>		
 		<rpy>0.0 0.0 0.0</rpy>	
 		<include embedded="true">
 			<xi:include href="./models/ball.model" />
@@ -130,8 +131,8 @@
 	
 	
 	<model:physical name="box1_model">
-		<xyz>0.7 0.6 0.05</xyz>
-		<rpy>-20 0 0</rpy>
+		<xyz>0.7 0.55 0.05</xyz>
+		<rpy>-45 0 0</rpy>
 		<canonicalBody>box1_body</canonicalBody>
 		<static>true</static>
 
@@ -141,6 +142,7 @@
 			<mass>0.1</mass>
 			<kp>2e6</kp>
 			<kd>0</kd>
+			<mu1>0.001</mu1>
 			<visual>
 			  <scale>.1 .1 .1</scale>
 			  <mesh>unit_box</mesh>
@@ -164,7 +166,7 @@
 	</model:physical> 
 	
 	<model:physical name="red1">
-		<xyz>0.7 1.5 0.3</xyz>
+		<xyz>0.7 0.9 0.3</xyz>
 		<rpy>0 0.0 180.0</rpy>	
 		
 		<include embedded="true">
@@ -191,7 +193,7 @@
 	</model:physical>
 	
 	<model:physical name="blue0">
-		<xyz>2.6 1.3 0.04</xyz>
+		<xyz>2.6 1.3 0.3</xyz>
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
@@ -200,7 +202,7 @@
 	</model:physical> 
 	
 	<model:physical name="blue1">
-		<xyz>3.2 3.2 0.04</xyz>
+		<xyz>3.2 3.2 0.3</xyz>
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
@@ -209,7 +211,7 @@
 	</model:physical> 
 	
 	<model:physical name="blue2">
-		<xyz>1.5 4.6 0.04</xyz>
+		<xyz>1.5 4.6 0.3</xyz>
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
@@ -218,7 +220,7 @@
 	</model:physical> 
 	
 	<model:physical name="blue3">
-		<xyz>1.6 4 0.04</xyz>
+		<xyz>1.6 4 0.3</xyz>
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">

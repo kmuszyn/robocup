@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<model:physical name="mgr1"
+<model:physical name="mgr2"
 	xmlns:model="http://playerstage.sourceforge.net/gazebo/xmlschema/#model" 	
 	xmlns:body="http://playerstage.sourceforge.net/gazebo/xmlschema/#body" 
 	xmlns:geom="http://playerstage.sourceforge.net/gazebo/xmlschema/#geom" 
@@ -11,7 +11,7 @@
 	>	
 	
 
-	<!-- model designed according to mgr1.dxf file -->
+	<!-- model designed according to mgr2.dxf file -->
 	<!-- dribbler supporters points towards Y-axis -->
 
 
@@ -76,6 +76,11 @@
 			<xyz>-0.035 0.060 0.010</xyz>
 			<size>0.01 0.04 0.04</size>
 			<mass>0.01</mass>
+			<kp>0</kp>
+			<kd>1e7</kd>
+			<bounce>0</bounce>
+			<bounceVel>0</bounceVel>
+			<mu1>0</mu1>
 			<visual>
 				<scale>0.01 0.04 0.04</scale>
 				<mesh>unit_box</mesh>
@@ -87,6 +92,11 @@
 			<xyz>0.035 0.060 0.010</xyz>
 			<size>0.01 0.04 0.04</size>
 			<mass>0.01</mass>
+			<kp>0</kp>
+			<kd>1e7</kd>
+			<bounce>0</bounce>
+			<bounceVel>0</bounceVel>
+			<mu1>0</mu1>
 			<visual>
 				<scale>0.01 0.04 0.04</scale>
 				<mesh>unit_box</mesh>
@@ -196,8 +206,37 @@
 				<mesh>unit_cylinder</mesh>
 				<material>Gazebo/Chrome</material>
 			</visual>
-
 		</geom:cylinder>
+		<!--
+		<geom:sphere name="sphere1">
+		<xyz>0 0 0.025</xyz>
+		<size>0.01</size>
+		<mass>0.01</mass>
+			<mu1>1e8</mu1>	
+			<kp>2e6</kp>
+			<kd>0</kd>
+		<visual>
+			<scale>0.01 0.01 0.01</scale>
+			<mesh>unit_sphere</mesh>			
+			<material>Gazebo/Chrome</material>
+		</visual>
+		</geom:sphere>
+		
+		<geom:sphere name="sphere2">
+		<xyz>0 0 -0.025</xyz>
+		<size>0.01</size>
+		<mass>0.01</mass>
+			<mu1>1e8</mu1>	
+			<kp>2e6</kp>
+			<kd>0</kd>
+		<visual>
+			<scale>0.01 0.01 0.01</scale>
+			<mesh>unit_sphere</mesh>			
+			<material>Gazebo/Chrome</material>
+		</visual>
+		</geom:sphere>
+		-->
+		
 	</body:cylinder> 	
 	
 	

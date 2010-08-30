@@ -35,10 +35,10 @@
 			<mu1>10.0</mu1>
 			
 			<kp>2e6</kp>
-			<kd>10000</kd>
+			<kd>1</kd>
 			
-			<bounce>0.3</bounce>
-			<bounceVel>0.001</bounceVel>
+			<bounce>0.0</bounce>
+			<bounceVel>1e3</bounceVel>
 			<visual>	
 				<scale>5.4 7.4 0.05</scale>
 				<mesh>unit_box</mesh>
