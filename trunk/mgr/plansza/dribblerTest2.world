@@ -21,11 +21,11 @@
 	<physics:ode>
 		<stepTime>0.001</stepTime>
 		<gravity>0 0 -9.8</gravity>		
-    <erp>0.9</erp>
+		<erp>0.9</erp>
 		<cfm>0.001</cfm>
 		<updateRate>-1</updateRate>
-		<contactSurfaceLayer>0.005</contactSurfaceLayer>
-		<contactMaxCorrectingVel>100</contactMaxCorrectingVel>
+		<!--<contactSurfaceLayer>0.005</contactSurfaceLayer>
+		<contactMaxCorrectingVel>100</contactMaxCorrectingVel>-->
 	 </physics:ode>
 
 	<rendering:gui>
