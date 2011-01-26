@@ -69,7 +69,7 @@ Holonome3SwD_Position2d::~Holonome3SwD_Position2d()
 // Load the controller
 void Holonome3SwD_Position2d::LoadChild(XMLConfigNode *node)
 {
-  this->myIface = dynamic_cast<PositionIface*>(this->GetIface("position"));
+  this->myIface = dynamic_cast<libgazebo::PositionIface*>(this->GetIface("position"));
 
   XMLConfigNode * startNode = node;
 
@@ -251,13 +251,31 @@ void Holonome3SwD_Position2d::UpdateChild()
   //std::cout << "Anchors: {";
   
   //std::cout<<"joint velocities:\n";
+
+  double maxDelta = 0;
+  for (size_t i = 0; i < 3; ++i){
+	  double delta = fabs(this->PhiP[i] - this->joint[i]->GetVelocity(0));
+	  if (delta > maxDelta)
+		  maxDelta = delta;
+  }
+
   for (size_t i = 0; i < 3; ++i)
   {
     if (this->enableMotors)
     {
-	 // std::cout<<"Current: "<<this->joint[i]->GetVelocity(0)<<" | to be set: "<<this->PhiP[i]<<std::endl;
-      this->joint[i]->SetVelocity( 0, this->PhiP[i]);
-      this->joint[i]->SetMaxForce( 0, this->MAXTORQUE[i] );
+//	  std::cout<<"["<<i<<"] Current: "<<this->joint[i]->GetVelocity(0)<<" | to be set: "<<this->PhiP[i]<<std::endl;
+//      this->joint[i]->SetVelocity( 0, this->PhiP[i]);
+//      this->joint[i]->SetMaxForce( 0, this->MAXTORQUE[i] );
+
+
+
+//    	std::cout<<"["<<i<<"] Current: "<<this->joint[i]->GetVelocity(0)<<" | to be set: "<<this->PhiP[i]<<std::endl;
+    	double delta = fabs(this->PhiP[i] - this->joint[i]->GetVelocity(0));
+    	this->joint[i]->SetVelocity( 0, this->PhiP[i]);
+    	this->joint[i]->SetMaxForce( 0, (delta / maxDelta) * this->MAXTORQUE[i] );
+
+//    	std::cout<<"Delta: "<<delta<<std::endl;
+//    	std::cout<<"Max torque: "<<(delta / maxDelta) * this->MAXTORQUE[i]<<std::endl;
     }
     else
     {
@@ -361,8 +379,8 @@ void Holonome3SwD_Position2d::PutPositionData()
 
   if (this->myIface->Lock(1))
   {
-    Vector3 vel = this->myParent->GetLinearVel();
-    Vector3 rotvel = this->myParent->GetAngularVel();
+    Vector3 vel = this->myParent->GetWorldLinearVel();
+    Vector3 rotvel = this->myParent->GetWorldAngularVel();
   //  std::cout<<"Model vel: "<< vel.x <<" "<< vel.y<<std::endl;
    // std::cout<<"vel length: "<<sqrt((vel.x*vel.x)+(vel.y*vel.y))<<std::endl;
   //  std::cout<<"Time: "<<Simulator::Instance()->GetSimTime().Double()<<std::endl;
