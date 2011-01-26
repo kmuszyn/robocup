@@ -25,7 +25,7 @@
 			<wheels>
 				<radius>0.02</radius>
 				<distance>0.075</distance>
-				<torque>1.0</torque>
+				<torque>0.7</torque>
 				<swedish0>
 					<joint>front_right_wheel_hinge</joint>
 				  	<alpha>30</alpha>
@@ -43,8 +43,8 @@
 			<dribbler>
 				<left-joint>dribbler_left</left-joint>
 				<right-joint>dribbler_right</right-joint>
-				<speed>500</speed>
-				<max-torque>3.0</max-torque>
+				<speed>100</speed>
+				<max-torque>1.0</max-torque>
 			</dribbler>
 			
 			<kicker>
@@ -137,7 +137,8 @@
 		</geom:box>	-->
 		
 		<geom:cylinder name="dribbler_stopping_bar">	
-			<xyz>0 0.075 -0.005</xyz>	
+			<!--<xyz>0 0.075 -0.005</xyz>	-->
+			<xyz>0 0.072 -0.005</xyz>	
 			<rpy>0 90 0</rpy>
 			<size>0.003 0.060</size>
 			<mass>0.01</mass>
