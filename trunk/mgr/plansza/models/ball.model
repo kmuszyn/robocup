@@ -32,6 +32,8 @@
 			<bounce>120</bounce>
 			<bounceVel>0.5</bounceVel>
 		
+			<slip1>0.7</slip1>
+			<slip2>0.7</slip2>
 			
 			<mass>0.045</mass>
 			<visual>	
