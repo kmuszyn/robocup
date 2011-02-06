@@ -56,7 +56,7 @@
 		</controller:holonome3swd_position2d>
 	
 	<!-- main chassis cylinder-->
-	<body:cylinder name="chassis">
+	<body:trimesh name="chassis">
 	
 		<!--<geom:cylinder name="main_cylinder">
 			<xyz>0 0 0.04</xyz>
@@ -71,18 +71,19 @@
 			</visual>
 		</geom:cylinder> -->
 		
-		<geom:cylinder name="main_cylinder">
+		<geom:trimesh name="main_cylinder">
 			<xyz>0 0 0.04</xyz>
-			<size>0.06 0.08</size>	<!--r: 6 cm, h: 4 cm -->
+			<!--<size>0.06 0.06</size>-->	<!--r: 6 cm, h: 4 cm -->
 			<mass>10</mass>
 			<kp>2e0</kp>
 			<kd>2e6</kd>	
+			<mesh>test.mesh</mesh>
 			<visual>
-				<scale>0.12 0.12 0.08</scale>
-				<mesh>unit_cylinder</mesh>
+				<scale>1 1 1</scale>
+				<mesh>test.mesh</mesh>
 				<material>Gazebo/Robocup_red</material>
 			</visual>
-		</geom:cylinder>
+		</geom:trimesh>
 		
 		<!--dribbler supporters -->
 		<geom:box name="dribbler_sup_L"> <!-- left one -->
@@ -153,7 +154,7 @@
 			</visual>
 		</geom:cylinder>
 		
-	</body:cylinder>
+	</body:trimesh>
 	
 	<!-- omni - wheels -->
 	<!--

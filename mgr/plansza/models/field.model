@@ -37,6 +37,9 @@
 			<kp>2e6</kp>
 			<kd>1</kd>
 			
+			<slip1>1</slip1>
+			<slip2>1</slip2>
+			
 			<bounce>0.0</bounce>
 			<bounceVel>1e3</bounceVel>
 			<visual>	

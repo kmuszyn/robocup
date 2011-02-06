@@ -16,7 +16,7 @@
  	xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics" >
  	
  	
- 	<verbosity>10</verbosity>
+ 	<verbosity>1</verbosity>
  	
 	<physics:ode>
 		<stepTime>0.001</stepTime>
@@ -78,7 +78,7 @@
 	    <xyz>2.7 3.7 10</xyz>
 	    <light>
 	      <type>point</type>
-	      <diffuseColor>0.8 0.8 0.8</diffuseColor>
+	      <diffuseColor>0.4 0.4 0.4</diffuseColor>
 	      <specularColor>0.1 0.1 0.1</specularColor>
 	      <attenuation>10 0.8 0.1 0.0</attenuation>
 		<range>20.0</range>
@@ -162,7 +162,7 @@
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
-			<xi:include href="models/mgr3.model" />
+			<xi:include href="models/mgr4.model" />
 		</include>
 	</model:physical> 
 	
@@ -171,7 +171,7 @@
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
-			<xi:include href="models/mgr3.model" />
+			<xi:include href="models/mgr4.model" />
 		</include>
 	</model:physical>
 	
@@ -181,7 +181,7 @@
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
-			<xi:include href="models/mgr3.model" />
+			<xi:include href="models/mgr4.model" />
 		</include>
 	</model:physical> 
 	
@@ -191,7 +191,7 @@
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
-			<xi:include href="models/mgr3.model" />
+			<xi:include href="models/mgr4.model" />
 		</include>
 	</model:physical>
 	
@@ -200,7 +200,7 @@
 		<rpy>0 0.0 180.0</rpy>	
 		
 		<include embedded="true">
-			<xi:include href="models/mgr3.model" />
+			<xi:include href="models/mgr4.model" />
 		</include>
 	</model:physical> 
 	
@@ -209,7 +209,7 @@
 		<rpy>0 0.0 180.0</rpy>	
 		
 		<include embedded="true">
-			<xi:include href="models/mgr3.model" />
+			<xi:include href="models/mgr4.model" />
 		</include>
 	</model:physical> 
 	
@@ -218,7 +218,7 @@
 		<rpy>0 0.0 180.0</rpy>	
 		
 		<include embedded="true">
-			<xi:include href="models/mgr3.model" />
+			<xi:include href="models/mgr4.model" />
 		</include>
 	</model:physical> 
 	
@@ -227,7 +227,7 @@
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
-			<xi:include href="models/mgr3.model" />
+			<xi:include href="models/mgr4.model" />
 		</include>
 	</model:physical> 
 	
