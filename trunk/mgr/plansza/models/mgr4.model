@@ -256,10 +256,10 @@
 			<size>0.0015 0.030</size>
 			<mass>0.01</mass>
 			<mu1>1e6</mu1>
-			<kp>0</kp>
+			<kp>2e6</kp>
 			<kd>2e6</kd>
 			<bounce>0</bounce>
-			<bounceVel>1e3</bounceVel>
+			<bounceVel>0</bounceVel>
 			<visual>				
 				<scale>0.003 0.003 0.030</scale>
 				<mesh>unit_cylinder</mesh>
@@ -273,10 +273,10 @@
 			<mass>0.01</mass>
 			<mu1>1e6</mu1>
 			<mu2>1e-3</mu2>
-			<kp>0</kp>
+			<kp>2e6</kp>
 			<kd>2e6</kd>
 			<bounce>0</bounce>
-			<bounceVel>1e3</bounceVel>
+			<bounceVel>0</bounceVel>
 			<visual>				
 				<scale>0.024 0.024 0.020</scale>
 				<mesh>unit_cylinder</mesh>
@@ -290,10 +290,10 @@
 			<mass>0.01</mass>
 			<mu1>1e6</mu1>
 			<mu2>1e-3</mu2>
-			<kp>0</kp>
+			<kp>2e6</kp>
 			<kd>2e6</kd>
 			<bounce>0</bounce>
-			<bounceVel>1e3</bounceVel>
+			<bounceVel>0</bounceVel>
 			<visual>				
 				<scale>0.024 0.024 0.020</scale>
 				<mesh>unit_cylinder</mesh>

@@ -23,7 +23,7 @@
 		<gravity>0 0 -9.8</gravity>		
 		<erp>0.9</erp>
 		<cfm>0.01</cfm>
-		<updateRate>100</updateRate>
+		<updateRate>-1</updateRate>
 		<contactSurfaceLayer>0.005</contactSurfaceLayer>
 		<contactMaxCorrectingVel>0.2</contactMaxCorrectingVel>
 	 </physics:ode>
@@ -43,15 +43,15 @@
 
 <!--
 	<model:physical name="cam1_model">
-		<xyz>-0.44 1.22 0.64</xyz>
-		<rpy>0 21.20 -16.10</rpy>
+		<xyz>-0.29 3.7 3.77</xyz>
+		<rpy>0 56 0</rpy>
 
 		<body:empty name="cam1_body">
 			<sensor:camera name="cam1_sensor">
 			<imageSize>640 480</imageSize>
 			<hfov>90</hfov>
 			<nearClip>0.1</nearClip>
-			<farClip>20</farClip>
+			<farClip>25</farClip>
 			<saveFrames>true</saveFrames>
 			<saveFramePath>/home/kamil/frames-gazebo/</saveFramePath>
 			<updateRate>1.0</updateRate>
@@ -62,7 +62,7 @@
 			</sensor:camera>
 		</body:empty>
 	</model:physical>
-	-->
+-->
 
 
 	<rendering:ogre>
@@ -187,7 +187,16 @@
 	
 
 	<model:physical name="yellow3">
-		<xyz>0.5 2.5 0.3</xyz>
+		<xyz>1.2 2.5 0.15</xyz>
+		<rpy>0 0.0 0.0</rpy>	
+		
+		<include embedded="true">
+			<xi:include href="models/mgr4_yellow.model" />
+		</include>
+	</model:physical>
+	
+	<model:physical name="yellow4">
+		<xyz>1.6 2.1 0.3</xyz>
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
@@ -223,8 +232,17 @@
 	</model:physical> 
 	
 	<model:physical name="blue3">
-		<xyz>0.6 4 0.3</xyz>
-		<rpy>0 0.0 0.0</rpy>	
+		<xyz>0.9 4 0.15</xyz>
+		<rpy>0 0.0 180.0</rpy>	
+		
+		<include embedded="true">
+			<xi:include href="models/mgr4_blue.model" />
+		</include>
+	</model:physical> 
+	
+	<model:physical name="blue4">
+		<xyz>3.9 4 0.3</xyz>
+		<rpy>0 0.0 180.0</rpy>	
 		
 		<include embedded="true">
 			<xi:include href="models/mgr4_blue.model" />
