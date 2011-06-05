@@ -18,8 +18,9 @@
  	
  	<verbosity>1</verbosity>
  	
+ 
 	<physics:ode>
-		<stepTime>0.001</stepTime>
+		<stepTime>0.002</stepTime>
 		<gravity>0 0 -9.8</gravity>		
 		<erp>0.9</erp>
 		<cfm>0.01</cfm>
@@ -27,20 +28,36 @@
 		<contactSurfaceLayer>0.005</contactSurfaceLayer>
 		<contactMaxCorrectingVel>0.2</contactMaxCorrectingVel>
 	 </physics:ode>
+	
+	
+	<!-- <physics:ode>
+		 <stepTime>0.001</stepTime>
+		 <gravity>0 0 -9.8</gravity> 
+		 <erp>0.8</erp>
+		 <cfm>0.01</cfm>
+		 <stepType>quick</stepType>
+		 <stepIters>15</stepIters>
+		 <stepW>1.3</stepW>
 
+		 <contactSurfaceLayer>0.003</contactSurfaceLayer>
+		 <contactMaxCorrectingVel>100</contactMaxCorrectingVel>
+	</physics:ode>-->
+	
+	
 	<rendering:gui>
     <size>800 600</size>
-    <pos>0 0</pos>
+    <pos>10 0</pos>
     <frames>
         <camera width="550" height="485" x="250" y="60">
    <!--       <xyz>1.88 3.67912 6.0484</xyz>
           <rpy>6.15679e-08 82.7 -0.200004</rpy>-->
-          <xyz>-0.55 1.84 0.92</xyz>
-          <rpy>0 23.30 -18.90</rpy>
+          <xyz>-3.8 3.8 2.8</xyz>
+          <rpy>0 15 0</rpy>
         </camera>
     </frames>
   </rendering:gui>
 
+<!-- OgreeCamera.cc, SaveFrame() method-->
 <!--
 	<model:physical name="cam1_model">
 		<xyz>-0.29 3.7 3.77</xyz>
@@ -48,15 +65,15 @@
 
 		<body:empty name="cam1_body">
 			<sensor:camera name="cam1_sensor">
-			<imageSize>640 480</imageSize>
+			<imageSize>1024 768</imageSize>
 			<hfov>90</hfov>
 			<nearClip>0.1</nearClip>
 			<farClip>25</farClip>
 			<saveFrames>true</saveFrames>
 			<saveFramePath>/home/kamil/frames-gazebo/</saveFramePath>
-			<updateRate>1.0</updateRate>
+			<updateRate>5.0</updateRate>
 			<controller:generic_camera name="cam1_controller">
-				<updateRate>1.0</updateRate>
+				<updateRate>5.0</updateRate>
 				<interface:camera name="cam1_iface_0" />
 			</controller:generic_camera>
 			</sensor:camera>
@@ -73,9 +90,9 @@
 		</sky>	
 	</rendering:ogre>
 	
-	<!-- White Directional light -->
+	<!-- White Directional light
 	<model:renderable name="point_white">
-	    <xyz>2.7 3.7 10</xyz>
+	    <xyz>2.7 3.7 100</xyz>
 	    <light>
 	      <type>point</type>
 	      <diffuseColor>0.4 0.4 0.4</diffuseColor>
@@ -83,7 +100,23 @@
 	      <attenuation>10 0.8 0.1 0.0</attenuation>
 		<range>20.0</range>
 	    </light>
-	</model:renderable>
+	</model:renderable>-->
+	
+	  <!-- White Point light -->
+  <model:renderable name="point_white">
+    <xyz>2.7 3.7 10</xyz>
+    <rpy>0 0 0</rpy>
+    <static>true</static>
+    <light>
+      <type>point</type>
+      <diffuseColor>0.6 0.6 0.6 1.0</diffuseColor>
+      <specularColor>.1 .1 .1 1.0</specularColor>
+      <attenuation>5 0.1 0.0</attenuation>
+      <range>30</range>
+      <direction>0 0 -1.0</direction>
+      <castShadows>true</castShadows>
+    </light>
+  </model:renderable>
 	
 
 	 <!-- Ground Plane -->
@@ -158,7 +191,7 @@
 	<!-- _______________	 modele robotow     ________________________ -->
 
 	<model:physical name="yellow0">
-		<xyz>2.6 1.3 0.15</xyz>
+		<xyz>1.5 1 0.15</xyz>
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
@@ -167,7 +200,7 @@
 	</model:physical> 
 	
 	<model:physical name="yellow1">		
-		<xyz>3.5 2.0 0.15</xyz>
+		<xyz>2 3 0.15</xyz>
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
@@ -177,7 +210,7 @@
 	
 	
 	<model:physical name="yellow2">
-		<xyz>1.8 3.0 0.15</xyz>
+		<xyz>2.5 3 0.15</xyz>
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
@@ -187,7 +220,7 @@
 	
 
 	<model:physical name="yellow3">
-		<xyz>1.2 2.5 0.15</xyz>
+		<xyz>3 3 0.15</xyz>
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
@@ -196,7 +229,7 @@
 	</model:physical>
 	
 	<model:physical name="yellow4">
-		<xyz>1.6 2.1 0.3</xyz>
+		<xyz>3.5 3 0.15</xyz>
 		<rpy>0 0.0 0.0</rpy>	
 		
 		<include embedded="true">
@@ -205,7 +238,7 @@
 	</model:physical>
 	
 	<model:physical name="blue0">
-		<xyz>2.0 4.3 0.15</xyz>
+		<xyz>4 6 0.15</xyz>
 		<rpy>0 0.0 180.0</rpy>	
 		
 		<include embedded="true">
@@ -214,7 +247,7 @@
 	</model:physical> 
 	
 	<model:physical name="blue1">
-		<xyz>3.2 4.2 0.15</xyz>
+		<xyz>3.5 4.5 0.15</xyz>
 		<rpy>0 0.0 180.0</rpy>	
 		
 		<include embedded="true">
@@ -223,7 +256,7 @@
 	</model:physical> 
 	
 	<model:physical name="blue2">
-		<xyz>2.8 5.1 0.15</xyz>
+		<xyz>3.0 4.5 0.15</xyz>
 		<rpy>0 0.0 180.0</rpy>	
 		
 		<include embedded="true">
@@ -232,7 +265,7 @@
 	</model:physical> 
 	
 	<model:physical name="blue3">
-		<xyz>0.9 4 0.15</xyz>
+		<xyz>2.5 4.5 0.15</xyz>
 		<rpy>0 0.0 180.0</rpy>	
 		
 		<include embedded="true">
@@ -241,7 +274,7 @@
 	</model:physical> 
 	
 	<model:physical name="blue4">
-		<xyz>3.9 4 0.3</xyz>
+		<xyz>2.0 4.5 0.15</xyz>
 		<rpy>0 0.0 180.0</rpy>	
 		
 		<include embedded="true">
