@@ -43,7 +43,7 @@
 			<dribbler>
 				<left-joint>dribbler_left</left-joint>
 				<right-joint>dribbler_right</right-joint>
-				<speed>80</speed>
+				<speed>150</speed>
 				<max-torque>1.0</max-torque>
 			</dribbler>
 			
