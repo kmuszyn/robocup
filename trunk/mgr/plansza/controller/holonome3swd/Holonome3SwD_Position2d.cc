@@ -156,19 +156,12 @@ void Holonome3SwD_Position2d::LoadChild(XMLConfigNode *node)
   if (!node)
     gzthrow("Holonome3SwD_Position2d controller requires a <kicker> node");
 
-  
-  this->krForce = node->GetFloat("force", 0.0, 0);
-   if (!this->krForce)
-      gzthrow("The controller couldn't get force param for dribbler");
-
   std::string kickerJointName = node->GetString("joint", "", 1);
   this->kickerJoint = this->myParent->GetJoint(kickerJointName);
 
   if (!this->kickerJoint)
       gzthrow("The controller couldn't get slider joint for kicker");
   
-
-
 #if 0
   std::cout << "Holonomous robot, here are the params:" << std::endl;
   for (size_t i = 0; i < 3; ++i)
@@ -225,6 +218,7 @@ void Holonome3SwD_Position2d::InitChild()
   }
  
    kickerJoint->SetForce(0,-10);	//just to hide kicker
+   kickerJoint->SetVelocity(0,0);
    
    kickerState = KICKER_STATE_READY;
 }
@@ -240,6 +234,7 @@ void Holonome3SwD_Position2d::ResetChild()
   }
   
   kickerJoint->SetForce(0,-10);	//just to hide kicker
+//  kickerJoint->SetVelocity(0,0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -272,10 +267,14 @@ void Holonome3SwD_Position2d::UpdateChild()
 //    	std::cout<<"["<<i<<"] Current: "<<this->joint[i]->GetVelocity(0)<<" | to be set: "<<this->PhiP[i]<<std::endl;
     	double delta = fabs(this->PhiP[i] - this->joint[i]->GetVelocity(0));
     	this->joint[i]->SetVelocity( 0, this->PhiP[i]);
-    	this->joint[i]->SetMaxForce( 0, (delta / maxDelta) * this->MAXTORQUE[i] );
+ //   	if (delta / maxDelta < 0.001)
+//			this->joint[i]->SetMaxForce( 0, 1e5 );
+ //   	else
+//			this->joint[i]->SetMaxForce( 0, (delta / maxDelta) * this->MAXTORQUE[i] );
+		this->joint[i]->SetMaxForce( 0, (delta / maxDelta) * this->MAXTORQUE[i] );
 
-//    	std::cout<<"Delta: "<<delta<<std::endl;
-//    	std::cout<<"Max torque: "<<(delta / maxDelta) * this->MAXTORQUE[i]<<std::endl;
+ //   	std::cout<<"Delta: "<<delta<<std::endl;
+ //   	std::cout<<"Max torque: "<<(delta / maxDelta) * this->MAXTORQUE[i]<<std::endl;
     }
     else
     {
@@ -309,7 +308,7 @@ void Holonome3SwD_Position2d::UpdateChild()
 	  break;
 	  
 	  case KICKER_STATE_KICK:
-	  kickerJoint->SetForce(0,krForce); //to prevent kicker from going forward
+	  kickerJoint->SetForce(0,krForce); //shoot / pass
 	  break;
   }
   
@@ -359,6 +358,7 @@ void Holonome3SwD_Position2d::GetPositionCmd()
     if (this->myIface->data->cmdVelocity.pos.z > 0 && kickerState == KICKER_STATE_READY){
 		//std::cout<<"Recived kick order, changing state to KICK\n";
 		kickerState = KICKER_STATE_KICK;
+		krForce = this->myIface->data->cmdVelocity.pos.z;
 	}
     
     this->myIface->Unlock();

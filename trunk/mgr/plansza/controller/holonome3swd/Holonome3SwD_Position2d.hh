@@ -169,7 +169,7 @@ class Holonome3SwD_Position2d : public Controller
   private: void ResetData();
   
   /// The Position interface
-  private: PositionIface *myIface;
+  private: libgazebo::PositionIface *myIface;
 
   /// The parent Model
   private: Model *myParent;
@@ -189,7 +189,7 @@ class Holonome3SwD_Position2d : public Controller
   private: float drMaxTorque;
   
   //kicker params
-  private: float krForce;
+  private: float krForce;	//shooting or passing force, comes in cmdVelocity.pos.z
 
   /// Polar coordinate of the center of the wheels
   private: float DIST[3];
