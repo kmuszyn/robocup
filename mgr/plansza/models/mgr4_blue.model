@@ -49,7 +49,6 @@
 			
 			<kicker>
 				<joint>kicker_joint</joint>
-				<force>5</force>				
 			</kicker>
 			
 			<interface:position name="position_iface"/>
