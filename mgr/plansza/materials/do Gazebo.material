@@ -78,14 +78,15 @@ material Gazebo/Robocup_orange
   {
     pass
     {
-      ambient  0.1 0.02 0.00 1.000000
-      diffuse  0.1 0.02 0.00 1.000000
-      specular 0.1 0.02 0.00 1.000000
-      emissive 0.10 0.01 0.0 0.000000
+      ambient  0.5 0.1 0.00 1.000000
+      diffuse  0.5 0.1 0.00 1.000000
+      specular 0.5 0.1 0.00 1.000000
+      emissive 0.50 0.1 0.0 0.000000
       lighting on
      }
   }
 }
+
 
 material Gazebo/Robocup_brown
 {
