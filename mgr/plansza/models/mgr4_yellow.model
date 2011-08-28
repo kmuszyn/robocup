@@ -132,7 +132,7 @@
 			<visual>
 				<scale>0.060 0.006 0.010</scale>
 				<mesh>unit_box</mesh>
-				<material>Gazebo/Chrome</material>
+				<material>Gazebo/Grey</material>
 			</visual>
 		</geom:box>	-->
 		
@@ -149,7 +149,7 @@
 			<visual>				
 				<scale>0.006 0.006 0.060</scale>
 				<mesh>unit_cylinder</mesh>
-				<material>Gazebo/Chrome</material>
+				<material>Gazebo/Grey</material>
 			</visual>
 		</geom:cylinder>
 		
@@ -312,7 +312,7 @@
 			<visual>				
 				<scale>0.010 0.010 0.020</scale>
 				<mesh>unit_cylinder</mesh>
-				<material>Gazebo/Chrome</material>
+				<material>Gazebo/Grey</material>
 			</visual>
 		</geom:cylinder>
 		
@@ -327,7 +327,7 @@
 			<visual>				
 				<scale>0.016 0.016 0.020</scale>
 				<mesh>unit_cylinder</mesh>
-				<material>Gazebo/Chrome</material>
+				<material>Gazebo/Grey</material>
 			</visual>
 		</geom:cylinder>
 		
@@ -342,7 +342,7 @@
 			<visual>				
 				<scale>0.016 0.016 0.020</scale>
 				<mesh>unit_cylinder</mesh>
-				<material>Gazebo/Chrome</material>
+				<material>Gazebo/Grey</material>
 			</visual>
 		</geom:cylinder>
 		-->
