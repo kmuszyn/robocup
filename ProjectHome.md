@@ -1,0 +1,1 @@
+Projekt tworzony w ramach pracy inzynierskiej
